@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace ArcChat.Net.Sse;
 
 /// <summary>
-/// Reconnecting SSE source that preserves Last-Event-ID.
+/// Reconnecting SSE source for transient response failures.
 /// </summary>
 public sealed class SseEventSource
 {
@@ -25,7 +25,7 @@ public sealed class SseEventSource
     }
 
     /// <summary>
-    /// Reads SSE events and retries transient 5xx responses with Last-Event-ID.
+    /// Reads SSE events and retries transient 5xx responses.
     /// </summary>
     public async IAsyncEnumerable<SseEvent> ReadWithReconnectAsync(
         Func<string?, CancellationToken, Task<HttpResponseMessage>> openAsync,
@@ -34,12 +34,11 @@ public sealed class SseEventSource
     {
         ArgumentNullException.ThrowIfNull(openAsync);
 
-        string? lastEventId = null;
         int attempt = 0;
 
         while (true)
         {
-            using HttpResponseMessage response = await openAsync(lastEventId, cancellationToken).ConfigureAwait(false);
+            using HttpResponseMessage response = await openAsync(null, cancellationToken).ConfigureAwait(false);
             if ((int)response.StatusCode >= 500 && attempt < maxRetries)
             {
                 attempt++;
@@ -60,11 +59,6 @@ public sealed class SseEventSource
             await using Stream stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
             await foreach (SseEvent sseEvent in this.reader.ReadAsync(stream, cancellationToken).ConfigureAwait(false))
             {
-                if (!string.IsNullOrWhiteSpace(sseEvent.Id))
-                {
-                    lastEventId = sseEvent.Id;
-                }
-
                 yield return sseEvent;
             }
 

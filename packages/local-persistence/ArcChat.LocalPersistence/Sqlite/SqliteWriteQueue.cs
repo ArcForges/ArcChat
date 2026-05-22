@@ -53,22 +53,28 @@ internal sealed class SqliteWriteQueue : IAsyncDisposable
     {
         await foreach (WriteWork work in this.channel.Reader.ReadAllAsync(this.shutdown.Token).ConfigureAwait(false))
         {
-            try
+            Task task = this.ExecuteAsync(work);
+            await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            if (task.IsCanceled)
             {
-                work.CancellationToken.ThrowIfCancellationRequested();
-                await using SqliteConnection connection = await this.connectionFactory.OpenConnectionAsync(work.CancellationToken).ConfigureAwait(false);
-                await work.Action(connection, work.CancellationToken).ConfigureAwait(false);
+                _ = work.Completion.TrySetCanceled(work.CancellationToken);
+            }
+            else if (task.Exception is not null)
+            {
+                _ = work.Completion.TrySetException(task.Exception.InnerExceptions);
+            }
+            else
+            {
                 _ = work.Completion.TrySetResult();
             }
-            catch (OperationCanceledException exception)
-            {
-                _ = work.Completion.TrySetCanceled(exception.CancellationToken);
-            }
-            catch (Exception exception)
-            {
-                _ = work.Completion.TrySetException(exception);
-            }
         }
+    }
+
+    private async Task ExecuteAsync(WriteWork work)
+    {
+        work.CancellationToken.ThrowIfCancellationRequested();
+        await using SqliteConnection connection = await this.connectionFactory.OpenConnectionAsync(work.CancellationToken).ConfigureAwait(false);
+        await work.Action(connection, work.CancellationToken).ConfigureAwait(false);
     }
 
     private sealed class WriteWork

@@ -96,6 +96,7 @@ public sealed class SseReaderTests
         {
             await foreach (SseEvent _ in events)
             {
+                // Intentionally no-op: enumerate until cancellation is thrown.
             }
 
             return null;

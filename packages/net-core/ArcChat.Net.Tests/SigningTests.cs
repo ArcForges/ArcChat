@@ -82,11 +82,10 @@ public sealed class SigningTests
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Count++;
-            HttpResponseMessage response = new(HttpStatusCode.OK)
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(body, Encoding.UTF8, "application/json"),
-            };
-            return Task.FromResult(response);
+            });
         }
     }
 }

@@ -14,11 +14,11 @@ public sealed class ResilienceAndErrorTests
     [Fact]
     public void RetryAfterUsesSecondsOrHttpDate()
     {
-        HttpResponseMessage seconds = new(HttpStatusCode.TooManyRequests);
+        using HttpResponseMessage seconds = new(HttpStatusCode.TooManyRequests);
         seconds.Headers.RetryAfter = new System.Net.Http.Headers.RetryConditionHeaderValue(TimeSpan.FromSeconds(3));
 
         DateTimeOffset future = DateTimeOffset.UtcNow.AddSeconds(2);
-        HttpResponseMessage date = new(HttpStatusCode.ServiceUnavailable);
+        using HttpResponseMessage date = new(HttpStatusCode.ServiceUnavailable);
         date.Headers.RetryAfter = new System.Net.Http.Headers.RetryConditionHeaderValue(future);
 
         _ = RetryAfterDelay.GetDelay(seconds.Headers).Should().Be(TimeSpan.FromSeconds(3));
@@ -39,12 +39,14 @@ public sealed class ResilienceAndErrorTests
     [Fact]
     public void NetErrorMapperNormalizesHttpAndTransportErrors()
     {
-        HttpResponseMessage rateLimited = new(HttpStatusCode.TooManyRequests);
+        using HttpResponseMessage unauthorized = new(HttpStatusCode.Unauthorized);
+        using HttpResponseMessage rateLimited = new(HttpStatusCode.TooManyRequests);
+        using HttpResponseMessage serverError = new(HttpStatusCode.InternalServerError);
         rateLimited.Headers.RetryAfter = new System.Net.Http.Headers.RetryConditionHeaderValue(TimeSpan.FromSeconds(7));
 
-        _ = NetErrorMapper.FromResponse(new HttpResponseMessage(HttpStatusCode.Unauthorized)).Should().BeOfType<UnauthorizedError>();
+        _ = NetErrorMapper.FromResponse(unauthorized).Should().BeOfType<UnauthorizedError>();
         _ = NetErrorMapper.FromResponse(rateLimited).Should().BeEquivalentTo(new RateLimitedError("Too Many Requests", TimeSpan.FromSeconds(7)));
-        _ = NetErrorMapper.FromResponse(new HttpResponseMessage(HttpStatusCode.InternalServerError)).Should().BeOfType<ServerError>();
+        _ = NetErrorMapper.FromResponse(serverError).Should().BeOfType<ServerError>();
         _ = NetErrorMapper.FromException(new TimeoutException("slow")).Should().BeOfType<TimeoutError>();
         _ = NetErrorMapper.FromException(new HttpRequestException("offline")).Should().BeOfType<NetworkError>();
     }

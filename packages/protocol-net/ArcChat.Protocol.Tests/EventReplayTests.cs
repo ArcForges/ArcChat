@@ -26,7 +26,7 @@ public sealed class EventReplayTests
 
         _ = events.Should().HaveCount(4);
         _ = events.Select(e => e.ConversationId).Should().OnlyContain(id => id == "session-1");
-        _ = events.Select(e => e).Should().ContainInOrder(
+        _ = events.Should().ContainInOrder(
             events.OfType<MessageDelta>().First(),
             events.OfType<ReasoningDelta>().First(),
             events.OfType<MessageCompleted>().First(),
