@@ -1,6 +1,8 @@
 #nullable enable
 ArcChat.Agent.AgentRequest
-ArcChat.Agent.AgentRequest.AgentRequest(string! conversationId, string! messageId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelConfig! model, int maxTransientRetries = 1, System.TimeSpan transientRetryDelay = default(System.TimeSpan)) -> void
+ArcChat.Agent.AgentRequest.AgentRequest(string! conversationId, string! messageId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelConfig! model, string? branchOfMessageId = null, int maxTransientRetries = 1, System.TimeSpan transientRetryDelay = default(System.TimeSpan)) -> void
+ArcChat.Agent.AgentRequest.BranchOfMessageId.get -> string?
+ArcChat.Agent.AgentRequest.BranchOfMessageId.init -> void
 ArcChat.Agent.AgentRequest.ConversationId.get -> string!
 ArcChat.Agent.AgentRequest.ConversationId.init -> void
 ArcChat.Agent.AgentRequest.MaxTransientRetries.get -> int

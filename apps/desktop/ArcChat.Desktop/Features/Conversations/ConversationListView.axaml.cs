@@ -69,4 +69,15 @@ public partial class ConversationListView : UserControl
         await viewModel.MoveAsync(conversationId, targetIndex, CancellationToken.None).ConfigureAwait(true);
         e.Handled = true;
     }
+
+    private void OnConversationDoubleTapped(object? sender, TappedEventArgs e)
+    {
+        if (this.DataContext is not ConversationListViewModel viewModel || FindConversationItem(sender) is not { } item)
+        {
+            return;
+        }
+
+        viewModel.OpenCommand.Execute(item);
+        e.Handled = true;
+    }
 }

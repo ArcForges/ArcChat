@@ -1,0 +1,150 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conversations="using:ArcChat.Desktop.Features.Conversations"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Features.Conversations.ChatDetailView"
+             x:Name="ChatDetailRoot"
+             x:DataType="conversations:ChatDetailViewModel"
+             d:DesignWidth="780"
+             d:DesignHeight="560"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <conversations:ChatDetailViewModel />
+  </Design.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="Border.message-bubble StackPanel.message-actions">
+      <Setter Property="Opacity" Value="0" />
+    </Style>
+    <Style Selector="Border.message-bubble:pointerover StackPanel.message-actions">
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid Margin="24,0,24,24"
+        RowDefinitions="Auto,*,Auto,Auto"
+        Background="{DynamicResource ArcChat.Brush.Surface}">
+    <DockPanel Grid.Row="0"
+               Margin="0,0,0,12"
+               LastChildFill="True">
+      <Button DockPanel.Dock="Right"
+              Content="Stop"
+              Command="{Binding AbortCommand}"
+              IsEnabled="{Binding IsStreaming}" />
+      <Button DockPanel.Dock="Right"
+              Margin="0,0,8,0"
+              Content="Regenerate"
+              Command="{Binding RegenerateCommand}" />
+      <TextBlock Text="Chat"
+                 FontSize="{DynamicResource ArcChat.FontSize.Title}"
+                 FontWeight="SemiBold"
+                 VerticalAlignment="Center" />
+    </DockPanel>
+
+    <ListBox Grid.Row="1"
+             ItemsSource="{Binding Messages}"
+             Background="Transparent"
+             BorderThickness="0">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="conversations:MessageViewModel"
+                      x:DataType="conversations:MessageViewModel">
+          <Border Classes="message-bubble"
+                  Padding="12"
+                  Margin="0,0,0,10"
+                  CornerRadius="8"
+                  BorderThickness="1"
+                  BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+                  Background="{DynamicResource ArcChat.Brush.Surface}">
+            <Grid ColumnDefinitions="*,Auto"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnSpacing="12">
+              <StackPanel Grid.Column="0"
+                          Orientation="Horizontal"
+                          Spacing="8">
+                <TextBlock Text="{Binding RoleName}"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="{Binding Date}"
+                           Opacity="0.62"
+                           FontSize="12" />
+                <TextBlock Text="branch"
+                           IsVisible="{Binding HasBranch}"
+                           Foreground="{DynamicResource ArcChat.Brush.Primary}"
+                           FontSize="12" />
+              </StackPanel>
+
+              <StackPanel Grid.Column="1"
+                          Classes="message-actions"
+                          Orientation="Horizontal"
+                          Spacing="6">
+                <Button Content="Copy"
+                        Command="{Binding #ChatDetailRoot.DataContext.CopyCommand}"
+                        CommandParameter="{Binding}" />
+                <Button Content="Share"
+                        Command="{Binding #ChatDetailRoot.DataContext.ShareCommand}"
+                        CommandParameter="{Binding}" />
+                <Button Content="Edit"
+                        Command="{Binding #ChatDetailRoot.DataContext.BeginEditCommand}"
+                        CommandParameter="{Binding}" />
+                <Button Content="Delete"
+                        Command="{Binding #ChatDetailRoot.DataContext.DeleteMessageCommand}"
+                        CommandParameter="{Binding}" />
+              </StackPanel>
+
+              <TextBlock Grid.Row="1"
+                         Grid.ColumnSpan="2"
+                         Margin="0,8,0,0"
+                         Text="{Binding Text}"
+                         TextWrapping="Wrap"
+                         IsVisible="{Binding !IsEditing}" />
+              <TextBox Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                       Margin="0,8,0,0"
+                       Text="{Binding DraftText, Mode=TwoWay}"
+                       AcceptsReturn="True"
+                       MinHeight="72"
+                       IsVisible="{Binding IsEditing}" />
+
+              <StackPanel Grid.Row="2"
+                          Grid.ColumnSpan="2"
+                          Margin="0,8,0,0"
+                          Orientation="Horizontal"
+                          Spacing="8"
+                          IsVisible="{Binding IsEditing}">
+                <Button Content="Save"
+                        Command="{Binding #ChatDetailRoot.DataContext.CommitEditCommand}"
+                        CommandParameter="{Binding}" />
+                <Button Content="Cancel"
+                        Command="{Binding #ChatDetailRoot.DataContext.CancelEditCommand}"
+                        CommandParameter="{Binding}" />
+              </StackPanel>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <TextBlock Grid.Row="2"
+               Margin="0,8,0,8"
+               Text="{Binding StatusMessage}"
+               Opacity="0.68" />
+
+    <DockPanel Grid.Row="3"
+               LastChildFill="True">
+      <Button DockPanel.Dock="Right"
+              Margin="8,0,0,0"
+              Content="Send"
+              Command="{Binding SendCommand}" />
+      <TextBox x:Name="Composer"
+               Text="{Binding ComposerText, Mode=TwoWay}"
+               AcceptsReturn="True"
+               MinHeight="64"
+               KeyDown="OnComposerKeyDown" />
+    </DockPanel>
+  </Grid>
+</UserControl>

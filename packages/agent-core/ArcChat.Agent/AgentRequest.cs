@@ -17,6 +17,7 @@ public sealed record AgentRequest
     /// <param name="messageId">Assistant message id receiving streamed events.</param>
     /// <param name="messages">Ordered NextChat-compatible messages used as model context.</param>
     /// <param name="model">Selected model configuration.</param>
+    /// <param name="branchOfMessageId">Optional source message id for regenerate/edit branches.</param>
     /// <param name="maxTransientRetries">Maximum retry count for transient network failures.</param>
     /// <param name="transientRetryDelay">Delay between transient retry attempts.</param>
     public AgentRequest(
@@ -24,6 +25,7 @@ public sealed record AgentRequest
         string messageId,
         IReadOnlyList<Message> messages,
         ModelConfig model,
+        string? branchOfMessageId = null,
         int maxTransientRetries = 1,
         TimeSpan transientRetryDelay = default)
     {
@@ -31,6 +33,7 @@ public sealed record AgentRequest
         this.MessageId = messageId;
         this.Messages = messages;
         this.Model = model;
+        this.BranchOfMessageId = branchOfMessageId;
         this.MaxTransientRetries = maxTransientRetries;
         this.TransientRetryDelay = transientRetryDelay;
     }
@@ -54,6 +57,11 @@ public sealed record AgentRequest
     /// Gets the selected model configuration.
     /// </summary>
     public ModelConfig Model { get; init; }
+
+    /// <summary>
+    /// Gets the optional source message id for regenerate/edit branches.
+    /// </summary>
+    public string? BranchOfMessageId { get; init; }
 
     /// <summary>
     /// Gets the maximum retry count for transient network failures.

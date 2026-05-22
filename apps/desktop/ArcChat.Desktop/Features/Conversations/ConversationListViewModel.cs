@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using ArcChat.Desktop.Navigation;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.LocalPersistence.Repositories;
 using CommunityToolkit.Mvvm.Input;
@@ -11,26 +12,34 @@ namespace ArcChat.Desktop.Features.Conversations;
 internal sealed class ConversationListViewModel : ViewModelBase
 {
     private readonly IConversationRepository? repository;
+    private readonly IAppNavigator? navigator;
     private ConversationListItem? selectedConversation;
     private bool hasConversations;
     private bool hasNoConversations = true;
     private string statusMessage = string.Empty;
 
     public ConversationListViewModel()
-        : this(null, true)
+        : this(null, null, true)
     {
     }
 
     internal ConversationListViewModel(IConversationRepository repository)
-        : this(repository, false)
+        : this(repository, null, false)
     {
     }
 
-    private ConversationListViewModel(IConversationRepository? repository, bool seedDesignItems)
+    internal ConversationListViewModel(IConversationRepository repository, IAppNavigator navigator)
+        : this(repository, navigator, false)
+    {
+    }
+
+    private ConversationListViewModel(IConversationRepository? repository, IAppNavigator? navigator, bool seedDesignItems)
     {
         this.repository = repository;
+        this.navigator = navigator;
         this.Conversations.CollectionChanged += this.OnConversationsChanged;
         this.LoadCommand = new AsyncRelayCommand(this.LoadAsync);
+        this.OpenCommand = new RelayCommand<ConversationListItem>(this.Open);
         this.PinCommand = new AsyncRelayCommand<ConversationListItem>(this.PinAsync);
         this.UnpinCommand = new AsyncRelayCommand<ConversationListItem>(this.UnpinAsync);
         this.ArchiveCommand = new AsyncRelayCommand<ConversationListItem>(this.ArchiveAsync);
@@ -52,6 +61,8 @@ internal sealed class ConversationListViewModel : ViewModelBase
     public ObservableCollection<ConversationListItem> Conversations { get; } = new ObservableCollection<ConversationListItem>();
 
     public IAsyncRelayCommand LoadCommand { get; }
+
+    public IRelayCommand<ConversationListItem> OpenCommand { get; }
 
     public IAsyncRelayCommand<ConversationListItem> PinCommand { get; }
 
@@ -146,6 +157,17 @@ internal sealed class ConversationListViewModel : ViewModelBase
         this.Conversations.Insert(boundedTarget, item);
         await this.PersistOrderAsync(cancellationToken).ConfigureAwait(true);
         await this.LoadAsync(cancellationToken).ConfigureAwait(true);
+    }
+
+    private void Open(ConversationListItem? item)
+    {
+        if (item is null)
+        {
+            return;
+        }
+
+        this.navigator?.Navigate(new Chat(item.Id));
+        this.StatusMessage = item.Title;
     }
 
     private async Task PinAsync(ConversationListItem? item)

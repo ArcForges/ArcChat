@@ -1,6 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using System.Globalization;
+using ArcChat.Agent;
 using ArcChat.Desktop.Features.Conversations;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
@@ -10,6 +11,7 @@ using ArcChat.Desktop.Shortcuts;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.LocalPersistence;
 using ArcChat.LocalPersistence.Repositories;
+using ArcChat.ModelProviders.Core;
 using Microsoft.Extensions.DependencyInjection;
 using ObservableSettingsRepository = ArcChat.LocalServices.Settings.SettingsRepository;
 using PersistenceSettingsRepository = ArcChat.LocalPersistence.Repositories.ISettingsRepository;
@@ -23,7 +25,10 @@ internal static class ServiceCollectionExtensions
     {
         _ = services.AddSingleton(_ => CreateDatabase());
         _ = services.AddSingleton<IConversationRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Conversations);
+        _ = services.AddSingleton<IMessageRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Messages);
         _ = services.AddSingleton<PersistenceSettingsRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Settings);
+        _ = services.AddSingleton<IChatProviderRegistry>(_ => ModelProviderCoreDefaults.CreateRegistry());
+        _ = services.AddSingleton<IAgentRuntime>(provider => new AgentRuntime(provider.GetRequiredService<IChatProviderRegistry>()));
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
@@ -42,7 +47,20 @@ internal static class ServiceCollectionExtensions
             provider =>
             {
                 ConversationListViewModel viewModel = new ConversationListViewModel(
-                    provider.GetRequiredService<IConversationRepository>());
+                    provider.GetRequiredService<IConversationRepository>(),
+                    provider.GetRequiredService<IAppNavigator>());
+                viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
+                return viewModel;
+            });
+        _ = services.AddTransient<Func<string, ChatDetailViewModel>>(
+            provider => conversationId =>
+            {
+                ChatDetailViewModel viewModel = new ChatDetailViewModel(
+                    conversationId,
+                    provider.GetRequiredService<IAgentRuntime>(),
+                    provider.GetRequiredService<IConversationRepository>(),
+                    provider.GetRequiredService<IMessageRepository>(),
+                    provider.GetRequiredService<IAppNavigator>());
                 viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
                 return viewModel;
             });
@@ -51,7 +69,8 @@ internal static class ServiceCollectionExtensions
             provider.GetRequiredService<ConversationListViewModel>(),
             provider.GetRequiredService<SettingsViewModel>(),
             provider.GetRequiredService<CommandPaletteViewModel>(),
-            provider.GetRequiredService<ILocaleService>()));
+            provider.GetRequiredService<ILocaleService>(),
+            provider.GetRequiredService<Func<string, ChatDetailViewModel>>()));
         _ = services.AddTransient(provider => new CommandPaletteViewModel(provider.GetRequiredService<IShortcutRegistry>()));
         return services;
     }

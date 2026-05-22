@@ -34,6 +34,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly IAppNavigator navigator;
     private readonly ConversationListViewModel conversationListViewModel;
     private readonly SettingsViewModel settingsViewModel;
+    private readonly Func<string, ChatDetailViewModel> chatDetailFactory;
     private readonly ILocaleService? localeService;
     private readonly IDisposable destinationSubscription;
     private readonly IDisposable? cultureSubscription;
@@ -49,7 +50,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     }
 
     internal MainWindowViewModel(IAppNavigator navigator)
-        : this(navigator, new ConversationListViewModel(), new SettingsViewModel(), new CommandPaletteViewModel(), null)
+        : this(navigator, new ConversationListViewModel(), new SettingsViewModel(), new CommandPaletteViewModel(), null, DefaultChatDetailFactory)
     {
     }
 
@@ -58,7 +59,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         ConversationListViewModel conversationListViewModel,
         SettingsViewModel settingsViewModel,
         CommandPaletteViewModel commandPalette,
-        ILocaleService? localeService = null)
+        ILocaleService? localeService = null,
+        Func<string, ChatDetailViewModel>? chatDetailFactory = null)
     {
         ArgumentNullException.ThrowIfNull(navigator);
         ArgumentNullException.ThrowIfNull(conversationListViewModel);
@@ -67,6 +69,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         this.navigator = navigator;
         this.conversationListViewModel = conversationListViewModel;
         this.settingsViewModel = settingsViewModel;
+        this.chatDetailFactory = chatDetailFactory ?? DefaultChatDetailFactory;
         this.CommandPalette = commandPalette;
         this.currentDestination = navigator.Current;
         this.currentContent = this.CreateContent(navigator.Current);
@@ -144,6 +147,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         return paneLength.Value <= ShellConstants.NarrowSidebarWidth;
     }
 
+    private static ChatDetailViewModel DefaultChatDetailFactory(string conversationId)
+    {
+        return new ChatDetailViewModel(conversationId);
+    }
+
     private void Navigate(string? destinationId)
     {
         if (destinationId is null || !DestinationsById.TryGetValue(destinationId, out Destination? destination))
@@ -165,6 +173,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         return destination switch
         {
             Home => this.conversationListViewModel,
+            Chat chat => this.chatDetailFactory(chat.ConversationId),
             SettingsDestination => this.settingsViewModel,
             _ => new DestinationPlaceholderViewModel(this.TranslateDestination(destination), destination.Id),
         };
