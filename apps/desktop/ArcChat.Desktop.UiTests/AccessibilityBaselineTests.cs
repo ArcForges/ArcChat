@@ -170,13 +170,14 @@ public sealed class AccessibilityBaselineTests
     {
         if (inputElement is Control control)
         {
-            foreach (string? automationName in SelfAndAncestors(control).Select(AutomationProperties.GetName))
+            string? automationName = SelfAndAncestors(control)
+                .Select(AutomationProperties.GetName)
+                .Where(static candidateName => !string.IsNullOrWhiteSpace(candidateName))
+                .FirstOrDefault();
+            if (automationName is not null)
             {
-                if (!string.IsNullOrWhiteSpace(automationName))
-                {
-                    name = automationName;
-                    return true;
-                }
+                name = automationName;
+                return true;
             }
         }
 

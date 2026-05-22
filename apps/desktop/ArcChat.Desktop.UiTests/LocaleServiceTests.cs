@@ -64,8 +64,8 @@ public sealed class LocaleServiceTests
     {
         string repositoryRoot = FindRepositoryRoot();
         Dictionary<string, string> english = ReadJsonDictionary(
-            Path.Combine(repositoryRoot, "apps", "desktop", "ArcChat.Desktop", "Resources", "Locales", "en.json"));
-        string report = File.ReadAllText(Path.Combine(repositoryRoot, "docs", "coverage", "locales.md"));
+            Path.Join(repositoryRoot, "apps", "desktop", "ArcChat.Desktop", "Resources", "Locales", "en.json"));
+        string report = File.ReadAllText(Path.Join(repositoryRoot, "docs", "coverage", "locales.md"));
 
         foreach (string key in english.Keys)
         {
@@ -77,11 +77,11 @@ public sealed class LocaleServiceTests
     public void LocaleConversionIsByteStableAcrossTwoRuns()
     {
         string repositoryRoot = FindRepositoryRoot();
-        string tempRoot = Path.Combine(Path.GetTempPath(), "arcchat-locale-test-" + Guid.NewGuid().ToString("N"));
-        string firstOutput = Path.Combine(tempRoot, "first", "locales");
-        string secondOutput = Path.Combine(tempRoot, "second", "locales");
-        string firstReport = Path.Combine(tempRoot, "first", "locales.md");
-        string secondReport = Path.Combine(tempRoot, "second", "locales.md");
+        string tempRoot = Path.Join(Path.GetTempPath(), "arcchat-locale-test-" + Guid.NewGuid().ToString("N"));
+        string firstOutput = Path.Join(tempRoot, "first", "locales");
+        string secondOutput = Path.Join(tempRoot, "second", "locales");
+        string firstReport = Path.Join(tempRoot, "first", "locales.md");
+        string secondReport = Path.Join(tempRoot, "second", "locales.md");
 
         try
         {
@@ -100,8 +100,8 @@ public sealed class LocaleServiceTests
             _ = firstFiles.Should().Equal(secondFiles);
             foreach (string file in firstFiles)
             {
-                byte[] firstBytes = File.ReadAllBytes(Path.Combine(firstOutput, file));
-                byte[] secondBytes = File.ReadAllBytes(Path.Combine(secondOutput, file));
+                byte[] firstBytes = File.ReadAllBytes(Path.Join(firstOutput, file));
+                byte[] secondBytes = File.ReadAllBytes(Path.Join(secondOutput, file));
                 _ = firstBytes.Should().Equal(secondBytes, file + " must be deterministic");
             }
 
@@ -125,7 +125,7 @@ public sealed class LocaleServiceTests
 
     private static void RunConverter(string repositoryRoot, string outputRoot, string reportPath)
     {
-        string script = Path.Combine(repositoryRoot, "scripts", "convert-locales.ps1");
+        string script = Path.Join(repositoryRoot, "scripts", "convert-locales.ps1");
         ProcessStartInfo startInfo = new ProcessStartInfo("pwsh")
         {
             RedirectStandardError = true,
@@ -170,7 +170,7 @@ public sealed class LocaleServiceTests
         DirectoryInfo? directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "ArcChat.slnx")))
+            if (File.Exists(Path.Join(directory.FullName, "ArcChat.slnx")))
             {
                 return directory.FullName;
             }

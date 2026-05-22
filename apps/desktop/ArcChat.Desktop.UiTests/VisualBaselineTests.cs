@@ -19,12 +19,12 @@ public sealed class VisualBaselineTests
     public static async Task Nc03VisualBaselineScreenshotsAreCommitted()
     {
         string repositoryRoot = FindRepositoryRoot();
-        string outputDirectory = Path.Combine(repositoryRoot, "docs", "coverage", "visual-baseline", "arcchat");
+        string outputDirectory = Path.Join(repositoryRoot, "docs", "coverage", "visual-baseline", "arcchat");
         string[] files =
         {
-            Path.Combine(outputDirectory, "shell.verified.png"),
-            Path.Combine(outputDirectory, "sidebar.verified.png"),
-            Path.Combine(outputDirectory, "settings-shell.verified.png"),
+            Path.Join(outputDirectory, "shell.verified.png"),
+            Path.Join(outputDirectory, "sidebar.verified.png"),
+            Path.Join(outputDirectory, "settings-shell.verified.png"),
         };
 
         bool shouldUpdate = string.Equals(Environment.GetEnvironmentVariable(UpdateEnvironmentVariable), "1", StringComparison.Ordinal)
@@ -86,7 +86,7 @@ public sealed class VisualBaselineTests
         DirectoryInfo? directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "ArcChat.slnx")))
+            if (File.Exists(Path.Join(directory.FullName, "ArcChat.slnx")))
             {
                 return directory.FullName;
             }

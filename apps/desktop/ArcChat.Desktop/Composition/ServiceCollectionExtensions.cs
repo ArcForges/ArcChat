@@ -25,9 +25,11 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
         _ = services.AddSingleton<IThemeService, AvaloniaThemeService>();
+        string localeBaseDirectory = Path.GetFullPath(AppContext.BaseDirectory);
+        string localeDirectory = Path.Join(localeBaseDirectory, "Resources", "Locales");
         _ = services.AddSingleton<ILocaleService>(
             _ => LocaleService.FromDirectory(
-                Path.Combine(AppContext.BaseDirectory, "Resources", "Locales"),
+                localeDirectory,
                 CultureInfo.CurrentUICulture.Name));
         _ = services.AddTransient(provider => new SettingsViewModel(
             provider.GetRequiredService<SettingsRepository>(),
@@ -50,9 +52,9 @@ internal static class ServiceCollectionExtensions
             root = AppContext.BaseDirectory;
         }
 
-        string directory = Path.Combine(root, "ArcChat");
+        string directory = Path.Join(root, "ArcChat");
         Directory.CreateDirectory(directory);
-        ArcChatDatabase database = new ArcChatDatabase(Path.Combine(directory, "ArcChat.db"));
+        ArcChatDatabase database = new ArcChatDatabase(Path.Join(directory, "ArcChat.db"));
         database.InitializeAsync(CancellationToken.None).GetAwaiter().GetResult();
         return database;
     }

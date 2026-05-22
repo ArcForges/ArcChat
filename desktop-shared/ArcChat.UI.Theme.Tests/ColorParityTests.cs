@@ -32,7 +32,7 @@ public sealed class ColorParityTests
 
     private static Dictionary<string, Dictionary<string, string>> ReadManifest()
     {
-        string path = Path.GetFullPath(Path.Combine(
+        string path = Path.GetFullPath(Path.Join(
             AppContext.BaseDirectory,
             "..",
             "..",

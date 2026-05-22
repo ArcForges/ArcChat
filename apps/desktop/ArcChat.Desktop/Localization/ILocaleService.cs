@@ -12,5 +12,5 @@ internal interface ILocaleService
 
     string Get(string key);
 
-    void SetCulture(string culture);
+    void SetCulture(string requestedCulture);
 }

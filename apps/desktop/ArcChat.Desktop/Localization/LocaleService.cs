@@ -24,7 +24,7 @@ internal sealed class LocaleService : ILocaleService
 
     public LocaleService(
         IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> locales,
-        string culture)
+        string requestedCulture)
     {
         ArgumentNullException.ThrowIfNull(locales);
 
@@ -34,7 +34,7 @@ internal sealed class LocaleService : ILocaleService
             throw new InvalidOperationException("The English locale is required for fallback.");
         }
 
-        this.CurrentCulture = this.ResolveCulture(culture);
+        this.CurrentCulture = this.ResolveCulture(requestedCulture);
         this.culture = new ObservableCulture(this.CurrentCulture);
         this.AvailableCultures = this.locales.Keys
             .Order(StringComparer.OrdinalIgnoreCase)
@@ -47,7 +47,7 @@ internal sealed class LocaleService : ILocaleService
 
     public string CurrentCulture { get; private set; }
 
-    public static LocaleService FromDirectory(string localesDirectory, string culture)
+    public static LocaleService FromDirectory(string localesDirectory, string requestedCulture)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(localesDirectory);
         if (!Directory.Exists(localesDirectory))
@@ -71,7 +71,7 @@ internal sealed class LocaleService : ILocaleService
                 new ReadOnlyDictionary<string, string>(new Dictionary<string, string>(values, StringComparer.Ordinal));
         }
 
-        return new LocaleService(loadedLocales, culture);
+        return new LocaleService(loadedLocales, requestedCulture);
     }
 
     public string Get(string key)
@@ -95,9 +95,9 @@ internal sealed class LocaleService : ILocaleService
 #endif
     }
 
-    public void SetCulture(string culture)
+    public void SetCulture(string requestedCulture)
     {
-        string resolvedCulture = this.ResolveCulture(culture);
+        string resolvedCulture = this.ResolveCulture(requestedCulture);
         if (StringComparer.OrdinalIgnoreCase.Equals(this.CurrentCulture, resolvedCulture))
         {
             return;
@@ -122,9 +122,9 @@ internal sealed class LocaleService : ILocaleService
         return new ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>(copy);
     }
 
-    private string ResolveCulture(string culture)
+    private string ResolveCulture(string requestedCulture)
     {
-        string requested = string.IsNullOrWhiteSpace(culture) ? EnglishCulture : culture.Trim();
+        string requested = string.IsNullOrWhiteSpace(requestedCulture) ? EnglishCulture : requestedCulture.Trim();
         if (CultureAliases.TryGetValue(requested, out string? alias) && this.locales.ContainsKey(alias))
         {
             return alias;
@@ -148,10 +148,10 @@ internal sealed class LocaleService : ILocaleService
         return EnglishCulture;
     }
 
-    private bool TryGet(string culture, string key, out string? value)
+    private bool TryGet(string cultureCode, string key, out string? value)
     {
         value = null;
-        return this.locales.TryGetValue(culture, out IReadOnlyDictionary<string, string>? values)
+        return this.locales.TryGetValue(cultureCode, out IReadOnlyDictionary<string, string>? values)
             && values.TryGetValue(key, out value);
     }
 
