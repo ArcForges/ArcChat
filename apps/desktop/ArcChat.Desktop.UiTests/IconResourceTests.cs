@@ -1,7 +1,6 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using System.Reflection;
-using ArcChat.Desktop.Resources;
 using Avalonia.Headless;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform;
@@ -34,7 +33,9 @@ public sealed class IconResourceTests
         await session.Dispatch(
             () =>
             {
-                PropertyInfo[] iconProperties = typeof(Icons).GetProperties(BindingFlags.Public | BindingFlags.Static)
+                Type iconsType = typeof(App).Assembly.GetType("ArcChat.Desktop.Resources.Icons", throwOnError: true)
+                    ?? throw new InvalidOperationException("Generated icon type was not found.");
+                PropertyInfo[] iconProperties = iconsType.GetProperties(BindingFlags.Public | BindingFlags.Static)
                     .Where(static property => property.PropertyType == typeof(string))
                     .OrderBy(static property => property.Name, StringComparer.Ordinal)
                     .ToArray();

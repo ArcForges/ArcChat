@@ -1,5 +1,6 @@
 param(
     [switch]$Report,
+    [switch]$Refresh,
     [string]$NextChatRoot,
     [string]$OutputRoot,
     [string]$ReportPath
@@ -16,6 +17,29 @@ if ([string]::IsNullOrWhiteSpace($OutputRoot)) {
 if ([string]::IsNullOrWhiteSpace($ReportPath)) {
     $ReportPath = Join-Path $RepositoryRoot "docs\coverage\locales.md"
 }
+
+$RequiredLocaleCodes = @(
+    "ar",
+    "bn",
+    "cn",
+    "cs",
+    "da",
+    "de",
+    "en",
+    "es",
+    "fr",
+    "id",
+    "it",
+    "jp",
+    "ko",
+    "no",
+    "pt",
+    "ru",
+    "sk",
+    "tr",
+    "tw",
+    "vi"
+)
 
 function Resolve-NextChatRoot {
     param([string]$ExplicitRoot)
@@ -45,7 +69,7 @@ function Resolve-NextChatRoot {
         }
     }
 
-    throw "Unable to locate NextChat root. Pass -NextChatRoot or set NEXTCHAT_ROOT."
+    return $null
 }
 
 function Write-Utf8NoBom {
@@ -67,6 +91,56 @@ function Read-LocaleJson {
     param([string]$Path)
 
     return Get-Content -Raw $Path | ConvertFrom-Json -AsHashtable
+}
+
+function Test-GeneratedLocalesAvailable {
+    param([string]$TargetRoot)
+
+    if (-not (Test-Path $TargetRoot)) {
+        return $false
+    }
+
+    foreach ($code in $RequiredLocaleCodes) {
+        $path = Join-Path $TargetRoot ($code + ".json")
+        if (-not (Test-Path $path)) {
+            return $false
+        }
+
+        try {
+            $locale = Read-LocaleJson -Path $path
+        } catch {
+            return $false
+        }
+
+        if ($null -eq $locale -or $locale.Count -eq 0) {
+            return $false
+        }
+    }
+
+    return $true
+}
+
+function Copy-GeneratedLocales {
+    param(
+        [string]$SourceRoot,
+        [string]$TargetRoot
+    )
+
+    $sourcePath = (Resolve-Path $SourceRoot).Path
+    $targetPath = if (Test-Path $TargetRoot) {
+        (Resolve-Path $TargetRoot).Path
+    } else {
+        $TargetRoot
+    }
+
+    if ($sourcePath -eq $targetPath) {
+        return
+    }
+
+    New-Item -ItemType Directory -Force $TargetRoot | Out-Null
+    foreach ($code in $RequiredLocaleCodes) {
+        Copy-Item -LiteralPath (Join-Path $SourceRoot ($code + ".json")) -Destination (Join-Path $TargetRoot ($code + ".json")) -Force
+    }
 }
 
 function Test-LocalesCurrent {
@@ -217,7 +291,38 @@ function New-CoverageReport {
     return ($lines -join "`n") + "`n"
 }
 
+$useCheckedInLocales = -not $Report -and -not $Refresh -and [string]::IsNullOrWhiteSpace($NextChatRoot)
+if ($useCheckedInLocales -and (Test-GeneratedLocalesAvailable -TargetRoot $OutputRoot)) {
+    Write-Host "Locale resources already current at $OutputRoot."
+    exit 0
+}
+
 $nextChat = Resolve-NextChatRoot -ExplicitRoot $NextChatRoot
+$checkedInLocaleRoot = Join-Path $RepositoryRoot "apps\desktop\ArcChat.Desktop\Resources\Locales"
+
+if ($null -eq $nextChat) {
+    if (-not (Test-GeneratedLocalesAvailable -TargetRoot $checkedInLocaleRoot)) {
+        throw "Unable to locate NextChat root and checked-in locale resources are incomplete. Pass -NextChatRoot or set NEXTCHAT_ROOT."
+    }
+
+    Copy-GeneratedLocales -SourceRoot $checkedInLocaleRoot -TargetRoot $OutputRoot
+
+    if ($Report) {
+        $locales = @{}
+        $localeCodes = @()
+        foreach ($file in @(Get-ChildItem -Path $OutputRoot -Filter "*.json" | Sort-Object Name)) {
+            $localeCodes += $file.BaseName
+            $locales[$file.BaseName] = Read-LocaleJson -Path $file.FullName
+        }
+
+        $coverage = New-CoverageReport -Locales $locales -LocaleCodes $localeCodes -SourceDirectory "apps/desktop/ArcChat.Desktop/Resources/Locales"
+        Write-Utf8NoBom -Path $ReportPath -Content $coverage
+    }
+
+    Write-Host "NextChat root not found; using checked-in locale resources from $checkedInLocaleRoot."
+    exit 0
+}
+
 $sourceDirectory = Join-Path $nextChat "app\locales"
 $parser = Join-Path $PSScriptRoot "parse-locale.ts"
 $localeFiles = @(Get-ChildItem -Path $sourceDirectory -Filter "*.ts" | Where-Object { $_.Name -ne "index.ts" } | Sort-Object Name)

@@ -50,6 +50,8 @@ jobs:
             ${{ runner.os }}-nuget-
       - name: Restore
         run: dotnet restore ArcChat.slnx
+      - name: Build source generators
+        run: dotnet build tools/ArcChat.IconCodegen/ArcChat.IconCodegen.csproj --no-restore
       - name: Format
         run: dotnet format ArcChat.slnx --verify-no-changes --no-restore --verbosity minimal
       - name: Build
