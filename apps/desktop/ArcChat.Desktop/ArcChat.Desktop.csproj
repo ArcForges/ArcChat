@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Controls\ArcChat.UI.Controls.csproj" />
     <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Theme\ArcChat.UI.Theme.csproj" />
   </ItemGroup>
 </Project>

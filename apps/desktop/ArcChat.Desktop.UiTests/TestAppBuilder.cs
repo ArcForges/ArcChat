@@ -1,7 +1,6 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using ArcChat.Desktop.Composition;
-using ArcChat.Desktop.Navigation;
 using Avalonia;
 using Avalonia.Headless;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,6 @@ public static class TestAppBuilder
     public static AppBuilder BuildAvaloniaApp()
     {
         ServiceCollection services = new ServiceCollection();
-        _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddArcChatDesktop();
         DesktopServices.Use(services.BuildServiceProvider());
 

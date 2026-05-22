@@ -70,8 +70,8 @@
         <Border Background="{DynamicResource ArcChat.Brush.Sidebar}" Padding="{DynamicResource ArcChat.Padding.Window}">
           <DockPanel LastChildFill="True">
             <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,16">
-              <TextBlock Text="ArcChat" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" />
-              <TextBlock Text="Build your own AI assistant." FontSize="{DynamicResource ArcChat.FontSize.Caption}" />
+              <TextBlock Classes="sidebar-text" Text="ArcChat" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" />
+              <TextBlock Classes="sidebar-text" Text="Build your own AI assistant." FontSize="{DynamicResource ArcChat.FontSize.Caption}" />
             </StackPanel>
             <ItemsControl x:Name="PART_Items" ItemsSource="{TemplateBinding Items}">
               <ItemsControl.ItemTemplate>
@@ -83,7 +83,7 @@
                           Margin="0,0,0,8">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <TextBlock Text="{Binding Glyph}" FontWeight="Bold" />
-                      <TextBlock Text="{Binding Title}" />
+                      <TextBlock Classes="sidebar-text" Text="{Binding Title}" />
                     </StackPanel>
                   </Button>
                 </DataTemplate>
@@ -97,6 +97,10 @@
 
   <Style Selector="controls|Sidebar[IsNarrow=True] TextBlock">
     <Setter Property="HorizontalAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="controls|Sidebar[IsNarrow=True] TextBlock.sidebar-text">
+    <Setter Property="IsVisible" Value="False" />
   </Style>
 
   <Style Selector="controls|ResizableSplitPane">
