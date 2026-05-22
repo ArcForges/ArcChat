@@ -7,5 +7,5 @@ jobs:
   package-smoke-placeholder:
     runs-on: windows-2025
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: echo "Package smoke lands in NC16/NC17."
