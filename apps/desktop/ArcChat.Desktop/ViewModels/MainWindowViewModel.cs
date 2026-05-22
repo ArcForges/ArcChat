@@ -38,21 +38,23 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     private bool isSidebarNarrow;
 
     public MainWindowViewModel()
-        : this(new AppNavigator(), new SettingsViewModel())
+        : this(new AppNavigator(), new SettingsViewModel(), new CommandPaletteViewModel())
     {
     }
 
     internal MainWindowViewModel(IAppNavigator navigator)
-        : this(navigator, new SettingsViewModel())
+        : this(navigator, new SettingsViewModel(), new CommandPaletteViewModel())
     {
     }
 
-    internal MainWindowViewModel(IAppNavigator navigator, SettingsViewModel settingsViewModel)
+    internal MainWindowViewModel(IAppNavigator navigator, SettingsViewModel settingsViewModel, CommandPaletteViewModel commandPalette)
     {
         ArgumentNullException.ThrowIfNull(navigator);
         ArgumentNullException.ThrowIfNull(settingsViewModel);
+        ArgumentNullException.ThrowIfNull(commandPalette);
         this.navigator = navigator;
         this.settingsViewModel = settingsViewModel;
+        this.CommandPalette = commandPalette;
         this.currentDestination = navigator.Current;
         this.currentContent = this.CreateContent(navigator.Current);
         this.isSidebarNarrow = IsNarrow(this.sidebarPaneLength);
@@ -83,6 +85,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     public ICommand BackCommand { get; }
 
     public ICommand ForwardCommand { get; }
+
+    public CommandPaletteViewModel CommandPalette { get; }
 
     public Destination CurrentDestination
     {

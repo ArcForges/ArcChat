@@ -18,6 +18,7 @@ public sealed record SettingsSnapshot(
     ModelConfig ModelConfig,
     TtsSettings Tts,
     RealtimeSettings Realtime,
+    ShortcutSettings? Shortcuts = null,
     ImmutableDictionary<string, JsonElement>? Extra = null);
 
 /// <summary>
@@ -73,6 +74,11 @@ public sealed record RealtimeSettings(
 /// Azure realtime settings from NextChat realtimeConfig.azure.
 /// </summary>
 public sealed record AzureRealtimeSettings(string Endpoint, string Deployment);
+
+/// <summary>
+/// User shortcut overrides keyed by action id.
+/// </summary>
+public sealed record ShortcutSettings(ImmutableDictionary<string, string> Overrides);
 
 /// <summary>
 /// NextChat full app-state sync snapshot from app/utils/sync.ts.

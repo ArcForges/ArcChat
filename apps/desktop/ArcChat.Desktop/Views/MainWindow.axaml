@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:ArcChat.Desktop.ViewModels"
+        xmlns:shell="using:ArcChat.Desktop.Features.Shell"
         xmlns:views="using:ArcChat.Desktop.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,5 +20,13 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <views:TwoPaneScaffold />
+  <Window.KeyBindings>
+    <KeyBinding Gesture="Ctrl+K"
+                Command="{Binding CommandPalette.OpenCommand}" />
+  </Window.KeyBindings>
+
+  <Grid>
+    <views:TwoPaneScaffold />
+    <shell:CommandPaletteView DataContext="{Binding CommandPalette}" />
+  </Grid>
 </Window>

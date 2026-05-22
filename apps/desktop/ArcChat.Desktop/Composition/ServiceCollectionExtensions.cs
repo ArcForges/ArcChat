@@ -2,8 +2,10 @@
 
 using System.Globalization;
 using ArcChat.Desktop.Features.Settings;
+using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
 using ArcChat.Desktop.Navigation;
+using ArcChat.Desktop.Shortcuts;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.LocalPersistence;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<PersistenceSettingsRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Settings);
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
+        _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
         _ = services.AddSingleton<ILocaleService>(
             _ => LocaleService.FromDirectory(
                 Path.Combine(AppContext.BaseDirectory, "Resources", "Locales"),
@@ -30,7 +33,9 @@ internal static class ServiceCollectionExtensions
             provider.GetRequiredService<ILocaleService>()));
         _ = services.AddTransient(provider => new MainWindowViewModel(
             provider.GetRequiredService<IAppNavigator>(),
-            provider.GetRequiredService<SettingsViewModel>()));
+            provider.GetRequiredService<SettingsViewModel>(),
+            provider.GetRequiredService<CommandPaletteViewModel>()));
+        _ = services.AddTransient(provider => new CommandPaletteViewModel(provider.GetRequiredService<IShortcutRegistry>()));
         return services;
     }
 

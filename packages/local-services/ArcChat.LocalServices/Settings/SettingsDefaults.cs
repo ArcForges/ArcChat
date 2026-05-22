@@ -39,6 +39,7 @@ public static class SettingsDefaults
                 string.Empty,
                 new AzureRealtimeSettings(string.Empty, string.Empty),
                 0.9,
-                "alloy"));
+                "alloy"),
+            new ShortcutSettings(ImmutableDictionary<string, string>.Empty));
     }
 }

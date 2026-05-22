@@ -7,6 +7,7 @@ using ArcChat.Desktop.Views;
 using ArcChat.UI.Controls;
 using Avalonia.Controls;
 using Avalonia.Headless;
+using Avalonia.Input;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using FluentAssertions;
@@ -127,6 +128,44 @@ public sealed class MainWindowTests
 
                     _ = viewModel.SidebarPaneLength.Value.Should().Be(ShellConstants.NarrowSidebarWidth);
                     _ = sidebar.IsNarrow.Should().BeTrue();
+                }
+                finally
+                {
+                    window.Close();
+                    viewModel.Dispose();
+                }
+            },
+            CancellationToken.None);
+    }
+
+    [Fact]
+    public static async Task MainWindowRegistersCommandPaletteShortcut()
+    {
+        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        await session.Dispatch(
+            () =>
+            {
+                MainWindowViewModel viewModel = new MainWindowViewModel();
+                MainWindow window = new MainWindow()
+                {
+                    DataContext = viewModel,
+                };
+
+                try
+                {
+                    window.Show();
+                    Dispatcher.UIThread.RunJobs();
+
+                    KeyBinding keyBinding = window.KeyBindings
+                        .OfType<KeyBinding>()
+                        .Single(binding => binding.Gesture?.Key == Key.K
+                            && binding.Gesture.KeyModifiers == KeyModifiers.Control);
+
+                    _ = keyBinding.Command.Should().BeSameAs(viewModel.CommandPalette.OpenCommand);
+                    keyBinding.Command!.Execute(null);
+
+                    _ = viewModel.CommandPalette.IsOpen.Should().BeTrue();
+                    _ = viewModel.CommandPalette.Items.Should().Contain(item => item.GestureText == "Ctrl+K");
                 }
                 finally
                 {
