@@ -1,8 +1,15 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ArcChat.Desktop"
+             xmlns:theme="using:ArcChat.UI.Theme"
              x:Class="ArcChat.Desktop.App"
              RequestedThemeVariant="Default">
+  <Application.DataTemplates>
+    <local:ViewLocator />
+  </Application.DataTemplates>
+
   <Application.Styles>
-    <FluentTheme />
+    <theme:ArcChatTheme ColorScheme="System" />
+    <StyleInclude Source="avares://ArcChat.UI.Controls/Themes/Generic.axaml" />
   </Application.Styles>
 </Application>

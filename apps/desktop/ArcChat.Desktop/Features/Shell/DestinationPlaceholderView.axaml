@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:shell="using:ArcChat.Desktop.Features.Shell"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Features.Shell.DestinationPlaceholderView"
+             x:DataType="shell:DestinationPlaceholderViewModel"
+             d:DesignWidth="720"
+             d:DesignHeight="480"
+             mc:Ignorable="d">
+  <Grid Margin="24,0,24,24"
+        Background="{DynamicResource ArcChat.Brush.Surface}">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="12">
+      <TextBlock x:Name="DestinationTitle"
+                 Text="{Binding Title}"
+                 FontSize="28"
+                 FontWeight="SemiBold"
+                 HorizontalAlignment="Center" />
+      <TextBlock Text="{Binding Id}"
+                 Foreground="{DynamicResource ArcChat.Brush.MutedText}"
+                 HorizontalAlignment="Center" />
+    </StackPanel>
+  </Grid>
+</UserControl>

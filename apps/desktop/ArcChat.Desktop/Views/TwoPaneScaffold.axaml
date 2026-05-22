@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:ArcChat.UI.Controls"
+             xmlns:vm="using:ArcChat.Desktop.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Views.TwoPaneScaffold"
+             x:DataType="vm:MainWindowViewModel"
+             d:DesignWidth="1080"
+             d:DesignHeight="720"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <controls:ResizableSplitPane x:Name="ShellSplitPane"
+                               PaneLength="{Binding SidebarPaneLength, Mode=TwoWay}"
+                               MinPaneLength="100"
+                               MaxPaneLength="360">
+    <controls:ResizableSplitPane.Left>
+      <controls:Sidebar x:Name="ShellSidebar"
+                        Items="{Binding NavigationItems}"
+                        SelectedId="{Binding CurrentDestination.Id}"
+                        IsNarrow="{Binding IsSidebarNarrow}"
+                        NavigateCommand="{Binding NavigateCommand}" />
+    </controls:ResizableSplitPane.Left>
+
+    <controls:ResizableSplitPane.Right>
+      <Grid RowDefinitions="Auto,*"
+            Background="{DynamicResource ArcChat.Brush.WindowBackground}">
+        <DockPanel Grid.Row="0"
+                   LastChildFill="True"
+                   Margin="24,20,24,12">
+          <StackPanel DockPanel.Dock="Right"
+                      Orientation="Horizontal"
+                      Spacing="8">
+            <controls:IconButton Text="Back"
+                                 Icon="&lt;"
+                                 AutomationProperties.Name="Go back"
+                                 Command="{Binding BackCommand}" />
+            <controls:IconButton Text="Forward"
+                                 Icon="&gt;"
+                                 AutomationProperties.Name="Go forward"
+                                 Command="{Binding ForwardCommand}" />
+          </StackPanel>
+          <TextBlock x:Name="HeaderText"
+                     Text="ArcChat"
+                     FontSize="{DynamicResource ArcChat.FontSize.Title}"
+                     FontWeight="SemiBold"
+                     VerticalAlignment="Center" />
+        </DockPanel>
+
+        <ContentControl x:Name="ShellContent"
+                        Grid.Row="1"
+                        Content="{Binding CurrentContent}" />
+      </Grid>
+    </controls:ResizableSplitPane.Right>
+  </controls:ResizableSplitPane>
+</UserControl>

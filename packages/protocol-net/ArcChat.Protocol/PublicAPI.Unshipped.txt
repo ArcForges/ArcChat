@@ -443,11 +443,17 @@ ArcChat.Protocol.Settings.SettingsSnapshot.Providers.get -> ArcChat.Protocol.Set
 ArcChat.Protocol.Settings.SettingsSnapshot.Providers.init -> void
 ArcChat.Protocol.Settings.SettingsSnapshot.Realtime.get -> ArcChat.Protocol.Settings.RealtimeSettings
 ArcChat.Protocol.Settings.SettingsSnapshot.Realtime.init -> void
-ArcChat.Protocol.Settings.SettingsSnapshot.SettingsSnapshot(long LastUpdate, ArcChat.Protocol.Settings.UiSettings Ui, ArcChat.Protocol.Settings.ConversationSettings Conversation, ArcChat.Protocol.Settings.ProviderSettings Providers, ArcChat.Protocol.Providers.ModelConfig ModelConfig, ArcChat.Protocol.Settings.TtsSettings Tts, ArcChat.Protocol.Settings.RealtimeSettings Realtime, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.SettingsSnapshot(long LastUpdate, ArcChat.Protocol.Settings.UiSettings Ui, ArcChat.Protocol.Settings.ConversationSettings Conversation, ArcChat.Protocol.Settings.ProviderSettings Providers, ArcChat.Protocol.Providers.ModelConfig ModelConfig, ArcChat.Protocol.Settings.TtsSettings Tts, ArcChat.Protocol.Settings.RealtimeSettings Realtime, ArcChat.Protocol.Settings.ShortcutSettings Shortcuts = null, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.Shortcuts.get -> ArcChat.Protocol.Settings.ShortcutSettings
+ArcChat.Protocol.Settings.SettingsSnapshot.Shortcuts.init -> void
 ArcChat.Protocol.Settings.SettingsSnapshot.Tts.get -> ArcChat.Protocol.Settings.TtsSettings
 ArcChat.Protocol.Settings.SettingsSnapshot.Tts.init -> void
 ArcChat.Protocol.Settings.SettingsSnapshot.Ui.get -> ArcChat.Protocol.Settings.UiSettings
 ArcChat.Protocol.Settings.SettingsSnapshot.Ui.init -> void
+ArcChat.Protocol.Settings.ShortcutSettings
+ArcChat.Protocol.Settings.ShortcutSettings.Overrides.get -> System.Collections.Immutable.ImmutableDictionary<string, string>
+ArcChat.Protocol.Settings.ShortcutSettings.Overrides.init -> void
+ArcChat.Protocol.Settings.ShortcutSettings.ShortcutSettings(System.Collections.Immutable.ImmutableDictionary<string, string> Overrides) -> void
 ArcChat.Protocol.Settings.SyncProviderConfig
 ArcChat.Protocol.Settings.SyncProviderConfig.Provider.get -> string
 ArcChat.Protocol.Settings.SyncProviderConfig.Provider.init -> void

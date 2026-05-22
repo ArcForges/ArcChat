@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:shell="using:ArcChat.Desktop.Features.Shell"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Features.Shell.CommandPaletteView"
+             x:DataType="shell:CommandPaletteViewModel"
+             d:DesignWidth="1080"
+             d:DesignHeight="720"
+             IsVisible="{Binding IsOpen}"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <shell:CommandPaletteViewModel />
+  </Design.DataContext>
+
+  <Grid Background="#66000000"
+        KeyboardNavigation.TabNavigation="Cycle">
+    <Border Width="520"
+            MaxHeight="520"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Margin="0,72,0,0"
+            Padding="16"
+            CornerRadius="8"
+            Background="{DynamicResource ArcChat.Brush.Surface}"
+            BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+            BorderThickness="1">
+      <Grid RowDefinitions="Auto,*">
+        <DockPanel LastChildFill="True"
+                   Margin="0,0,0,12">
+          <Button DockPanel.Dock="Right"
+                  AutomationProperties.Name="Close command palette"
+                  Command="{Binding CloseCommand}"
+                  Content="Esc" />
+          <TextBlock Text="Command Palette"
+                     FontSize="{DynamicResource ArcChat.FontSize.Title}"
+                     FontWeight="SemiBold"
+                     VerticalAlignment="Center" />
+        </DockPanel>
+
+        <ScrollViewer Grid.Row="1"
+                      MaxHeight="420">
+          <ItemsControl x:Name="CommandPaletteItems"
+                        ItemsSource="{Binding Items}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="shell:CommandPaletteItem">
+                <Grid ColumnDefinitions="*,Auto"
+                      Margin="0,0,0,8">
+                  <StackPanel Grid.Column="0"
+                              Spacing="2">
+                    <TextBlock Text="{Binding Title}"
+                               FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Action}"
+                               Foreground="{DynamicResource ArcChat.Brush.MutedText}" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="1"
+                             Text="{Binding GestureText}"
+                             VerticalAlignment="Center"
+                             Foreground="{DynamicResource ArcChat.Brush.MutedText}" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

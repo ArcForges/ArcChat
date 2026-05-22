@@ -1,0 +1,158 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settings="using:ArcChat.Desktop.Features.Settings"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Features.Settings.SettingsView"
+             x:DataType="settings:SettingsViewModel"
+             d:DesignWidth="720"
+             d:DesignHeight="480"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <settings:SettingsViewModel />
+  </Design.DataContext>
+
+  <Grid Margin="24,0,24,24"
+        RowDefinitions="Auto,*,Auto"
+        KeyboardNavigation.TabNavigation="Cycle"
+        Background="{DynamicResource ArcChat.Brush.Surface}">
+    <DockPanel Grid.Row="0"
+               Margin="0,0,0,16"
+               LastChildFill="True">
+      <StackPanel DockPanel.Dock="Right"
+                  Orientation="Horizontal"
+                  Spacing="8">
+        <Button x:Name="SettingsResetButton"
+                AutomationProperties.Name="{Binding ResetButtonText}"
+                Command="{Binding ResetCommand}"
+                Content="{Binding ResetButtonText}" />
+        <Button x:Name="SettingsImportButton"
+                AutomationProperties.Name="{Binding ImportButtonText}"
+                Command="{Binding ImportCommand}"
+                Content="{Binding ImportButtonText}" />
+        <Button x:Name="SettingsExportButton"
+                AutomationProperties.Name="{Binding ExportButtonText}"
+                Command="{Binding ExportCommand}"
+                Content="{Binding ExportButtonText}" />
+        <Button x:Name="SettingsSaveButton"
+                AutomationProperties.Name="{Binding SaveButtonText}"
+                Command="{Binding SaveCommand}"
+                Content="{Binding SaveButtonText}" />
+      </StackPanel>
+      <TextBlock Text="{Binding SettingsTitle}"
+                 FontSize="{DynamicResource ArcChat.FontSize.Title}"
+                 FontWeight="SemiBold"
+                 VerticalAlignment="Center" />
+    </DockPanel>
+
+    <TabControl x:Name="SettingsTabs"
+                AutomationProperties.Name="{Binding SettingsTitle}"
+                Grid.Row="1">
+      <TabItem Header="{Binding GeneralTabHeader}"
+               Focusable="True"
+               KeyboardNavigation.IsTabStop="True"
+               AutomationProperties.Name="{Binding GeneralTabHeader}">
+        <Grid Margin="0,16,0,0"
+              RowDefinitions="Auto,Auto"
+              ColumnDefinitions="180,*">
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     Text="{Binding DefaultModelLabel}"
+                     VerticalAlignment="Center" />
+          <TextBox Grid.Row="0"
+                   Grid.Column="1"
+                   AutomationProperties.Name="{Binding DefaultModelLabel}"
+                   Text="{Binding DefaultModel}"
+                   IsReadOnly="True" />
+
+          <TextBlock Grid.Row="1"
+                     Grid.Column="0"
+                     Margin="0,12,0,0"
+                     Text="{Binding ImportJsonLabel}"
+                     VerticalAlignment="Top" />
+          <TextBox Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="0,12,0,0"
+                   AutomationProperties.Name="{Binding ImportJsonLabel}"
+                   Text="{Binding ImportJson, Mode=TwoWay}"
+                   AcceptsReturn="True"
+                   MinHeight="96" />
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="{Binding AppearanceTabHeader}"
+               Focusable="True"
+               KeyboardNavigation.IsTabStop="True"
+               AutomationProperties.Name="{Binding AppearanceTabHeader}">
+        <Grid Margin="0,16,0,0"
+              RowDefinitions="Auto,Auto,Auto,Auto"
+              ColumnDefinitions="180,*">
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     Text="{Binding ThemeLabel}"
+                     VerticalAlignment="Center" />
+          <ComboBox Grid.Row="0"
+                    Grid.Column="1"
+                    AutomationProperties.Name="{Binding ThemeLabel}"
+                    ItemsSource="{Binding ThemeOptions}"
+                    SelectedItem="{Binding Theme, Mode=TwoWay}" />
+
+          <TextBlock Grid.Row="1"
+                     Grid.Column="0"
+                     Margin="0,12,0,0"
+                     Text="{Binding FontSizeLabel}"
+                     VerticalAlignment="Center" />
+          <NumericUpDown Grid.Row="1"
+                         Grid.Column="1"
+                         Margin="0,12,0,0"
+                         AutomationProperties.Name="{Binding FontSizeLabel}"
+                         Minimum="10"
+                         Maximum="32"
+                         Value="{Binding FontSize, Mode=TwoWay}" />
+
+          <TextBlock Grid.Row="2"
+                     Grid.Column="0"
+                     Margin="0,12,0,0"
+                     Text="{Binding FontFamilyLabel}"
+                     VerticalAlignment="Center" />
+          <TextBox Grid.Row="2"
+                   Grid.Column="1"
+                   Margin="0,12,0,0"
+                   AutomationProperties.Name="{Binding FontFamilyLabel}"
+                   Text="{Binding FontFamily, Mode=TwoWay}" />
+
+          <CheckBox Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0,12,0,0"
+                    AutomationProperties.Name="{Binding TightBorderText}"
+                    IsChecked="{Binding TightBorder, Mode=TwoWay}"
+                    Content="{Binding TightBorderText}" />
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="{Binding LocaleTabHeader}"
+               Focusable="True"
+               KeyboardNavigation.IsTabStop="True"
+               AutomationProperties.Name="{Binding LocaleTabHeader}">
+        <Grid Margin="0,16,0,0"
+              RowDefinitions="Auto"
+              ColumnDefinitions="180,*">
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     Text="{Binding CurrentLocaleLabel}"
+                     VerticalAlignment="Center" />
+          <ComboBox Grid.Row="0"
+                    Grid.Column="1"
+                    AutomationProperties.Name="{Binding CurrentLocaleLabel}"
+                    ItemsSource="{Binding LocaleOptions}"
+                    SelectedItem="{Binding CurrentLocale, Mode=TwoWay}" />
+        </Grid>
+      </TabItem>
+    </TabControl>
+
+    <TextBlock Grid.Row="2"
+               Margin="0,16,0,0"
+               Foreground="{DynamicResource ArcChat.Brush.MutedText}"
+               Text="{Binding StatusMessage}" />
+  </Grid>
+</UserControl>

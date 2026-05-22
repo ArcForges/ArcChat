@@ -4,5 +4,13 @@ namespace ArcChat.Desktop.Navigation;
 
 internal interface IAppNavigator
 {
-    string CurrentDestination { get; }
+    IObservable<Destination> CurrentDestination { get; }
+
+    Destination Current { get; }
+
+    void Navigate(Destination destination);
+
+    bool Back();
+
+    bool Forward();
 }

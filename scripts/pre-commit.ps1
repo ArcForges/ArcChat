@@ -79,6 +79,7 @@ try {
     }
 
     dotnet restore ArcChat.slnx
+    dotnet build tools/ArcChat.IconCodegen/ArcChat.IconCodegen.csproj --no-restore
     dotnet format ArcChat.slnx --verify-no-changes --no-restore --verbosity minimal
     dotnet build ArcChat.slnx -warnaserror --no-restore -m:1
     dotnet test ArcChat.slnx --no-build --logger trx

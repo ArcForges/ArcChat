@@ -15,6 +15,7 @@ public sealed class SourceBoundaryTests
         "Dapper",
         "DbUp",
         "FluentAssertions",
+        "Microsoft.CodeAnalysis",
         "Microsoft.Data.Sqlite",
         "Microsoft.Extensions.",
         "NetArchTest.",

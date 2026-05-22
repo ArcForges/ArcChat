@@ -88,13 +88,13 @@ NC02 lands the shared protocol DTOs, the local SQLite v1 schema, and repository 
 | `app/store/config.ts` | `lastUpdate` | `SettingsSnapshot.LastUpdate` | settings JSON | not directly bound | planned | Settings import/export | FG.08 |
 | `app/store/config.ts` | `submitKey` | `UiSettings.SubmitKey` | settings JSON | send-key selector | planned | Settings > App | FG.08 |
 | `app/store/config.ts` | `avatar` | `UiSettings.Avatar` | settings JSON | avatar picker | planned | Settings > App | FG.08 |
-| `app/store/config.ts` | `fontSize` | `UiSettings.FontSize` | settings JSON | font-size slider | planned | Settings > App | FG.08 |
-| `app/store/config.ts` | `fontFamily` | `UiSettings.FontFamily` | settings JSON | font-family text box | planned | Settings > App | FG.08 |
-| `app/store/config.ts` | `theme` | `UiSettings.Theme` | settings JSON | theme selector | planned | Settings > Theme | FG.03 / FG.08 |
-| `app/store/config.ts` | `tightBorder` | `UiSettings.TightBorder` | settings JSON | tight-border toggle | planned | Settings > App | FG.08 |
+| `app/store/config.ts` | `fontSize` | `UiSettings.FontSize` | settings JSON | `SettingsView.FontSize` via `NumericUpDown` | `SettingsViewTests.SettingsViewShowsRequiredSkeletonTabs`; settings round-trip tests | Settings > Appearance | FG.08 |
+| `app/store/config.ts` | `fontFamily` | `UiSettings.FontFamily` | settings JSON | `SettingsView.FontFamily` via text box | `SettingsViewTests.SettingsViewShowsRequiredSkeletonTabs`; settings round-trip tests | Settings > Appearance | FG.08 |
+| `app/store/config.ts` | `theme` | `UiSettings.Theme` | settings JSON | `SettingsView.Theme` via theme selector; `IThemeService.Apply` updates live | `SettingsViewTests.ThemeSelectionAppliesImmediately`; `ThemeSwitchTests.ThemeSwitchRoundTripsToAvaloniaVariant` | Settings > Appearance | FG.03 / FG.08 |
+| `app/store/config.ts` | `tightBorder` | `UiSettings.TightBorder` | settings JSON | `SettingsView.TightBorder` via checkbox | `SettingsViewTests.SettingsViewShowsRequiredSkeletonTabs`; settings round-trip tests | Settings > Appearance | FG.08 |
 | `app/store/config.ts` | `sendPreviewBubble` | `UiSettings.SendPreviewBubble` | settings JSON | preview-bubble toggle | planned | Settings > App | FG.08 |
 | `app/store/config.ts` | `enableAutoGenerateTitle` | `ConversationSettings.EnableAutoGenerateTitle` | settings JSON | auto-title toggle | planned | Settings > App | FG.08 |
-| `app/store/config.ts` | `sidebarWidth` | `UiSettings.SidebarWidth` | settings JSON | persisted shell width | planned | Shell | FG.03 |
+| `app/store/config.ts` | `sidebarWidth` | `UiSettings.SidebarWidth` | settings JSON | `MainWindowViewModel.SidebarPaneLength` drives `ResizableSplitPane` | `MainWindowTests.SplitterStateUpdatesSidebarNarrowMode` | Shell | FG.03 |
 | `app/store/config.ts` | `enableArtifacts` | `ConversationSettings.EnableArtifacts` | settings JSON | artifacts toggle | planned | Settings > App / Mask config | FG.07 / FG.08 |
 | `app/store/config.ts` | `enableCodeFold` | `MarkdownSettings.EnableCodeFold` | settings JSON | code-fold toggle | planned | Settings > App / Mask config | FG.04 / FG.08 |
 | `app/store/config.ts` | `disablePromptHint` | `PromptSettings.DisablePromptHint` | settings JSON | prompt hint toggle | planned | Settings > Prompt | FG.08 |

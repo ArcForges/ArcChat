@@ -5,9 +5,10 @@
     <RootNamespace>ArcChat.UI.Controls.Tests</RootNamespace>
   </PropertyGroup>
 
-  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.UI.props" />
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Headless" />
     <PackageReference Include="coverlet.collector" PrivateAssets="all" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -17,5 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../ArcChat.UI.Controls/ArcChat.UI.Controls.csproj" />
+    <ProjectReference Include="../ArcChat.UI.Theme/ArcChat.UI.Theme.csproj" />
   </ItemGroup>
 </Project>

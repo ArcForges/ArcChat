@@ -1,0 +1,24 @@
+#nullable enable
+ArcChat.LocalServices.Settings.ISettingsRepository
+ArcChat.LocalServices.Settings.ISettingsRepository.LoadAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Settings.SettingsSnapshot!>!
+ArcChat.LocalServices.Settings.ISettingsRepository.Observe<T>(ArcChat.LocalServices.Settings.KeyExpression<T>! keyExpression) -> System.IObservable<T>!
+ArcChat.LocalServices.Settings.ISettingsRepository.SaveAsync(ArcChat.Protocol.Settings.SettingsSnapshot! snapshot, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ArcChat.LocalServices.Settings.KeyExpression<T>
+ArcChat.LocalServices.Settings.KeyExpression<T>.Evaluate(ArcChat.Protocol.Settings.SettingsSnapshot! snapshot) -> T
+ArcChat.LocalServices.Settings.KeyExpression<T>.Key.get -> string!
+ArcChat.LocalServices.Settings.KeyExpression<T>.KeyExpression(string! key, System.Func<ArcChat.Protocol.Settings.SettingsSnapshot!, T>! selector) -> void
+ArcChat.LocalServices.Settings.KeyExpression<T>.Selector.get -> System.Func<ArcChat.Protocol.Settings.SettingsSnapshot!, T>!
+ArcChat.LocalServices.Settings.SettingsDefaults
+static ArcChat.LocalServices.Settings.SettingsDefaults.Create() -> ArcChat.Protocol.Settings.SettingsSnapshot!
+ArcChat.LocalServices.Settings.SettingsDocumentSerializer
+static ArcChat.LocalServices.Settings.SettingsDocumentSerializer.Export(ArcChat.Protocol.Settings.SettingsSnapshot! snapshot) -> string!
+static ArcChat.LocalServices.Settings.SettingsDocumentSerializer.Import(string! json) -> ArcChat.Protocol.Settings.SettingsSnapshot!
+ArcChat.LocalServices.Settings.SettingsKeys
+static ArcChat.LocalServices.Settings.SettingsKeys.FontFamily.get -> ArcChat.LocalServices.Settings.KeyExpression<string!>!
+static ArcChat.LocalServices.Settings.SettingsKeys.FontSize.get -> ArcChat.LocalServices.Settings.KeyExpression<int>!
+static ArcChat.LocalServices.Settings.SettingsKeys.Theme.get -> ArcChat.LocalServices.Settings.KeyExpression<string!>!
+ArcChat.LocalServices.Settings.SettingsRepository
+ArcChat.LocalServices.Settings.SettingsRepository.LoadAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Settings.SettingsSnapshot!>!
+ArcChat.LocalServices.Settings.SettingsRepository.Observe<T>(ArcChat.LocalServices.Settings.KeyExpression<T>! keyExpression) -> System.IObservable<T>!
+ArcChat.LocalServices.Settings.SettingsRepository.SaveAsync(ArcChat.Protocol.Settings.SettingsSnapshot! snapshot, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ArcChat.LocalServices.Settings.SettingsRepository.SettingsRepository(ArcChat.LocalPersistence.Repositories.ISettingsRepository! persistenceRepository) -> void

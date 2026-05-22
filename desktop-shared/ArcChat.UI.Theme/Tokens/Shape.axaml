@@ -1,0 +1,9 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <CornerRadius x:Key="ArcChat.Radius.Control">10</CornerRadius>
+  <CornerRadius x:Key="ArcChat.Radius.Window">20</CornerRadius>
+  <CornerRadius x:Key="ArcChat.Radius.Checkbox">5</CornerRadius>
+  <Thickness x:Key="ArcChat.Thickness.Border">1</Thickness>
+  <Thickness x:Key="ArcChat.Padding.Control">10</Thickness>
+  <Thickness x:Key="ArcChat.Padding.Window">20</Thickness>
+</ResourceDictionary>

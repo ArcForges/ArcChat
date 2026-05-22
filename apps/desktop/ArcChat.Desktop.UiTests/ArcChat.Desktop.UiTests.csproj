@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Headless" />
+    <PackageReference Include="Avalonia.Skia" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="coverlet.collector" PrivateAssets="all" />
     <PackageReference Include="FluentAssertions" />
@@ -19,5 +20,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArcChat.Desktop\ArcChat.Desktop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\IconReferences.axaml" />
   </ItemGroup>
 </Project>
