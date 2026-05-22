@@ -23,6 +23,18 @@ internal static class RepositoryPaths
         return Path.GetRelativePath(Root, path).Replace('\\', '/');
     }
 
+    internal static string FromRoot(params string[] relativeSegments)
+    {
+        string path = Root;
+        foreach (string relativeSegment in relativeSegments)
+        {
+            string normalizedSegment = NormalizeRelativeSegment(relativeSegment);
+            path = Path.Join(path, normalizedSegment);
+        }
+
+        return path;
+    }
+
     internal static bool IsRepositoryFile(string path)
     {
         string relative = Relative(path);
@@ -37,7 +49,7 @@ internal static class RepositoryPaths
         DirectoryInfo? directory = new DirectoryInfo(startDirectory);
         while (directory is not null)
         {
-            if (File.Exists(Path.Combine(directory.FullName, "ArcChat.slnx")))
+            if (File.Exists(Path.Join(directory.FullName, "ArcChat.slnx")))
             {
                 return directory.FullName;
             }
@@ -46,5 +58,20 @@ internal static class RepositoryPaths
         }
 
         throw new InvalidOperationException("Could not locate ArcChat.slnx from test output directory.");
+    }
+
+    private static string NormalizeRelativeSegment(string relativeSegment)
+    {
+        string normalizedSegment = relativeSegment
+            .Replace('/', Path.DirectorySeparatorChar)
+            .Replace('\\', Path.DirectorySeparatorChar)
+            .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        if (Path.IsPathRooted(normalizedSegment))
+        {
+            throw new InvalidOperationException($"Repository-relative path must not be rooted: {relativeSegment}");
+        }
+
+        return normalizedSegment;
     }
 }

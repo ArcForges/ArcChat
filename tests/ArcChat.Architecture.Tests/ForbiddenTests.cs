@@ -39,7 +39,7 @@ public sealed class ForbiddenTests
     public void ForbiddenDirectoriesDoNotExist()
     {
         List<string> existing = ForbiddenDirectories
-            .Select(directory => Path.Combine(RepositoryPaths.Root, directory.Replace('/', Path.DirectorySeparatorChar)))
+            .Select(directory => RepositoryPaths.FromRoot(directory))
             .Where(Directory.Exists)
             .Select(RepositoryPaths.Relative)
             .ToList();

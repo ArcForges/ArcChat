@@ -27,9 +27,8 @@ public sealed class SourceBoundaryTests
         List<string> violations = new List<string>();
         foreach (string sourceFile in RepositoryPaths.SourceFiles)
         {
-            foreach (string line in File.ReadLines(sourceFile))
+            foreach (string trimmed in File.ReadLines(sourceFile).Select(line => line.Trim()))
             {
-                string trimmed = line.Trim();
                 if (!trimmed.StartsWith("using ", StringComparison.Ordinal)
                     || trimmed.StartsWith("using static ", StringComparison.Ordinal)
                     || !trimmed.EndsWith(';'))

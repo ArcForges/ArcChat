@@ -15,12 +15,11 @@ public sealed class CentralPackagingTests
         foreach (string projectFile in RepositoryPaths.ProjectFiles)
         {
             XDocument document = XDocument.Load(projectFile);
-            foreach (XElement packageReference in document.Descendants("PackageReference"))
+            foreach (XElement packageReference in document.Descendants("PackageReference")
+                .Where(packageReference => packageReference.Attribute("Version") is not null
+                    || packageReference.Element("Version") is not null))
             {
-                if (packageReference.Attribute("Version") is not null || packageReference.Element("Version") is not null)
-                {
-                    violations.Add($"{RepositoryPaths.Relative(projectFile)}: {packageReference.Attribute("Include")?.Value}");
-                }
+                violations.Add($"{RepositoryPaths.Relative(projectFile)}: {packageReference.Attribute("Include")?.Value}");
             }
         }
 

@@ -12,7 +12,7 @@ public sealed class SolutionLayoutTests
     public void SolutionEnumeratesEveryPlannedProject()
     {
         string[] expectedProjects = ReadPlannedProjects();
-        XDocument solution = XDocument.Load(Path.Combine(RepositoryPaths.Root, "ArcChat.slnx"));
+        XDocument solution = XDocument.Load(RepositoryPaths.FromRoot("ArcChat.slnx"));
         string[] actualProjects = solution
             .Descendants("Project")
             .Select(project => project.Attribute("Path")?.Value.Replace('\\', '/'))
@@ -29,7 +29,7 @@ public sealed class SolutionLayoutTests
     {
         foreach (string project in ReadPlannedProjects())
         {
-            string projectPath = Path.Combine(RepositoryPaths.Root, project.Replace('/', Path.DirectorySeparatorChar));
+            string projectPath = RepositoryPaths.FromRoot(project);
             string projectDirectory = Path.GetDirectoryName(projectPath)
                 ?? throw new InvalidOperationException($"Could not resolve project directory for {project}.");
 
@@ -42,7 +42,7 @@ public sealed class SolutionLayoutTests
 
     private static string[] ReadPlannedProjects()
     {
-        return File.ReadAllLines(Path.Combine(RepositoryPaths.Root, "tests", "ArcChat.Architecture.Tests", "Resources", "planned-projects.txt"))
+        return File.ReadAllLines(RepositoryPaths.FromRoot("tests", "ArcChat.Architecture.Tests", "Resources", "planned-projects.txt"))
             .Where(line => !string.IsNullOrWhiteSpace(line))
             .Order(StringComparer.OrdinalIgnoreCase)
             .ToArray();
