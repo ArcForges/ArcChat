@@ -1,0 +1,101 @@
+{
+  "lastUpdate": 1789990000000,
+  "ui": {
+    "submitKey": "Enter",
+    "avatar": "1f603",
+    "fontSize": 14,
+    "fontFamily": "",
+    "theme": "auto",
+    "tightBorder": true,
+    "sendPreviewBubble": true,
+    "sidebarWidth": 300
+  },
+  "conversation": {
+    "enableAutoGenerateTitle": true,
+    "enableArtifacts": true,
+    "enableCodeFold": true,
+    "disablePromptHint": false,
+    "dontShowMaskSplashScreen": false,
+    "hideBuiltinMasks": false
+  },
+  "providers": {
+    "customModels": "",
+    "defaultModel": "gpt-4o-mini",
+    "providerConfigs": [
+      {
+        "id": "google",
+        "providerName": "Google",
+        "baseUrl": "https://generativelanguage.googleapis.com",
+        "apiKeyRef": "keychain://providers/google",
+        "models": [
+          {
+            "id": "gemini-2.5-pro",
+            "displayName": "Gemini 2.5 Pro",
+            "providerId": "google",
+            "available": true,
+            "sorted": 1,
+            "capabilities": [
+              {
+                "$type": "streaming"
+              },
+              {
+                "$type": "vision"
+              },
+              {
+                "$type": "tools"
+              }
+            ]
+          }
+        ],
+        "extra": {
+          "googleSafetySettings": "BLOCK_ONLY_HIGH"
+        }
+      }
+    ]
+  },
+  "modelConfig": {
+    "model": "gpt-4o-mini",
+    "providerName": "OpenAI",
+    "temperature": 0.5,
+    "topP": 1,
+    "maxTokens": 4000,
+    "presencePenalty": 0,
+    "frequencyPenalty": 0,
+    "sendMemory": true,
+    "historyMessageCount": 4,
+    "compressMessageLengthThreshold": 1000,
+    "compressModel": "",
+    "compressProviderName": "",
+    "enableInjectSystemPrompts": true,
+    "template": "{{input}}",
+    "size": "1024x1024",
+    "quality": "standard",
+    "style": "vivid",
+    "stream": true,
+    "extra": {
+      "providerSpecific": {
+        "reasoningEffort": "medium"
+      }
+    }
+  },
+  "tts": {
+    "enable": false,
+    "autoplay": false,
+    "engine": "edge",
+    "model": "tts-1",
+    "voice": "alloy",
+    "speed": 1
+  },
+  "realtime": {
+    "enable": false,
+    "provider": "OpenAI",
+    "model": "gpt-4o-realtime-preview-2024-10-01",
+    "apiKeyRef": "keychain://providers/realtime",
+    "azure": {
+      "endpoint": "",
+      "deployment": ""
+    },
+    "temperature": 0.9,
+    "voice": "alloy"
+  }
+}

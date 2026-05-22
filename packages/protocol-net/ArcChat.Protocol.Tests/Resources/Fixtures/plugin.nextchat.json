@@ -1,0 +1,36 @@
+{
+  "id": "weather",
+  "createdAt": 1789990000000,
+  "title": "Weather",
+  "version": "1.0.0",
+  "content": "openapi: 3.0.0\ninfo:\n  title: Weather\n  version: 1.0.0\n",
+  "builtin": false,
+  "authType": "bearer",
+  "authLocation": "header",
+  "authHeader": "Authorization",
+  "authTokenRef": "keychain://plugin/weather",
+  "manifest": {
+    "title": "Weather",
+    "version": "1.0.0",
+    "serverUrl": "https://example.invalid",
+    "operations": [
+      {
+        "operationId": "getWeather",
+        "path": "/weather",
+        "method": "get",
+        "description": "Get weather",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "city"
+          ]
+        }
+      }
+    ]
+  }
+}

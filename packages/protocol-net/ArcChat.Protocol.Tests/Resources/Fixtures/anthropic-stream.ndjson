@@ -1,0 +1,4 @@
+{"$type":"message-delta","conversationId":"session-1","messageId":"message-assistant-1","delta":"Bon"}
+{"$type":"reasoning-delta","conversationId":"session-1","messageId":"message-assistant-1","delta":"Plan"}
+{"$type":"message-completed","conversationId":"session-1","messageId":"message-assistant-1","message":{"id":"message-assistant-1","role":"assistant","content":[{"$type":"text","text":"Bonjour"}],"date":"2026-05-22 10:00:01","streaming":false,"isError":false,"model":"claude-sonnet-4","tools":[],"isMcpResponse":false}}
+{"$type":"finished","conversationId":"session-1","messageId":"message-assistant-1","finishReason":"end_turn"}

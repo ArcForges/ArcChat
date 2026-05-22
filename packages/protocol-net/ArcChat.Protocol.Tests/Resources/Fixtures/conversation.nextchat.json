@@ -1,0 +1,94 @@
+{
+  "id": "session-1",
+  "topic": "NextChat parity",
+  "memoryPrompt": "",
+  "messages": [
+    {
+      "id": "message-user-1",
+      "role": "user",
+      "content": [
+        {
+          "$type": "text",
+          "text": "hello"
+        },
+        {
+          "$type": "image",
+          "url": "data:image/png;base64,iVBORw0KGgo=",
+          "detail": "auto"
+        }
+      ],
+      "date": "2026-05-22 10:00:00",
+      "streaming": false,
+      "isError": false,
+      "tools": [],
+      "isMcpResponse": false
+    },
+    {
+      "id": "message-assistant-1",
+      "role": "assistant",
+      "content": [
+        {
+          "$type": "text",
+          "text": "hi"
+        }
+      ],
+      "date": "2026-05-22 10:00:01",
+      "streaming": false,
+      "isError": false,
+      "model": "gpt-4o-mini",
+      "tools": [
+        {
+          "id": "tool-1",
+          "name": "weather",
+          "arguments": "{\"city\":\"Seattle\"}",
+          "index": 0,
+          "type": "function",
+          "content": "{\"temperature\":60}",
+          "isError": false
+        }
+      ],
+      "audioUrl": "local://audio/assistant.wav",
+      "isMcpResponse": false
+    }
+  ],
+  "stat": {
+    "tokenCount": 2,
+    "wordCount": 2,
+    "charCount": 7
+  },
+  "lastUpdate": 1789990000000,
+  "lastSummarizeIndex": 0,
+  "clearContextIndex": null,
+  "mask": {
+    "id": "mask-1",
+    "createdAt": 1688899480410,
+    "avatar": "1f916",
+    "name": "Default",
+    "hideContext": null,
+    "context": [],
+    "syncGlobalConfig": true,
+    "modelConfig": {
+      "model": "gpt-4o-mini",
+      "providerName": "OpenAI",
+      "temperature": 0.5,
+      "topP": 1,
+      "maxTokens": 4000,
+      "presencePenalty": 0,
+      "frequencyPenalty": 0,
+      "sendMemory": true,
+      "historyMessageCount": 4,
+      "compressMessageLengthThreshold": 1000,
+      "compressModel": "",
+      "compressProviderName": "",
+      "enableInjectSystemPrompts": true,
+      "template": "{{input}}",
+      "size": "1024x1024",
+      "quality": "standard",
+      "style": "vivid",
+      "stream": true
+    },
+    "lang": "en",
+    "builtin": false,
+    "plugin": []
+  }
+}

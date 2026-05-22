@@ -18,4 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="../ArcChat.Protocol/ArcChat.Protocol.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources/Fixtures/*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,4 @@
+{"$type":"message-delta","conversationId":"session-1","messageId":"message-assistant-1","delta":"Hello"}
+{"$type":"reasoning-delta","conversationId":"session-1","messageId":"message-assistant-1","delta":"Thinking"}
+{"$type":"message-completed","conversationId":"session-1","messageId":"message-assistant-1","message":{"id":"message-assistant-1","role":"assistant","content":[{"$type":"text","text":"Hello"}],"date":"2026-05-22 10:00:01","streaming":false,"isError":false,"model":"gpt-4o-mini","tools":[],"isMcpResponse":false}}
+{"$type":"finished","conversationId":"session-1","messageId":"message-assistant-1","finishReason":"stop"}

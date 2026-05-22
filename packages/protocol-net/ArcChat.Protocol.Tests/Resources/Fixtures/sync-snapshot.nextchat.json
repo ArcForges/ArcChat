@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "nextchat-app-state-v1",
+  "exportedAt": "2026-05-22T17:00:00Z",
+  "stores": {
+    "Chat": {
+      "sessions": []
+    },
+    "Config": {
+      "theme": "auto"
+    },
+    "Access": {
+      "provider": "OpenAI"
+    },
+    "Mask": {
+      "masks": {}
+    },
+    "Prompt": {
+      "prompts": {}
+    }
+  }
+}
