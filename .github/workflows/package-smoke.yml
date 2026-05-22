@@ -1,0 +1,11 @@
+name: package-smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  package-smoke-placeholder:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Package smoke lands in NC16/NC17."

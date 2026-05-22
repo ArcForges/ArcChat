@@ -1,0 +1,7 @@
+<Project>
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Common.props" />
+  <PropertyGroup>
+    <UseAvalonia>true</UseAvalonia>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+</Project>

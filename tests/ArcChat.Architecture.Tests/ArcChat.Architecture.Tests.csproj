@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+    <AssemblyName>ArcChat.Architecture.Tests</AssemblyName>
+    <RootNamespace>ArcChat.Architecture.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\apps\desktop\ArcChat.Desktop\ArcChat.Desktop.csproj" />
+    <ProjectReference Include="..\..\packages\protocol-net\ArcChat.Protocol\ArcChat.Protocol.csproj" />
+    <ProjectReference Include="..\..\packages\net-core\ArcChat.Net\ArcChat.Net.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Core\ArcChat.ModelProviders.Core.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Tokenizer\ArcChat.ModelProviders.Tokenizer.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.OpenAi\ArcChat.ModelProviders.OpenAi.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Anthropic\ArcChat.ModelProviders.Anthropic.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Google\ArcChat.ModelProviders.Google.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.GenericOpenAi\ArcChat.ModelProviders.GenericOpenAi.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Alibaba\ArcChat.ModelProviders.Alibaba.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Azure\ArcChat.ModelProviders.Azure.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Baidu\ArcChat.ModelProviders.Baidu.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.ByteDance\ArcChat.ModelProviders.ByteDance.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.DeepSeek\ArcChat.ModelProviders.DeepSeek.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Glm\ArcChat.ModelProviders.Glm.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Iflytek\ArcChat.ModelProviders.Iflytek.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Moonshot\ArcChat.ModelProviders.Moonshot.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.SiliconFlow\ArcChat.ModelProviders.SiliconFlow.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Stability\ArcChat.ModelProviders.Stability.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Tencent\ArcChat.ModelProviders.Tencent.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Xai\ArcChat.ModelProviders.Xai.csproj" />
+    <ProjectReference Include="..\..\packages\model-providers\ArcChat.ModelProviders.Ai302\ArcChat.ModelProviders.Ai302.csproj" />
+    <ProjectReference Include="..\..\packages\agent-core\ArcChat.Agent\ArcChat.Agent.csproj" />
+    <ProjectReference Include="..\..\packages\tool-core\ArcChat.Tools\ArcChat.Tools.csproj" />
+    <ProjectReference Include="..\..\packages\local-services\ArcChat.LocalServices\ArcChat.LocalServices.csproj" />
+    <ProjectReference Include="..\..\packages\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />
+    <ProjectReference Include="..\..\desktop-shared\ArcChat.UI.Controls\ArcChat.UI.Controls.csproj" />
+    <ProjectReference Include="..\..\desktop-shared\ArcChat.UI.Markdown\ArcChat.UI.Markdown.csproj" />
+    <ProjectReference Include="..\..\desktop-shared\ArcChat.UI.ArtifactViewer\ArcChat.UI.ArtifactViewer.csproj" />
+    <ProjectReference Include="..\..\desktop-shared\ArcChat.UI.Theme\ArcChat.UI.Theme.csproj" />
+    <ProjectReference Include="..\..\integrations\ArcChat.Integrations.Mcp\ArcChat.Integrations.Mcp.csproj" />
+  </ItemGroup>
+</Project>

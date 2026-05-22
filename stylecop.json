@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "documentationRules": {
+      "companyName": "ArcForges",
+      "copyrightText": "Copyright (c) ArcForges. Licensed under the MIT License.",
+      "xmlHeader": false
+    },
+    "orderingRules": {
+      "usingDirectivesPlacement": "outsideNamespace"
+    }
+  }
+}

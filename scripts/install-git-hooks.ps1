@@ -1,11 +1,12 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+$env:MSBUILDDISABLENODEREUSE = '1'
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 Push-Location $repoRoot
 try {
-    python -m pip install --upgrade pre-commit
-    pre-commit install
+    dotnet tool restore
+    dotnet husky install
 }
 finally {
     Pop-Location

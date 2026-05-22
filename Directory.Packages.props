@@ -4,17 +4,62 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Avalonia: NC01 desktop shell and NC03 UI/theme. -->
     <PackageVersion Include="Avalonia" Version="12.0.3" />
     <PackageVersion Include="Avalonia.Desktop" Version="12.0.3" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="12.0.3" />
+    <PackageVersion Include="Avalonia.Headless" Version="12.0.3" />
+    <PackageVersion Include="Avalonia.Markup.Xaml.Loader" Version="12.0.3" />
+    <PackageVersion Include="Avalonia.Svg.Skia" Version="11.3.0" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="12.0.3" />
     <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1" />
+
+    <!-- MVVM: NC03 shell and feature view-models. -->
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
-    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.91" />
+
+    <!-- Hosting: NC01 desktop composition root and later local services. -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.8" />
+
+    <!-- Net: NC02 transport and provider foundations. -->
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.6.0" />
+    <PackageVersion Include="Polly.Core" Version="8.6.6" />
+    <PackageVersion Include="System.IO.Pipelines" Version="10.0.8" />
+    <PackageVersion Include="System.Threading.Channels" Version="10.0.8" />
+
+    <!-- Persistence: NC02 local SQLite storage. -->
+    <PackageVersion Include="Dapper.AOT" Version="1.0.52" />
+    <PackageVersion Include="DbUp" Version="5.0.41" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.8" />
+
+    <!-- Ipc: NC08.F1 deferred; NetMQ and MessagePack are intentionally not pinned in the default MVP. -->
+
+    <!-- Agent: NC04/NC05 agent runtime wrapper. -->
+    <PackageVersion Include="Microsoft.Agents.AI" Version="1.6.2" />
+
+    <!-- Markdown: NC04 streaming Markdown and NC10 artifact viewer. -->
+    <PackageVersion Include="ColorCode.Core" Version="2.0.15" />
+    <PackageVersion Include="Magick.NET-Q8-AnyCPU" Version="14.13.1" />
+    <PackageVersion Include="Markdig" Version="1.2.0" />
+
+    <!-- Analyzers: NC01 code-quality gates. -->
     <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.300" />
     <PackageVersion Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" />
+    <GlobalPackageReference Include="Meziantou.Analyzer" Version="3.0.91" PrivateAssets="all" />
+    <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.15.0" PrivateAssets="all" />
+    <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+
+    <!-- Test: NC01 placeholder, architecture, and headless UI tests. -->
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="FluentAssertions" Version="8.10.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
+    <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="Verify.Avalonia" Version="1.4.0" />
+    <PackageVersion Include="Verify.Xunit" Version="31.12.5" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>

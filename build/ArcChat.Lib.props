@@ -1,0 +1,6 @@
+<Project>
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Common.props" />
+  <PropertyGroup>
+    <IsArcChatLibrary>true</IsArcChatLibrary>
+  </PropertyGroup>
+</Project>

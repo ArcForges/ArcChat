@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,7 +20,7 @@ defaults:
     shell: pwsh
 
 jobs:
-  build:
+  build-test:
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -33,27 +35,30 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: "1"
       DOTNET_NOLOGO: "1"
       MSBUILDDISABLENODEREUSE: "1"
-
+      CI: "true"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
         with:
           global-json-file: global.json
-
-      - name: Verify SDK
-        run: dotnet --info
-
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', 'Directory.Packages.props', 'global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: Restore
         run: dotnet restore ArcChat.slnx
-
-      - name: Build
-        run: dotnet build ArcChat.slnx --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test ArcChat.slnx --configuration Release --no-build --verbosity normal
-
-      - name: Check formatting
+      - name: Format
         run: dotnet format ArcChat.slnx --verify-no-changes --no-restore --verbosity minimal
+      - name: Build
+        run: dotnet build ArcChat.slnx -warnaserror --no-restore
+      - name: Test
+        run: dotnet test ArcChat.slnx --no-build --logger trx --collect:"XPlat Code Coverage"
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}
+          path: "**/TestResults/**/*"

@@ -1,7 +1,21 @@
-namespace ArcChat.Desktop.ViewModels
+// Copyright (c) ArcForges. Licensed under the MIT License.
+
+using ArcChat.Desktop.Navigation;
+
+namespace ArcChat.Desktop.ViewModels;
+
+public sealed partial class MainWindowViewModel : ViewModelBase
 {
-    public sealed partial class MainWindowViewModel : ViewModelBase
+    public MainWindowViewModel()
+        : this(new AppNavigator())
     {
-        public string Greeting { get; } = "ArcChat";
     }
+
+    internal MainWindowViewModel(IAppNavigator navigator)
+    {
+        ArgumentNullException.ThrowIfNull(navigator);
+        this.CurrentDestination = navigator.CurrentDestination;
+    }
+
+    public string CurrentDestination { get; }
 }

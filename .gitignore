@@ -3,7 +3,6 @@
 .vscode/*.code-workspace
 .idea/
 artifacts/
-build/
 out/
 dist/
 TestResults/

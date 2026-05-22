@@ -2,4 +2,12 @@
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
     <NoWarn>$(NoWarn);CA1707</NoWarn>
   </PropertyGroup>
+
+  <Target Name="ForbiddenPatterns" BeforeTargets="CoreCompile" Condition="'$(MSBuildProjectName)' == 'ArcChat.Desktop'">
+    <Exec Command="pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File &quot;$(ArcChatRepositoryRoot)scripts\verify-forbidden-patterns.ps1&quot;" />
+  </Target>
+
+  <Target Name="VerifyNotice">
+    <Message Importance="High" Text="NOTICE verification is active once NC03 vendors desktop resources; no vendored resources are present in NC01." />
+  </Target>
 </Project>
