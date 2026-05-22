@@ -76,6 +76,7 @@ public sealed class WebSocketSession : IWebSocketSession
         }
         catch (OperationCanceledException)
         {
+            // Expected while disposing the session and stopping background pumps.
         }
 
         this.socket.Dispose();

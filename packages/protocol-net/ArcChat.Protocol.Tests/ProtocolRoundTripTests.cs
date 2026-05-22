@@ -83,6 +83,12 @@ public sealed class ProtocolRoundTripTests
 
     private static T ReadFixture<T>(string name, JsonTypeInfo<T> typeInfo)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        if (Path.IsPathRooted(name))
+        {
+            throw new ArgumentException("Fixture name must be relative.", nameof(name));
+        }
+
         string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Fixtures", name);
         using FileStream stream = File.OpenRead(path);
         T? value = JsonSerializer.Deserialize(stream, typeInfo);

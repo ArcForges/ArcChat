@@ -42,8 +42,9 @@ internal sealed class SqliteWriteQueue : IAsyncDisposable
         {
             await this.pump.ConfigureAwait(false);
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException exception) when (exception.CancellationToken == this.shutdown.Token)
         {
+            // Expected while disposing the queue and stopping the pump.
         }
 
         this.shutdown.Dispose();

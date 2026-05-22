@@ -12,9 +12,9 @@ internal static class TestData
 {
     public static string CreateDatabasePath()
     {
-        string directory = Path.Combine(Path.GetTempPath(), "ArcChat.LocalPersistence.Tests");
+        string directory = Path.Join(Path.GetTempPath(), "ArcChat.LocalPersistence.Tests");
         Directory.CreateDirectory(directory);
-        return Path.Combine(directory, Guid.NewGuid().ToString("N") + ".db");
+        return Path.Join(directory, Guid.NewGuid().ToString("N") + ".db");
     }
 
     public static Conversation CreateConversation(string id, int messageCount = 0)

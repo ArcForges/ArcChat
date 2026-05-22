@@ -79,13 +79,14 @@ public sealed class SigningTests
 
         public int Count { get; private set; }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             Count++;
-            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            await Task.CompletedTask.ConfigureAwait(false);
+            return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(body, Encoding.UTF8, "application/json"),
-            });
+            };
         }
     }
 }

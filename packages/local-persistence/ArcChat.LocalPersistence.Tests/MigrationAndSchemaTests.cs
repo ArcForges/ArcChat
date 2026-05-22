@@ -61,8 +61,8 @@ public sealed class MigrationAndSchemaTests
 
         foreach (PersistenceTable table in Enum.GetValues<PersistenceTable>())
         {
-            string id = table.ToString() + "-1";
-            string json = "{\"table\":\"" + table.ToString() + "\"}";
+            string id = table + "-1";
+            string json = "{\"table\":\"" + table + "\"}";
             await database.JsonTables.UpsertAsync(table, id, json, CancellationToken.None);
 
             string? stored = await database.JsonTables.GetAsync(table, id, CancellationToken.None);

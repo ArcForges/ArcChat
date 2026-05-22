@@ -15,6 +15,11 @@ public sealed class EventReplayTests
     [InlineData("google-stream.ndjson")]
     public async Task ReplayPreservesEventOrderAndConversationId(string fixtureName)
     {
+        if (Path.IsPathRooted(fixtureName))
+        {
+            throw new ArgumentException("Fixture name must be relative.", nameof(fixtureName));
+        }
+
         string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Fixtures", fixtureName);
         await using FileStream stream = File.OpenRead(path);
 
