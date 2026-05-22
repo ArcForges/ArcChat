@@ -24,4 +24,13 @@
     <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Controls\ArcChat.UI.Controls.csproj" />
     <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Theme\ArcChat.UI.Theme.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\Locales\*.json" />
+    <Content Include="Resources\Locales\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="ConvertLocales" BeforeTargets="BeforeBuild">
+    <Exec Command="pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File &quot;$(ArcChatRepositoryRoot)scripts\convert-locales.ps1&quot;" />
+  </Target>
 </Project>
