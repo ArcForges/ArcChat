@@ -63,7 +63,7 @@ public sealed class SettingsViewTests
         await session.Dispatch(
             () =>
             {
-                SettingsViewModel viewModel = new SettingsViewModel();
+                using SettingsViewModel viewModel = new SettingsViewModel();
                 Window window = new Window
                 {
                     Width = 720,
@@ -92,7 +92,6 @@ public sealed class SettingsViewTests
                 finally
                 {
                     window.Close();
-                    viewModel.Dispose();
                 }
             },
             CancellationToken.None);

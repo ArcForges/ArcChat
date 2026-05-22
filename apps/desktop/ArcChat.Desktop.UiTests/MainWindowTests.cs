@@ -27,7 +27,7 @@ public sealed class MainWindowTests
             () =>
             {
                 AppNavigator navigator = new AppNavigator();
-                MainWindowViewModel viewModel = new MainWindowViewModel(navigator);
+                using MainWindowViewModel viewModel = new MainWindowViewModel(navigator);
                 MainWindow window = new MainWindow()
                 {
                     DataContext = viewModel,
@@ -56,7 +56,6 @@ public sealed class MainWindowTests
                 finally
                 {
                     window.Close();
-                    viewModel.Dispose();
                 }
             },
             CancellationToken.None);
@@ -70,7 +69,7 @@ public sealed class MainWindowTests
             () =>
             {
                 AppNavigator navigator = new AppNavigator();
-                MainWindowViewModel viewModel = new MainWindowViewModel(navigator);
+                using MainWindowViewModel viewModel = new MainWindowViewModel(navigator);
                 MainWindow window = new MainWindow()
                 {
                     DataContext = viewModel,
@@ -98,7 +97,6 @@ public sealed class MainWindowTests
                 finally
                 {
                     window.Close();
-                    viewModel.Dispose();
                 }
             },
             CancellationToken.None);
@@ -111,7 +109,7 @@ public sealed class MainWindowTests
         await session.Dispatch(
             () =>
             {
-                MainWindowViewModel viewModel = new MainWindowViewModel();
+                using MainWindowViewModel viewModel = new MainWindowViewModel();
                 MainWindow window = new MainWindow()
                 {
                     DataContext = viewModel,
@@ -134,7 +132,6 @@ public sealed class MainWindowTests
                 finally
                 {
                     window.Close();
-                    viewModel.Dispose();
                 }
             },
             CancellationToken.None);
@@ -147,7 +144,7 @@ public sealed class MainWindowTests
         await session.Dispatch(
             () =>
             {
-                MainWindowViewModel viewModel = new MainWindowViewModel();
+                using MainWindowViewModel viewModel = new MainWindowViewModel();
                 MainWindow window = new MainWindow()
                 {
                     DataContext = viewModel,
@@ -172,7 +169,6 @@ public sealed class MainWindowTests
                 finally
                 {
                     window.Close();
-                    viewModel.Dispose();
                 }
             },
             CancellationToken.None);
@@ -196,26 +192,18 @@ public sealed class MainWindowTests
                 },
             };
         LocaleService localeService = new LocaleService(locales, "en");
-        SettingsViewModel settingsViewModel = new SettingsViewModel();
-        MainWindowViewModel viewModel = new MainWindowViewModel(
+        using SettingsViewModel settingsViewModel = new SettingsViewModel();
+        using MainWindowViewModel viewModel = new MainWindowViewModel(
             new AppNavigator(),
             settingsViewModel,
             new CommandPaletteViewModel(),
             localeService);
 
-        try
-        {
-            localeService.SetCulture("fr");
+        localeService.SetCulture("fr");
 
-            _ = viewModel.NavigationItems.Single(item => string.Equals(item.Id, "settings", StringComparison.Ordinal))
-                .Title.Should().Be("Parametres");
-            _ = viewModel.NavigationItems.Single(item => string.Equals(item.Id, "masks", StringComparison.Ordinal))
-                .Title.Should().Be("Masques");
-        }
-        finally
-        {
-            viewModel.Dispose();
-            settingsViewModel.Dispose();
-        }
+        _ = viewModel.NavigationItems.Single(item => string.Equals(item.Id, "settings", StringComparison.Ordinal))
+            .Title.Should().Be("Parametres");
+        _ = viewModel.NavigationItems.Single(item => string.Equals(item.Id, "masks", StringComparison.Ordinal))
+            .Title.Should().Be("Masques");
     }
 }

@@ -25,7 +25,7 @@ public sealed class AccessibilityBaselineTests
         await session.Dispatch(
             () =>
             {
-                MainWindowViewModel viewModel = new MainWindowViewModel(new AppNavigator());
+                using MainWindowViewModel viewModel = new MainWindowViewModel(new AppNavigator());
                 MainWindow window = new MainWindow
                 {
                     DataContext = viewModel,
@@ -43,7 +43,6 @@ public sealed class AccessibilityBaselineTests
                 finally
                 {
                     window.Close();
-                    viewModel.Dispose();
                 }
             },
             CancellationToken.None);
@@ -56,9 +55,10 @@ public sealed class AccessibilityBaselineTests
         await session.Dispatch(
             () =>
             {
+                using SettingsViewModel viewModel = new SettingsViewModel();
                 SettingsView settingsView = new SettingsView
                 {
-                    DataContext = new SettingsViewModel(),
+                    DataContext = viewModel,
                 };
                 Window window = new Window
                 {
@@ -170,9 +170,8 @@ public sealed class AccessibilityBaselineTests
     {
         if (inputElement is Control control)
         {
-            foreach (Control candidate in SelfAndAncestors(control))
+            foreach (string? automationName in SelfAndAncestors(control).Select(AutomationProperties.GetName))
             {
-                string? automationName = AutomationProperties.GetName(candidate);
                 if (!string.IsNullOrWhiteSpace(automationName))
                 {
                     name = automationName;

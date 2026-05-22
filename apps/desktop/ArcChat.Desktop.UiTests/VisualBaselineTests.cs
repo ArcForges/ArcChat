@@ -54,7 +54,7 @@ public sealed class VisualBaselineTests
 
     private static void CaptureShell(string outputPath, Action<MainWindowViewModel, MainWindow> configure)
     {
-        MainWindowViewModel viewModel = new MainWindowViewModel(new AppNavigator());
+        using MainWindowViewModel viewModel = new MainWindowViewModel(new AppNavigator());
         MainWindow window = new MainWindow
         {
             Width = 1080,
@@ -78,7 +78,6 @@ public sealed class VisualBaselineTests
         finally
         {
             window.Close();
-            viewModel.Dispose();
         }
     }
 
