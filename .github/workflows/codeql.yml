@@ -12,6 +12,10 @@ jobs:
   analyze:
     name: analyze-csharp
     runs-on: windows-2025
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      MSBUILDDISABLENODEREUSE: "1"
     permissions:
       security-events: write
       packages: read
