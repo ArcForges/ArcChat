@@ -3,7 +3,17 @@
     <AssemblyName>ArcChat.Net</AssemblyName>
     <RootNamespace>ArcChat.Net</RootNamespace>
     <UseArcChatUi>false</UseArcChatUi>
+    <NoWarn>$(NoWarn);AD0001;CA1308;CA1822;CA2007;MA0004;MA0048;RS0016;RS0036;RS0037;RS0041;SA1009;SA1101;SA1313</NoWarn>
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Polly.Core" />
+    <PackageReference Include="System.Threading.RateLimiting" />
+  </ItemGroup>
 </Project>

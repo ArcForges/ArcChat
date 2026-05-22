@@ -1,0 +1,131 @@
+ArcChat.Net.Errors.BadRequestError
+ArcChat.Net.Errors.BadRequestError.BadRequestError(string Message) -> void
+ArcChat.Net.Errors.CancelledError
+ArcChat.Net.Errors.CancelledError.CancelledError(string Message) -> void
+ArcChat.Net.Errors.ForbiddenError
+ArcChat.Net.Errors.ForbiddenError.ForbiddenError(string Message) -> void
+ArcChat.Net.Errors.NetCoreException
+ArcChat.Net.Errors.NetCoreException.Error.get -> ArcChat.Net.Errors.NetError
+ArcChat.Net.Errors.NetCoreException.NetCoreException() -> void
+ArcChat.Net.Errors.NetCoreException.NetCoreException(ArcChat.Net.Errors.NetError error) -> void
+ArcChat.Net.Errors.NetCoreException.NetCoreException(ArcChat.Net.Errors.NetError error, System.Exception innerException) -> void
+ArcChat.Net.Errors.NetCoreException.NetCoreException(string message) -> void
+ArcChat.Net.Errors.NetCoreException.NetCoreException(string message, System.Exception innerException) -> void
+ArcChat.Net.Errors.NetError
+ArcChat.Net.Errors.NetError.Message.get -> string
+ArcChat.Net.Errors.NetError.Message.init -> void
+ArcChat.Net.Errors.NetError.NetError(string Message) -> void
+ArcChat.Net.Errors.NetErrorMapper
+ArcChat.Net.Errors.NetworkError
+ArcChat.Net.Errors.NetworkError.NetworkError(string Message) -> void
+ArcChat.Net.Errors.NotFoundError
+ArcChat.Net.Errors.NotFoundError.NotFoundError(string Message) -> void
+ArcChat.Net.Errors.RateLimitedError
+ArcChat.Net.Errors.RateLimitedError.RateLimitedError(string Message, System.TimeSpan? RetryAfter = null) -> void
+ArcChat.Net.Errors.RateLimitedError.RetryAfter.get -> System.TimeSpan?
+ArcChat.Net.Errors.RateLimitedError.RetryAfter.init -> void
+ArcChat.Net.Errors.ServerError
+ArcChat.Net.Errors.ServerError.ServerError(string Message, int StatusCode) -> void
+ArcChat.Net.Errors.ServerError.StatusCode.get -> int
+ArcChat.Net.Errors.ServerError.StatusCode.init -> void
+ArcChat.Net.Errors.TimeoutError
+ArcChat.Net.Errors.TimeoutError.TimeoutError(string Message) -> void
+ArcChat.Net.Errors.UnauthorizedError
+ArcChat.Net.Errors.UnauthorizedError.UnauthorizedError(string Message) -> void
+ArcChat.Net.Errors.UnknownNetError
+ArcChat.Net.Errors.UnknownNetError.UnknownNetError(string Message) -> void
+ArcChat.Net.Factory.INetCoreFactory
+ArcChat.Net.Factory.INetCoreFactory.GetClient(string name) -> System.Net.Http.HttpClient
+ArcChat.Net.Factory.INetCoreFactory.GetProfile(string name) -> ArcChat.Net.Factory.NetClientProfile
+ArcChat.Net.Factory.NetClientProfile
+ArcChat.Net.Factory.NetClientProfile.CompletionOption.get -> System.Net.Http.HttpCompletionOption
+ArcChat.Net.Factory.NetClientProfile.CompletionOption.init -> void
+ArcChat.Net.Factory.NetClientProfile.Name.get -> string
+ArcChat.Net.Factory.NetClientProfile.Name.init -> void
+ArcChat.Net.Factory.NetClientProfile.NetClientProfile(string Name, System.TimeSpan Timeout, System.Net.Http.HttpCompletionOption CompletionOption) -> void
+ArcChat.Net.Factory.NetClientProfile.Timeout.get -> System.TimeSpan
+ArcChat.Net.Factory.NetClientProfile.Timeout.init -> void
+ArcChat.Net.Factory.NetClientProfileNames
+ArcChat.Net.Factory.NetCoreFactory
+ArcChat.Net.Factory.NetCoreFactory.DisposeAsync() -> System.Threading.Tasks.ValueTask
+ArcChat.Net.Factory.NetCoreFactory.GetClient(string name) -> System.Net.Http.HttpClient
+ArcChat.Net.Factory.NetCoreFactory.GetProfile(string name) -> ArcChat.Net.Factory.NetClientProfile
+ArcChat.Net.Factory.NetCoreFactory.NetCoreFactory(System.Net.Http.IHttpClientFactory httpClientFactory, Microsoft.Extensions.Options.IOptions<ArcChat.Net.Factory.NetCoreFactoryOptions> options) -> void
+ArcChat.Net.Factory.NetCoreFactoryOptions
+ArcChat.Net.Factory.NetCoreFactoryOptions.NetCoreFactoryOptions() -> void
+ArcChat.Net.Factory.NetCoreFactoryOptions.Profiles.get -> System.Collections.Generic.IList<ArcChat.Net.Factory.NetClientProfile>
+ArcChat.Net.Factory.NetCoreServiceCollectionExtensions
+ArcChat.Net.Resilience.AwaitingTokenBucket
+ArcChat.Net.Resilience.AwaitingTokenBucket.AwaitingTokenBucket(int tokenLimit, int tokensPerPeriod, System.TimeSpan replenishmentPeriod) -> void
+ArcChat.Net.Resilience.AwaitingTokenBucket.DisposeAsync() -> System.Threading.Tasks.ValueTask
+ArcChat.Net.Resilience.AwaitingTokenBucket.WaitAsync(int tokenCount, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+ArcChat.Net.Signing.BaiduIamToken
+ArcChat.Net.Signing.BaiduIamToken.AccessToken.get -> string
+ArcChat.Net.Signing.BaiduIamToken.AccessToken.init -> void
+ArcChat.Net.Signing.BaiduIamToken.BaiduIamToken(string AccessToken, int ExpiresIn, int? Error = null) -> void
+ArcChat.Net.Signing.BaiduIamToken.Error.get -> int?
+ArcChat.Net.Signing.BaiduIamToken.Error.init -> void
+ArcChat.Net.Signing.BaiduIamToken.ExpiresIn.get -> int
+ArcChat.Net.Signing.BaiduIamToken.ExpiresIn.init -> void
+ArcChat.Net.Signing.BaiduIamTokenJsonContext
+ArcChat.Net.Signing.BaiduIamTokenMinter
+ArcChat.Net.Signing.BaiduIamTokenMinter.BaiduIamTokenMinter(System.Net.Http.HttpClient httpClient, System.Uri oauthEndpoint, System.TimeProvider timeProvider = null) -> void
+ArcChat.Net.Signing.BaiduIamTokenMinter.GetTokenAsync(string clientId, string clientSecret, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Net.Signing.BaiduIamToken>
+ArcChat.Net.Signing.HmacSha256Signer
+ArcChat.Net.Signing.HmacSha256Signer.HmacSha256Signer() -> void
+ArcChat.Net.Signing.HmacSha256Signer.Sign(byte[] key, byte[] payload) -> byte[]
+ArcChat.Net.Signing.HmacSha256Signer.SignHex(byte[] key, byte[] payload) -> string
+ArcChat.Net.Signing.IflytekUrlSigner
+ArcChat.Net.Signing.IflytekUrlSigner.IflytekUrlSigner() -> void
+ArcChat.Net.Signing.IflytekUrlSigner.Sign(System.Uri baseUri, string apiKey, string apiSecret, System.DateTimeOffset timestamp) -> System.Uri
+ArcChat.Net.Signing.IHmacSha256Signer
+ArcChat.Net.Signing.IHmacSha256Signer.Sign(byte[] key, byte[] payload) -> byte[]
+ArcChat.Net.Signing.IHmacSha256Signer.SignHex(byte[] key, byte[] payload) -> string
+ArcChat.Net.Signing.TencentTc3Signer
+ArcChat.Net.Signing.TencentTc3Signer.Sign(string payload, string secretId, string secretKey, System.DateTimeOffset timestamp) -> System.Collections.Generic.IReadOnlyDictionary<string, string>
+ArcChat.Net.Signing.TencentTc3Signer.TencentTc3Signer() -> void
+ArcChat.Net.Sse.RetryAfterDelay
+ArcChat.Net.Sse.ServerSentEventReader
+ArcChat.Net.Sse.ServerSentEventReader.ReadAsync(System.IO.Stream stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Net.Sse.SseEvent>
+ArcChat.Net.Sse.ServerSentEventReader.ServerSentEventReader() -> void
+ArcChat.Net.Sse.SseEvent
+ArcChat.Net.Sse.SseEvent.Data.get -> string
+ArcChat.Net.Sse.SseEvent.Data.init -> void
+ArcChat.Net.Sse.SseEvent.Event.get -> string
+ArcChat.Net.Sse.SseEvent.Event.init -> void
+ArcChat.Net.Sse.SseEvent.Id.get -> string
+ArcChat.Net.Sse.SseEvent.Id.init -> void
+ArcChat.Net.Sse.SseEvent.RetryMs.get -> int?
+ArcChat.Net.Sse.SseEvent.RetryMs.init -> void
+ArcChat.Net.Sse.SseEvent.SseEvent(string Id, string Event, string Data, int? RetryMs) -> void
+ArcChat.Net.Sse.SseEventSource
+ArcChat.Net.Sse.SseEventSource.ReadWithReconnectAsync(System.Func<string, System.Threading.CancellationToken, System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>> openAsync, int maxRetries, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Net.Sse.SseEvent>
+ArcChat.Net.Sse.SseEventSource.SseEventSource(ArcChat.Net.Sse.ServerSentEventReader reader, System.Func<System.TimeSpan, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask> delayAsync = null) -> void
+ArcChat.Net.WebSockets.IWebSocketSession
+ArcChat.Net.WebSockets.IWebSocketSession.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus status, string description, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+ArcChat.Net.WebSockets.IWebSocketSession.ReceiveAsync(System.Memory<byte> buffer, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<System.Net.WebSockets.ValueWebSocketReceiveResult>
+ArcChat.Net.WebSockets.IWebSocketSession.SendTextAsync(string text, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy.GetDelay(int attempt) -> System.TimeSpan
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy.InitialDelay.get -> System.TimeSpan
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy.InitialDelay.init -> void
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy.MaxDelay.get -> System.TimeSpan
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy.MaxDelay.init -> void
+ArcChat.Net.WebSockets.WebSocketReconnectPolicy.WebSocketReconnectPolicy(System.TimeSpan InitialDelay, System.TimeSpan MaxDelay) -> void
+ArcChat.Net.WebSockets.WebSocketSession
+ArcChat.Net.WebSockets.WebSocketSession.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus status, string description, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+ArcChat.Net.WebSockets.WebSocketSession.DisposeAsync() -> System.Threading.Tasks.ValueTask
+ArcChat.Net.WebSockets.WebSocketSession.ReceiveAsync(System.Memory<byte> buffer, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<System.Net.WebSockets.ValueWebSocketReceiveResult>
+ArcChat.Net.WebSockets.WebSocketSession.SendTextAsync(string text, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+ArcChat.Net.WebSockets.WebSocketSession.WebSocketSession(System.Net.WebSockets.WebSocket socket, System.TimeSpan heartbeatInterval) -> void
+const ArcChat.Net.Factory.NetClientProfileNames.Default = "default" -> string
+const ArcChat.Net.Factory.NetClientProfileNames.SigningAzureAad = "signing-azure-aad" -> string
+const ArcChat.Net.Factory.NetClientProfileNames.SigningBaidu = "signing-baidu" -> string
+const ArcChat.Net.Factory.NetClientProfileNames.SigningIflytek = "signing-iflytek" -> string
+const ArcChat.Net.Factory.NetClientProfileNames.SigningTencent = "signing-tencent" -> string
+const ArcChat.Net.Factory.NetClientProfileNames.Streaming = "streaming" -> string
+static ArcChat.Net.Errors.NetErrorMapper.FromException(System.Exception exception) -> ArcChat.Net.Errors.NetError
+static ArcChat.Net.Errors.NetErrorMapper.FromResponse(System.Net.Http.HttpResponseMessage response, string message = null) -> ArcChat.Net.Errors.NetError
+static ArcChat.Net.Factory.NetCoreServiceCollectionExtensions.AddArcChatNetCore(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection
+static ArcChat.Net.Sse.RetryAfterDelay.GetDelay(System.Net.Http.Headers.HttpResponseHeaders headers, System.TimeProvider timeProvider = null) -> System.TimeSpan
+static ArcChat.Net.WebSockets.WebSocketSession.ConnectAsync(System.Uri uri, System.TimeSpan heartbeatInterval, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Net.WebSockets.WebSocketSession>

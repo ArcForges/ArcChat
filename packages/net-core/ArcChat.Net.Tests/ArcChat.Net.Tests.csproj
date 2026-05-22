@@ -3,6 +3,7 @@
     <IsTestProject>true</IsTestProject>
     <AssemblyName>ArcChat.Net.Tests</AssemblyName>
     <RootNamespace>ArcChat.Net.Tests</RootNamespace>
+    <NoWarn>$(NoWarn);CA2000;CA2007;IDE0058;MA0004;SA1000;SA1101;SA1312;SA1313</NoWarn>
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
@@ -10,7 +11,9 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" PrivateAssets="all" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
   </ItemGroup>
