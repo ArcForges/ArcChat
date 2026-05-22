@@ -6,4 +6,13 @@
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Agents.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(ArcChatRepositoryRoot)packages\model-providers\ArcChat.ModelProviders.Core\ArcChat.ModelProviders.Core.csproj" />
+    <ProjectReference Include="$(ArcChatRepositoryRoot)packages\protocol-net\ArcChat.Protocol\ArcChat.Protocol.csproj" />
+  </ItemGroup>
 </Project>

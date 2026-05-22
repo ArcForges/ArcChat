@@ -1,0 +1,28 @@
+#nullable enable
+ArcChat.ModelProviders.Core.ChatProviderRegistry
+ArcChat.ModelProviders.Core.ChatProviderRegistry.ChatProviderRegistry(string? fallbackProviderId = null) -> void
+ArcChat.ModelProviders.Core.ChatProviderRegistry.Providers.get -> System.Collections.Generic.IReadOnlyCollection<ArcChat.ModelProviders.Core.IChatProvider!>!
+ArcChat.ModelProviders.Core.ChatProviderRegistry.Register(ArcChat.ModelProviders.Core.IChatProvider! provider) -> void
+ArcChat.ModelProviders.Core.ChatProviderRegistry.Resolve(string! providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
+ArcChat.ModelProviders.Core.ChatProviderRegistry.TryResolve(string! providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.ChatProviderRequest
+ArcChat.ModelProviders.Core.ChatProviderRequest.ChatProviderRequest(string! conversationId, string! messageId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelConfig! model) -> void
+ArcChat.ModelProviders.Core.ChatProviderRequest.ConversationId.get -> string!
+ArcChat.ModelProviders.Core.ChatProviderRequest.ConversationId.init -> void
+ArcChat.ModelProviders.Core.ChatProviderRequest.MessageId.get -> string!
+ArcChat.ModelProviders.Core.ChatProviderRequest.MessageId.init -> void
+ArcChat.ModelProviders.Core.ChatProviderRequest.Messages.get -> System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>!
+ArcChat.ModelProviders.Core.ChatProviderRequest.Messages.init -> void
+ArcChat.ModelProviders.Core.ChatProviderRequest.Model.get -> ArcChat.Protocol.Providers.ModelConfig!
+ArcChat.ModelProviders.Core.ChatProviderRequest.Model.init -> void
+ArcChat.ModelProviders.Core.IChatProvider
+ArcChat.ModelProviders.Core.IChatProvider.Id.get -> string!
+ArcChat.ModelProviders.Core.IChatProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatProviderRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.ModelProviders.Core.IChatProvider.SupportsVision.get -> bool
+ArcChat.ModelProviders.Core.IChatProviderRegistry
+ArcChat.ModelProviders.Core.IChatProviderRegistry.Providers.get -> System.Collections.Generic.IReadOnlyCollection<ArcChat.ModelProviders.Core.IChatProvider!>!
+ArcChat.ModelProviders.Core.IChatProviderRegistry.Resolve(string! providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
+ArcChat.ModelProviders.Core.IChatProviderRegistry.TryResolve(string! providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.ModelProviderCoreDefaults
+const ArcChat.ModelProviders.Core.ModelProviderCoreDefaults.EchoProviderId = "Echo" -> string!
+static ArcChat.ModelProviders.Core.ModelProviderCoreDefaults.CreateRegistry() -> ArcChat.ModelProviders.Core.ChatProviderRegistry!
