@@ -83,16 +83,32 @@ public sealed class ProtocolRoundTripTests
 
     private static T ReadFixture<T>(string name, JsonTypeInfo<T> typeInfo)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(name);
-        if (Path.IsPathRooted(name))
-        {
-            throw new ArgumentException("Fixture name must be relative.", nameof(name));
-        }
-
-        string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Fixtures", name);
+        string path = GetFixturePath(name);
         using FileStream stream = File.OpenRead(path);
         T? value = JsonSerializer.Deserialize(stream, typeInfo);
         _ = value.Should().NotBeNull();
         return value!;
+    }
+
+    private static string GetFixturePath(string name)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        if (Path.IsPathRooted(name) || Path.IsPathFullyQualified(name))
+        {
+            throw new ArgumentException("Fixture name must be relative.", nameof(name));
+        }
+
+        string fixturesDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "Resources", "Fixtures"));
+        string fixturesRoot = Path.EndsInDirectorySeparator(fixturesDirectory)
+            ? fixturesDirectory
+            : fixturesDirectory + Path.DirectorySeparatorChar;
+        string path = Path.GetFullPath(name, fixturesRoot);
+
+        if (!path.StartsWith(fixturesRoot, StringComparison.Ordinal))
+        {
+            throw new ArgumentException("Fixture path must stay under the fixture directory.", nameof(name));
+        }
+
+        return path;
     }
 }
