@@ -20,4 +20,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ArcChat.Desktop\ArcChat.Desktop.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Resources\IconReferences.axaml" />
+  </ItemGroup>
 </Project>

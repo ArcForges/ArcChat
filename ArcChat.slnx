@@ -73,6 +73,9 @@
     <Project Path="integrations/ArcChat.Integrations.Mcp.Tests/ArcChat.Integrations.Mcp.Tests.csproj" />
   </Folder>
   <Folder Name="/native/" />
+  <Folder Name="/tools/">
+    <Project Path="tools/ArcChat.IconCodegen/ArcChat.IconCodegen.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/ArcChat.Architecture.Tests/ArcChat.Architecture.Tests.csproj" />
   </Folder>

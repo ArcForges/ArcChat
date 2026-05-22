@@ -61,3 +61,4 @@ packages/protocol-net/ArcChat.Protocol/ArcChat.Protocol.csproj
 packages/tool-core/ArcChat.Tools.Tests/ArcChat.Tools.Tests.csproj
 packages/tool-core/ArcChat.Tools/ArcChat.Tools.csproj
 tests/ArcChat.Architecture.Tests/ArcChat.Architecture.Tests.csproj
+tools/ArcChat.IconCodegen/ArcChat.IconCodegen.csproj

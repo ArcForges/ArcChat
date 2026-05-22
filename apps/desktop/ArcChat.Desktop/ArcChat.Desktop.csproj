@@ -13,6 +13,7 @@
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="Avalonia.Svg.Skia" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Condition="'$(Configuration)' == 'Debug'" PrivateAssets="all" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
@@ -25,9 +26,14 @@
     <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Theme\ArcChat.UI.Theme.csproj" />
     <ProjectReference Include="..\..\..\packages\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />
     <ProjectReference Include="..\..\..\packages\local-services\ArcChat.LocalServices\ArcChat.LocalServices.csproj" />
+    <ProjectReference Include="..\..\..\tools\ArcChat.IconCodegen\ArcChat.IconCodegen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Include="Resources\Icons\**\*.png" />
+    <AvaloniaResource Include="Resources\Icons\**\*.svg" />
+    <AdditionalFiles Include="Resources\Icons\**\*.png" />
+    <AdditionalFiles Include="Resources\Icons\**\*.svg" />
     <AvaloniaResource Include="Resources\Locales\*.json" />
     <Content Include="Resources\Locales\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
