@@ -1,62 +1,30 @@
-name: CodeQL
+name: codeql
 
 on:
   pull_request:
-    branches: [main]
   push:
-    branches: [main]
+    branches:
+      - main
   schedule:
-    - cron: "0 0 1 * *"
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
-
-permissions:
-  security-events: write
-  packages: read
-  actions: read
-  contents: read
-
-defaults:
-  run:
-    shell: pwsh
+    - cron: '31 7 * * 2'
 
 jobs:
   analyze:
-    name: Analyze C#
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-
+    name: analyze-csharp
+    runs-on: windows-2025
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v5
-        with:
-          global-json-file: global.json
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v4
         with:
           languages: csharp
-          build-mode: manual
-          queries: security-and-quality
-          config: |
-            paths:
-              - apps/desktop
-            paths-ignore:
-              - '**/bin/**'
-              - '**/obj/**'
-
-      - name: Restore
-        run: dotnet restore ArcChat.slnx
-
-      - name: Build
-        run: dotnet build ArcChat.slnx --configuration Release --no-restore
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+      - uses: actions/setup-dotnet@v4
         with:
-          category: "/language:csharp"
+          global-json-file: global.json
+      - run: dotnet restore ArcChat.slnx
+      - run: dotnet build ArcChat.slnx --no-restore
+      - uses: github/codeql-action/analyze@v4

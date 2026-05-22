@@ -1,0 +1,11 @@
+name: perf
+
+on:
+  workflow_dispatch:
+
+jobs:
+  perf-placeholder:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Performance baselines land in NC17."
