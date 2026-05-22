@@ -24,7 +24,7 @@ Microsoft documents .NET 10 as LTS supported until November 2028 and documents S
 | `Avalonia.Themes.Fluent` | 12.0.3 | current NuGet latest stable |
 | `Avalonia.Markup.Xaml.Loader` | 12.0.3 | current NuGet latest stable |
 | `Avalonia.Headless` | 12.0.3 | current NuGet latest stable |
-| `Avalonia.Headless.XUnit` | 12.0.3 | current NuGet latest stable |
+| `Avalonia.Headless.XUnit` | not pinned in NC01 | NC01 uses `Avalonia.Headless` plus `HeadlessUnitTestSession` to keep solution-wide tests on xUnit 2 / VSTest; see `docs/deviations.md` |
 | `Avalonia.Svg.Skia` | 11.3.0 | current NuGet latest stable; NC03 must verify Avalonia 12 compatibility before use |
 | `CommunityToolkit.Mvvm` | 8.4.2 | current NuGet latest stable |
 | `Microsoft.Extensions.Hosting` | 10.0.8 | current NuGet latest stable |
