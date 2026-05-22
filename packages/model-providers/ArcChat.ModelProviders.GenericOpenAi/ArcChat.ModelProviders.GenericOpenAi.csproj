@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ArcChat.ModelProviders.GenericOpenAi</AssemblyName>
+    <RootNamespace>ArcChat.ModelProviders.GenericOpenAi</RootNamespace>
+    <UseArcChatUi>false</UseArcChatUi>
+  </PropertyGroup>
+
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+</Project>

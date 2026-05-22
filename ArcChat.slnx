@@ -2,8 +2,81 @@
   <Configurations>
     <Platform Name="Any CPU" />
   </Configurations>
-  <Folder Name="/apps/desktop/">
+  <Folder Name="/apps/">
     <Project Path="apps/desktop/ArcChat.Desktop/ArcChat.Desktop.csproj" />
-    <Project Path="apps/desktop/ArcChat.Desktop.Tests/ArcChat.Desktop.Tests.csproj" />
+    <Project Path="apps/desktop/ArcChat.Desktop.UiTests/ArcChat.Desktop.UiTests.csproj" />
   </Folder>
+  <Folder Name="/packages/">
+    <Project Path="packages/protocol-net/ArcChat.Protocol/ArcChat.Protocol.csproj" />
+    <Project Path="packages/protocol-net/ArcChat.Protocol.Tests/ArcChat.Protocol.Tests.csproj" />
+    <Project Path="packages/net-core/ArcChat.Net/ArcChat.Net.csproj" />
+    <Project Path="packages/net-core/ArcChat.Net.Tests/ArcChat.Net.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Core/ArcChat.ModelProviders.Core.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Core.Tests/ArcChat.ModelProviders.Core.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Tokenizer/ArcChat.ModelProviders.Tokenizer.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Tokenizer.Tests/ArcChat.ModelProviders.Tokenizer.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.OpenAi/ArcChat.ModelProviders.OpenAi.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.OpenAi.Tests/ArcChat.ModelProviders.OpenAi.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Anthropic/ArcChat.ModelProviders.Anthropic.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Anthropic.Tests/ArcChat.ModelProviders.Anthropic.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Google/ArcChat.ModelProviders.Google.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Google.Tests/ArcChat.ModelProviders.Google.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.GenericOpenAi/ArcChat.ModelProviders.GenericOpenAi.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.GenericOpenAi.Tests/ArcChat.ModelProviders.GenericOpenAi.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Alibaba/ArcChat.ModelProviders.Alibaba.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Alibaba.Tests/ArcChat.ModelProviders.Alibaba.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Azure/ArcChat.ModelProviders.Azure.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Azure.Tests/ArcChat.ModelProviders.Azure.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Baidu/ArcChat.ModelProviders.Baidu.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Baidu.Tests/ArcChat.ModelProviders.Baidu.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.ByteDance/ArcChat.ModelProviders.ByteDance.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.ByteDance.Tests/ArcChat.ModelProviders.ByteDance.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.DeepSeek/ArcChat.ModelProviders.DeepSeek.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.DeepSeek.Tests/ArcChat.ModelProviders.DeepSeek.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Glm/ArcChat.ModelProviders.Glm.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Glm.Tests/ArcChat.ModelProviders.Glm.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Iflytek/ArcChat.ModelProviders.Iflytek.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Iflytek.Tests/ArcChat.ModelProviders.Iflytek.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Moonshot/ArcChat.ModelProviders.Moonshot.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Moonshot.Tests/ArcChat.ModelProviders.Moonshot.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.SiliconFlow/ArcChat.ModelProviders.SiliconFlow.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.SiliconFlow.Tests/ArcChat.ModelProviders.SiliconFlow.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Stability/ArcChat.ModelProviders.Stability.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Stability.Tests/ArcChat.ModelProviders.Stability.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Tencent/ArcChat.ModelProviders.Tencent.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Tencent.Tests/ArcChat.ModelProviders.Tencent.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Xai/ArcChat.ModelProviders.Xai.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Xai.Tests/ArcChat.ModelProviders.Xai.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Ai302/ArcChat.ModelProviders.Ai302.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Ai302.Tests/ArcChat.ModelProviders.Ai302.Tests.csproj" />
+    <Project Path="packages/agent-core/ArcChat.Agent/ArcChat.Agent.csproj" />
+    <Project Path="packages/agent-core/ArcChat.Agent.Tests/ArcChat.Agent.Tests.csproj" />
+    <Project Path="packages/tool-core/ArcChat.Tools/ArcChat.Tools.csproj" />
+    <Project Path="packages/tool-core/ArcChat.Tools.Tests/ArcChat.Tools.Tests.csproj" />
+    <Project Path="packages/local-services/ArcChat.LocalServices/ArcChat.LocalServices.csproj" />
+    <Project Path="packages/local-services/ArcChat.LocalServices.Tests/ArcChat.LocalServices.Tests.csproj" />
+    <Project Path="packages/local-persistence/ArcChat.LocalPersistence/ArcChat.LocalPersistence.csproj" />
+    <Project Path="packages/local-persistence/ArcChat.LocalPersistence.Tests/ArcChat.LocalPersistence.Tests.csproj" />
+  </Folder>
+  <Folder Name="/desktop-shared/">
+    <Project Path="desktop-shared/ArcChat.UI.Controls/ArcChat.UI.Controls.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.Controls.Tests/ArcChat.UI.Controls.Tests.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.Markdown/ArcChat.UI.Markdown.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.Markdown.Tests/ArcChat.UI.Markdown.Tests.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.ArtifactViewer/ArcChat.UI.ArtifactViewer.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.ArtifactViewer.Tests/ArcChat.UI.ArtifactViewer.Tests.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.Theme/ArcChat.UI.Theme.csproj" />
+    <Project Path="desktop-shared/ArcChat.UI.Theme.Tests/ArcChat.UI.Theme.Tests.csproj" />
+  </Folder>
+  <Folder Name="/integrations/">
+    <Project Path="integrations/ArcChat.Integrations.Mcp/ArcChat.Integrations.Mcp.csproj" />
+    <Project Path="integrations/ArcChat.Integrations.Mcp.Tests/ArcChat.Integrations.Mcp.Tests.csproj" />
+  </Folder>
+  <Folder Name="/native/" />
+  <Folder Name="/tests/">
+    <Project Path="tests/ArcChat.Architecture.Tests/ArcChat.Architecture.Tests.csproj" />
+  </Folder>
+  <Folder Name="/docs/" />
+  <Folder Name="/scripts/" />
+  <Folder Name="/build/" />
 </Solution>

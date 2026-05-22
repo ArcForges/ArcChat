@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+    <AssemblyName>ArcChat.ModelProviders.SiliconFlow.Tests</AssemblyName>
+    <RootNamespace>ArcChat.ModelProviders.SiliconFlow.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ArcChat.ModelProviders.SiliconFlow/ArcChat.ModelProviders.SiliconFlow.csproj" />
+  </ItemGroup>
+</Project>

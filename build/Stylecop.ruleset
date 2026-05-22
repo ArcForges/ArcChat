@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="ArcChat StyleCop Baseline" Description="NC01 analyzer baseline; detailed severities live in .editorconfig." ToolsVersion="17.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers" />
+</RuleSet>

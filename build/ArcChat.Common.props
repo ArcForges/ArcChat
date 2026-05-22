@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <WarningsNotAsErrors Condition="'$(IsTestProject)' == 'true'">CA1707</WarningsNotAsErrors>
+  </PropertyGroup>
+</Project>

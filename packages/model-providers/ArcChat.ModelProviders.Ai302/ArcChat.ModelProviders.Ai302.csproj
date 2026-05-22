@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ArcChat.ModelProviders.Ai302</AssemblyName>
+    <RootNamespace>ArcChat.ModelProviders.Ai302</RootNamespace>
+    <UseArcChatUi>false</UseArcChatUi>
+  </PropertyGroup>
+
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+</Project>

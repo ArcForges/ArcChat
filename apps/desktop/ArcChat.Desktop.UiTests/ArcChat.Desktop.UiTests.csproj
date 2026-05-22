@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+    <AssemblyName>ArcChat.Desktop.UiTests</AssemblyName>
+    <RootNamespace>ArcChat.Desktop.UiTests</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.UI.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Headless" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArcChat.Desktop\ArcChat.Desktop.csproj" />
+  </ItemGroup>
+</Project>

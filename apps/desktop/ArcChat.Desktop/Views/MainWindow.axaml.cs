@@ -1,12 +1,13 @@
+// Copyright (c) ArcForges. Licensed under the MIT License.
+
 using Avalonia.Controls;
 
-namespace ArcChat.Desktop.Views
+namespace ArcChat.Desktop.Views;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

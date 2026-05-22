@@ -1,28 +1,38 @@
 <Project>
   <PropertyGroup>
+    <ArcChatRepositoryRoot>$(MSBuildThisFileDirectory)</ArcChatRepositoryRoot>
     <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Deterministic>true</Deterministic>
+    <DeterministicBuild>true</DeterministicBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
-    <TreatWarningsAsErrors Condition="'$(IsTestProject)' != 'true'">true</TreatWarningsAsErrors>
-    <CodeAnalysisTreatWarningsAsErrors Condition="'$(IsTestProject)' != 'true'">true</CodeAnalysisTreatWarningsAsErrors>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <IsCi Condition="'$(CI)' == 'true'">true</IsCi>
+    <TreatWarningsAsErrors Condition="'$(IsCi)' == 'true'">true</TreatWarningsAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors Condition="'$(IsCi)' == 'true'">true</CodeAnalysisTreatWarningsAsErrors>
+    <RootNamespace Condition="'$(RootNamespace)' == ''">$(MSBuildProjectName.Replace('-', '_'))</RootNamespace>
+    <AssemblyName Condition="'$(AssemblyName)' == ''">$(MSBuildProjectName)</AssemblyName>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' != 'true'">
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
-    <PackageReference Include="Meziantou.Analyzer" PrivateAssets="all" />
+  <ItemGroup>
+    <AdditionalFiles Include="$(ArcChatRepositoryRoot)stylecop.json" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' != 'true' and Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt')">
+  <ItemGroup Condition="'$(IsTestProject)' != 'true'">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(MSBuildProjectDirectory.Contains('packages')) and Exists('$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt')">
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="$(MSBuildProjectDirectory)\PublicAPI.Unshipped.txt" />
   </ItemGroup>
 </Project>
