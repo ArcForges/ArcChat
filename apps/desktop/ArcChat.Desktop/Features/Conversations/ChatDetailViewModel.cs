@@ -22,14 +22,18 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     private readonly IAppNavigator? navigator;
     private readonly IConversationTitler? conversationTitler;
     private readonly IContextSummarizer? contextSummarizer;
+    private readonly ConversationExportService? exportService;
+    private readonly IShareService? shareService;
     private Conversation? conversation;
     private CancellationTokenSource? streamCancellation;
     private string composerText = string.Empty;
     private bool isStreaming;
+    private bool isExporterVisible;
     private string statusMessage = string.Empty;
     private string lastCopiedText = string.Empty;
     private string lastSharedText = string.Empty;
     private string? lastBranchOfMessageId;
+    private ExporterViewModel? exporter;
 
     public ChatDetailViewModel()
         : this("design-chat")
@@ -51,6 +55,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         this.BeginEditCommand = new RelayCommand<MessageViewModel>(this.BeginEdit);
         this.CommitEditCommand = new AsyncRelayCommand<MessageViewModel>(this.CommitEditAsync);
         this.CancelEditCommand = new RelayCommand<MessageViewModel>(this.CancelEdit);
+        this.ToggleExporterCommand = new RelayCommand(this.ToggleExporter);
     }
 
     internal ChatDetailViewModel(
@@ -60,7 +65,9 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         IMessageRepository messageRepository,
         IAppNavigator? navigator = null,
         IConversationTitler? conversationTitler = null,
-        IContextSummarizer? contextSummarizer = null)
+        IContextSummarizer? contextSummarizer = null,
+        ConversationExportService? exportService = null,
+        IShareService? shareService = null)
         : this(conversationId)
     {
         this.agentRuntime = agentRuntime ?? throw new ArgumentNullException(nameof(agentRuntime));
@@ -69,6 +76,8 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         this.navigator = navigator;
         this.conversationTitler = conversationTitler;
         this.contextSummarizer = contextSummarizer;
+        this.exportService = exportService;
+        this.shareService = shareService;
     }
 
     public string ConversationId { get; }
@@ -92,6 +101,20 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     public IAsyncRelayCommand<MessageViewModel> CommitEditCommand { get; }
 
     public IRelayCommand<MessageViewModel> CancelEditCommand { get; }
+
+    public IRelayCommand ToggleExporterCommand { get; }
+
+    public ExporterViewModel? Exporter
+    {
+        get => this.exporter;
+        private set => this.SetProperty(ref this.exporter, value);
+    }
+
+    public bool IsExporterVisible
+    {
+        get => this.isExporterVisible;
+        private set => this.SetProperty(ref this.isExporterVisible, value);
+    }
 
     public string ComposerText
     {
@@ -143,6 +166,8 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         {
             this.Messages.Add(MessageViewModel.FromMessage(message));
         }
+
+        this.RefreshExporter();
     }
 
     internal async Task SubmitAsync(CancellationToken cancellationToken = default)
@@ -307,6 +332,12 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     private void Share(MessageViewModel? message)
     {
         this.LastSharedText = message?.Text ?? string.Empty;
+    }
+
+    private void ToggleExporter()
+    {
+        this.RefreshExporter();
+        this.IsExporterVisible = !this.IsExporterVisible;
     }
 
     private async Task DeleteMessageAsync(MessageViewModel? message)
@@ -497,6 +528,18 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         };
         this.conversation = snapshot;
         await this.conversationRepository.UpsertAsync(snapshot, cancellationToken).ConfigureAwait(true);
+        this.RefreshExporter();
+    }
+
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Record with-expressions use member assignment syntax.")]
+    private void RefreshExporter()
+    {
+        ConversationExportService service = this.exportService ?? new ConversationExportService();
+        Conversation snapshot = this.EnsureConversation() with
+        {
+            Messages = this.Messages.Select(message => message.ToMessage()).ToImmutableArray(),
+        };
+        this.Exporter = new ExporterViewModel(service, this.shareService, snapshot);
     }
 
     private Conversation EnsureConversation()

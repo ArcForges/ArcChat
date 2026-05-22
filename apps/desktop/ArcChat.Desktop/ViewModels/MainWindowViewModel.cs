@@ -35,6 +35,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly ConversationListViewModel conversationListViewModel;
     private readonly SettingsViewModel settingsViewModel;
     private readonly Func<string, ChatDetailViewModel> chatDetailFactory;
+    private readonly Func<SearchChatViewModel> searchChatFactory;
     private readonly ILocaleService? localeService;
     private readonly IDisposable destinationSubscription;
     private readonly IDisposable? cultureSubscription;
@@ -60,7 +61,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         SettingsViewModel settingsViewModel,
         CommandPaletteViewModel commandPalette,
         ILocaleService? localeService = null,
-        Func<string, ChatDetailViewModel>? chatDetailFactory = null)
+        Func<string, ChatDetailViewModel>? chatDetailFactory = null,
+        Func<SearchChatViewModel>? searchChatFactory = null)
     {
         ArgumentNullException.ThrowIfNull(navigator);
         ArgumentNullException.ThrowIfNull(conversationListViewModel);
@@ -70,6 +72,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         this.conversationListViewModel = conversationListViewModel;
         this.settingsViewModel = settingsViewModel;
         this.chatDetailFactory = chatDetailFactory ?? DefaultChatDetailFactory;
+        this.searchChatFactory = searchChatFactory ?? DefaultSearchChatFactory;
         this.CommandPalette = commandPalette;
         this.currentDestination = navigator.Current;
         this.currentContent = this.CreateContent(navigator.Current);
@@ -152,6 +155,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         return new ChatDetailViewModel(conversationId);
     }
 
+    private static SearchChatViewModel DefaultSearchChatFactory()
+    {
+        return new SearchChatViewModel();
+    }
+
     private void Navigate(string? destinationId)
     {
         if (destinationId is null || !DestinationsById.TryGetValue(destinationId, out Destination? destination))
@@ -174,6 +182,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             Home => this.conversationListViewModel,
             Chat chat => this.chatDetailFactory(chat.ConversationId),
+            SearchChat => this.searchChatFactory(),
             SettingsDestination => this.settingsViewModel,
             _ => new DestinationPlaceholderViewModel(this.TranslateDestination(destination), destination.Id),
         };

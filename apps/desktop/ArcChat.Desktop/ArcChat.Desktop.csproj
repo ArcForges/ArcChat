@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\..\packages\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />
     <ProjectReference Include="..\..\..\packages\local-services\ArcChat.LocalServices\ArcChat.LocalServices.csproj" />
     <ProjectReference Include="..\..\..\packages\model-providers\ArcChat.ModelProviders.Core\ArcChat.ModelProviders.Core.csproj" />
+    <ProjectReference Include="..\..\..\packages\net-core\ArcChat.Net\ArcChat.Net.csproj" />
     <ProjectReference Include="..\..\..\tools\ArcChat.IconCodegen\ArcChat.IconCodegen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
   </ItemGroup>
 

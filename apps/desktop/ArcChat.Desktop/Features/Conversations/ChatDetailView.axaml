@@ -24,7 +24,7 @@
   </UserControl.Styles>
 
   <Grid Margin="24,0,24,24"
-        RowDefinitions="Auto,*,Auto,Auto"
+        RowDefinitions="Auto,*,Auto,Auto,Auto"
         Background="{DynamicResource ArcChat.Brush.Surface}">
     <DockPanel Grid.Row="0"
                Margin="0,0,0,12"
@@ -37,6 +37,10 @@
               Margin="0,0,8,0"
               Content="Regenerate"
               Command="{Binding RegenerateCommand}" />
+      <Button DockPanel.Dock="Right"
+              Margin="0,0,8,0"
+              Content="Export"
+              Command="{Binding ToggleExporterCommand}" />
       <TextBlock Text="Chat"
                  FontSize="{DynamicResource ArcChat.FontSize.Title}"
                  FontWeight="SemiBold"
@@ -131,12 +135,17 @@
       </ListBox.ItemTemplate>
     </ListBox>
 
-    <TextBlock Grid.Row="2"
+    <conversations:ExporterView Grid.Row="2"
+                                Margin="0,8,0,8"
+                                DataContext="{Binding Exporter}"
+                                IsVisible="{Binding #ChatDetailRoot.DataContext.IsExporterVisible}" />
+
+    <TextBlock Grid.Row="3"
                Margin="0,8,0,8"
                Text="{Binding StatusMessage}"
                Opacity="0.68" />
 
-    <DockPanel Grid.Row="3"
+    <DockPanel Grid.Row="4"
                LastChildFill="True">
       <Button DockPanel.Dock="Right"
               Margin="8,0,0,0"

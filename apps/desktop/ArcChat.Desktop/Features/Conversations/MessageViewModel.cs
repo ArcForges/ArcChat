@@ -105,8 +105,7 @@ internal sealed class MessageViewModel : ViewModelBase
 
     public static string ExtractText(Message message)
     {
-        ArgumentNullException.ThrowIfNull(message);
-        return string.Concat(message.Content.OfType<TextBlock>().Select(block => block.Text));
+        return MessageText.Extract(message);
     }
 
     public void AppendDelta(string delta)

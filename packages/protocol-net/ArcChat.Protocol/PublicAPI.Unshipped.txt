@@ -93,6 +93,20 @@ ArcChat.Protocol.Chat.Conversation.Stat.get -> ArcChat.Protocol.Chat.ChatStat
 ArcChat.Protocol.Chat.Conversation.Stat.init -> void
 ArcChat.Protocol.Chat.Conversation.Topic.get -> string
 ArcChat.Protocol.Chat.Conversation.Topic.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto
+ArcChat.Protocol.Chat.ConversationExportDto.ClearContextIndex.get -> int?
+ArcChat.Protocol.Chat.ConversationExportDto.ClearContextIndex.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.ConversationExportDto(string ConversationId, string Topic, string MemoryPrompt, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message> Messages, System.DateTimeOffset ExportedAt, int? ClearContextIndex = null) -> void
+ArcChat.Protocol.Chat.ConversationExportDto.ConversationId.get -> string
+ArcChat.Protocol.Chat.ConversationExportDto.ConversationId.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.ExportedAt.get -> System.DateTimeOffset
+ArcChat.Protocol.Chat.ConversationExportDto.ExportedAt.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.MemoryPrompt.get -> string
+ArcChat.Protocol.Chat.ConversationExportDto.MemoryPrompt.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.Messages.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message>
+ArcChat.Protocol.Chat.ConversationExportDto.Messages.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.Topic.get -> string
+ArcChat.Protocol.Chat.ConversationExportDto.Topic.init -> void
 ArcChat.Protocol.Chat.ImageBlock
 ArcChat.Protocol.Chat.ImageBlock.Detail.get -> string
 ArcChat.Protocol.Chat.ImageBlock.Detail.init -> void

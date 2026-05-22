@@ -12,6 +12,7 @@ using ArcChat.Desktop.ViewModels;
 using ArcChat.LocalPersistence;
 using ArcChat.LocalPersistence.Repositories;
 using ArcChat.ModelProviders.Core;
+using ArcChat.Net.Factory;
 using Microsoft.Extensions.DependencyInjection;
 using ObservableSettingsRepository = ArcChat.LocalServices.Settings.SettingsRepository;
 using PersistenceSettingsRepository = ArcChat.LocalPersistence.Repositories.ISettingsRepository;
@@ -23,6 +24,14 @@ internal static class ServiceCollectionExtensions
 {
     internal static IServiceCollection AddArcChatDesktop(this IServiceCollection services)
     {
+        _ = services.AddArcChatNetCore();
+        AddCoreServices(services);
+        AddFeatureViewModels(services);
+        return services;
+    }
+
+    private static void AddCoreServices(IServiceCollection services)
+    {
         _ = services.AddSingleton(_ => CreateDatabase());
         _ = services.AddSingleton<IConversationRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Conversations);
         _ = services.AddSingleton<IMessageRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Messages);
@@ -31,16 +40,17 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<IAgentRuntime>(provider => new AgentRuntime(provider.GetRequiredService<IChatProviderRegistry>()));
         _ = services.AddSingleton<IConversationTitler, ConversationTitler>();
         _ = services.AddSingleton<IContextSummarizer, ContextSummarizer>();
+        _ = services.AddSingleton<ConversationExportService>();
+        _ = services.AddSingleton<IShareService, ShareGptShareService>();
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
         _ = services.AddSingleton<IThemeService, AvaloniaThemeService>();
-        string localeBaseDirectory = Path.GetFullPath(AppContext.BaseDirectory);
-        string localeDirectory = Path.Join(localeBaseDirectory, "Resources", "Locales");
-        _ = services.AddSingleton<ILocaleService>(
-            _ => LocaleService.FromDirectory(
-                localeDirectory,
-                CultureInfo.CurrentUICulture.Name));
+        _ = services.AddSingleton<ILocaleService>(_ => LocaleService.FromDirectory(CreateLocaleDirectory(), CultureInfo.CurrentUICulture.Name));
+    }
+
+    private static void AddFeatureViewModels(IServiceCollection services)
+    {
         _ = services.AddTransient(provider => new SettingsViewModel(
             provider.GetRequiredService<SettingsRepository>(),
             provider.GetRequiredService<ILocaleService>(),
@@ -64,7 +74,18 @@ internal static class ServiceCollectionExtensions
                     provider.GetRequiredService<IMessageRepository>(),
                     provider.GetRequiredService<IAppNavigator>(),
                     provider.GetRequiredService<IConversationTitler>(),
-                    provider.GetRequiredService<IContextSummarizer>());
+                    provider.GetRequiredService<IContextSummarizer>(),
+                    provider.GetRequiredService<ConversationExportService>(),
+                    provider.GetRequiredService<IShareService>());
+                viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
+                return viewModel;
+            });
+        _ = services.AddTransient(
+            provider =>
+            {
+                SearchChatViewModel viewModel = new SearchChatViewModel(
+                    provider.GetRequiredService<IConversationRepository>(),
+                    provider.GetRequiredService<IAppNavigator>());
                 viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
                 return viewModel;
             });
@@ -74,9 +95,15 @@ internal static class ServiceCollectionExtensions
             provider.GetRequiredService<SettingsViewModel>(),
             provider.GetRequiredService<CommandPaletteViewModel>(),
             provider.GetRequiredService<ILocaleService>(),
-            provider.GetRequiredService<Func<string, ChatDetailViewModel>>()));
+            provider.GetRequiredService<Func<string, ChatDetailViewModel>>(),
+            provider.GetRequiredService<SearchChatViewModel>));
         _ = services.AddTransient(provider => new CommandPaletteViewModel(provider.GetRequiredService<IShortcutRegistry>()));
-        return services;
+    }
+
+    private static string CreateLocaleDirectory()
+    {
+        string localeBaseDirectory = Path.GetFullPath(AppContext.BaseDirectory);
+        return Path.Join(localeBaseDirectory, "Resources", "Locales");
     }
 
     private static ArcChatDatabase CreateDatabase()

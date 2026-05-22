@@ -1,0 +1,21 @@
+{
+  "avatarUrl": null,
+  "items": [
+    {
+      "from": "human",
+      "value": "Context before clear"
+    },
+    {
+      "from": "gpt",
+      "value": "Assistant **markdown** answer."
+    },
+    {
+      "from": "human",
+      "value": "Plain user message"
+    },
+    {
+      "from": "human",
+      "value": "Share from [NextChat]: https://github.com/Yidadaa/ChatGPT-Next-Web"
+    }
+  ]
+}

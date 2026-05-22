@@ -1,0 +1,60 @@
+{
+  "conversationId": "c-export",
+  "topic": "Export Topic",
+  "memoryPrompt": "",
+  "messages": [
+    {
+      "id": "u1",
+      "role": "user",
+      "content": [
+        {
+          "$type": "text",
+          "text": "Context before clear"
+        }
+      ],
+      "date": "2026-05-22",
+      "streaming": false,
+      "isError": false,
+      "model": null,
+      "tools": [],
+      "audioUrl": null,
+      "isMcpResponse": false
+    },
+    {
+      "id": "a1",
+      "role": "assistant",
+      "content": [
+        {
+          "$type": "text",
+          "text": "Assistant **markdown** answer."
+        }
+      ],
+      "date": "2026-05-22",
+      "streaming": false,
+      "isError": false,
+      "model": null,
+      "tools": [],
+      "audioUrl": null,
+      "isMcpResponse": false
+    },
+    {
+      "id": "u2",
+      "role": "user",
+      "content": [
+        {
+          "$type": "text",
+          "text": "Plain user message"
+        }
+      ],
+      "date": "2026-05-22",
+      "streaming": false,
+      "isError": false,
+      "model": null,
+      "tools": [],
+      "audioUrl": null,
+      "isMcpResponse": false
+    }
+  ],
+  "exportedAt": "1970-01-01T00:00:00+00:00",
+  "clearContextIndex": 1
+}
