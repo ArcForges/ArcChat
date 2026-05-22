@@ -1,0 +1,165 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ArcChat.UI.Controls">
+  <Style Selector="controls|IconButton">
+    <Setter Property="Background" Value="{DynamicResource ArcChat.Brush.Surface}" />
+    <Setter Property="Foreground" Value="{DynamicResource ArcChat.Brush.Text}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{DynamicResource ArcChat.Radius.Control}" />
+    <Setter Property="Padding" Value="{DynamicResource ArcChat.Padding.Control}" />
+    <Setter Property="Focusable" Value="True" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Button x:Name="PART_Button"
+                Background="{TemplateBinding Background}"
+                Foreground="{TemplateBinding Foreground}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}"
+                Command="{TemplateBinding Command}"
+                CommandParameter="{TemplateBinding CommandParameter}">
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+            <ContentPresenter Content="{TemplateBinding Icon}" />
+            <TextBlock Text="{TemplateBinding Text}" />
+          </StackPanel>
+        </Button>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|IconButton:pointerover">
+    <Setter Property="Background" Value="{DynamicResource ArcChat.Brush.Hover}" />
+  </Style>
+
+  <Style Selector="controls|IconButton[IsBordered=True]">
+    <Setter Property="BorderBrush" Value="{DynamicResource ArcChat.Brush.Border}" />
+  </Style>
+
+  <Style Selector="controls|IconButton[IsPrimary=True]">
+    <Setter Property="Background" Value="{DynamicResource ArcChat.Brush.Primary}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <Style Selector="controls|IconButton[IsDanger=True]">
+    <Setter Property="Foreground" Value="#CCFF0000" />
+    <Setter Property="BorderBrush" Value="#80FF0000" />
+    <Setter Property="Background" Value="#0DFF0000" />
+  </Style>
+
+  <Style Selector="controls|TextField">
+    <Setter Property="MinHeight" Value="36" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                 PlaceholderText="{TemplateBinding Watermark}"
+                 AcceptsReturn="{TemplateBinding AcceptsReturn}"
+                 Background="{DynamicResource ArcChat.Brush.Surface}"
+                 Foreground="{DynamicResource ArcChat.Brush.Text}"
+                 BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+                 BorderThickness="1"
+                 CornerRadius="{DynamicResource ArcChat.Radius.Control}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|Sidebar">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{DynamicResource ArcChat.Brush.Sidebar}" Padding="{DynamicResource ArcChat.Padding.Window}">
+          <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,16">
+              <TextBlock Text="ArcChat" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" />
+              <TextBlock Text="Build your own AI assistant." FontSize="{DynamicResource ArcChat.FontSize.Caption}" />
+            </StackPanel>
+            <ItemsControl x:Name="PART_Items" ItemsSource="{TemplateBinding Items}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="controls:SidebarItem">
+                  <Button MinHeight="40"
+                          HorizontalContentAlignment="Stretch"
+                          Command="{Binding $parent[controls:Sidebar].NavigateCommand}"
+                          CommandParameter="{Binding Id}"
+                          Margin="0,0,0,8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <TextBlock Text="{Binding Glyph}" FontWeight="Bold" />
+                      <TextBlock Text="{Binding Title}" />
+                    </StackPanel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </DockPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|Sidebar[IsNarrow=True] TextBlock">
+    <Setter Property="HorizontalAlignment" Value="Center" />
+  </Style>
+
+  <Style Selector="controls|ResizableSplitPane">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding PaneLength, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                              MinWidth="{Binding MinPaneLength, RelativeSource={RelativeSource TemplatedParent}}"
+                              MaxWidth="{Binding MaxPaneLength, RelativeSource={RelativeSource TemplatedParent}}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <ContentControl Grid.Column="0" Content="{TemplateBinding Left}" />
+          <GridSplitter Grid.Column="1" Width="6" Background="{DynamicResource ArcChat.Brush.Border}" />
+          <ContentControl Grid.Column="2" Content="{TemplateBinding Right}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|ConfirmDialog">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{DynamicResource ArcChat.Brush.Surface}"
+                BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+                BorderThickness="1"
+                CornerRadius="{DynamicResource ArcChat.Radius.Control}"
+                Padding="{DynamicResource ArcChat.Padding.Window}"
+                MaxWidth="420">
+          <StackPanel Spacing="14">
+            <TextBlock Text="{TemplateBinding Title}" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" />
+            <TextBlock Text="{TemplateBinding Message}" TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+              <Button x:Name="PART_CancelButton" Content="{TemplateBinding CancelText}" />
+              <Button x:Name="PART_ConfirmButton" Content="{TemplateBinding ConfirmText}" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|LoadingSpinner">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+          <ProgressBar IsIndeterminate="True" Width="140" />
+          <TextBlock Text="{TemplateBinding Message}" HorizontalAlignment="Center" />
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|EmptyState">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+          <TextBlock Text="{TemplateBinding Title}" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" HorizontalAlignment="Center" />
+          <TextBlock Text="{TemplateBinding Message}" TextWrapping="Wrap" HorizontalAlignment="Center" />
+          <Button Content="{TemplateBinding ActionText}" Command="{TemplateBinding ActionCommand}" />
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
