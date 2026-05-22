@@ -2,6 +2,8 @@ name: ci
 
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -15,8 +17,8 @@ jobs:
       matrix:
         os: [windows-2025, ubuntu-24.04]
     env:
-      MSBUILDDISABLENODEREUSE: '1'
-      CI: 'true'
+      MSBUILDDISABLENODEREUSE: "1"
+      CI: "true"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -42,4 +44,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.os }}
-          path: '**/TestResults/**/*'
+          path: "**/TestResults/**/*"
