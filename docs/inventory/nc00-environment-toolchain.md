@@ -8,9 +8,9 @@ This matrix locks the NC01 package and toolchain plan. Values were checked from 
 | --- | --- | --- |
 | .NET SDK | `10.0.300` | `dotnet --version` in the NC00 worktree |
 | Runtime | `net10.0`; local runtime `Microsoft.NETCore.App 10.0.8` | `dotnet --list-runtimes` |
-| SDK roll-forward policy | `latestPatch` for NC01 `global.json` plan | NC00 step requirement; current ArcChat `global.json` uses `latestFeature` and NC01 must align it |
+| SDK roll-forward policy | `latestPatch` for NC01 `global.json` plan | NC00 step requirement; NC01 aligned ArcChat `global.json` to this value |
 | C# language version | `latest` unless Avalonia tooling requires `preview` | `csharp-avalonia-quality-standard.md` |
-| CI runners | `windows-2025`, `ubuntu-24.04`, optional `macos-14` | NC00 step file |
+| CI runners | `windows-2025`, `ubuntu-24.04`, `macos-14` | Current required PR CI matrix |
 | MSBuild node reuse | disabled before dotnet/build/test/format commands | `arcchat.md` workflow rule |
 
 Microsoft documents .NET 10 as LTS supported until November 2028 and documents SDK feature bands and Visual Studio 18.0+ requirements for `net10.0`: https://learn.microsoft.com/en-us/dotnet/core/releases-and-support and https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs.
@@ -24,7 +24,6 @@ Microsoft documents .NET 10 as LTS supported until November 2028 and documents S
 | `Avalonia.Themes.Fluent` | 12.0.3 | current NuGet latest stable |
 | `Avalonia.Markup.Xaml.Loader` | 12.0.3 | current NuGet latest stable |
 | `Avalonia.Headless` | 12.0.3 | current NuGet latest stable |
-| `Avalonia.Headless.XUnit` | not pinned in NC01 | NC01 uses `Avalonia.Headless` plus `HeadlessUnitTestSession` to keep solution-wide tests on xUnit 2 / VSTest; see `docs/deviations.md` |
 | `Avalonia.Svg.Skia` | 11.3.0 | current NuGet latest stable; NC03 must verify Avalonia 12 compatibility before use |
 | `CommunityToolkit.Mvvm` | 8.4.2 | current NuGet latest stable |
 | `Microsoft.Extensions.Hosting` | 10.0.8 | current NuGet latest stable |
@@ -89,4 +88,4 @@ NuGet package metadata was checked with the NuGet V3 flat-container API describe
 
 ## NC01 Verification Requirement
 
-NC01 must make `Directory.Packages.props` match the rows above or document any changed latest-version evidence. The current repository already pins a subset (`Avalonia 12.0.3`, `CommunityToolkit.Mvvm 8.4.2`, analyzers/test packages), but NC01 still owns full central-package expansion and the `global.json` roll-forward alignment.
+NC01 makes `Directory.Packages.props` match the rows above unless a deviation is recorded, and `global.json` is aligned to the locked `latestPatch` roll-forward policy. Later dependency changes must update this matrix or document changed latest-version evidence.
