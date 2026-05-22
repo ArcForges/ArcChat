@@ -2,7 +2,7 @@
 .vs/
 .vscode/*.code-workspace
 .idea/
-artifacts/
+/artifacts/
 out/
 dist/
 TestResults/

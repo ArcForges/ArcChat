@@ -34,4 +34,4 @@ dotnet run --project apps/desktop/ArcChat.Desktop/ArcChat.Desktop.csproj
 pwsh scripts/install-git-hooks.ps1
 ```
 
-The hook runs `dotnet format --verify-no-changes` and `dotnet build /p:TreatWarningsAsErrors=true` before commits.
+The hook verifies that staged commits are not being masked by unstaged, untracked, or ignored build inputs, then runs restore, format, build, and test before commits.

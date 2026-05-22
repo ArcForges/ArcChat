@@ -1,6 +1,5 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
-using System.Diagnostics;
 using System.Net;
 using System.Text;
 using ArcChat.Net.Sse;
@@ -32,22 +31,20 @@ public sealed class SseReaderTests
     }
 
     [Fact]
-    public async Task ReaderHonorsCancellationWithinAbortBudget()
+    public async Task ReaderPropagatesCancellationFromPendingRead()
     {
         await using NeverEndingStream stream = new();
         ServerSentEventReader reader = new();
-        using CancellationTokenSource cts = new(TimeSpan.FromMilliseconds(50));
-        Stopwatch stopwatch = Stopwatch.StartNew();
+        using CancellationTokenSource cts = new();
 
-        Func<Task> read = async () =>
-        {
-            await foreach (SseEvent _ in reader.ReadAsync(stream, cts.Token))
-            {
-            }
-        };
+        Task<OperationCanceledException?> readTask = CaptureCancellationAsync(reader.ReadAsync(stream, cts.Token));
 
-        await read.Should().ThrowAsync<OperationCanceledException>();
-        _ = stopwatch.Elapsed.Should().BeLessThan(TimeSpan.FromMilliseconds(200));
+        await stream.ReadStarted.WaitAsync(TimeSpan.FromSeconds(1), CancellationToken.None);
+        await cts.CancelAsync();
+
+        OperationCanceledException? exception = await readTask.WaitAsync(TimeSpan.FromSeconds(1), CancellationToken.None);
+        _ = exception.Should().NotBeNull();
+        _ = stream.CancellationObserved.Should().BeTrue();
     }
 
     [Fact]
@@ -93,8 +90,30 @@ public sealed class SseReaderTests
         _ = events.Should().ContainSingle().Which.Id.Should().Be("abc");
     }
 
+    private static async Task<OperationCanceledException?> CaptureCancellationAsync(IAsyncEnumerable<SseEvent> events)
+    {
+        try
+        {
+            await foreach (SseEvent _ in events)
+            {
+            }
+
+            return null;
+        }
+        catch (OperationCanceledException exception)
+        {
+            return exception;
+        }
+    }
+
     private sealed class NeverEndingStream : Stream
     {
+        private readonly TaskCompletionSource readStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task ReadStarted => this.readStarted.Task;
+
+        public bool CancellationObserved { get; private set; }
+
         public override bool CanRead => true;
 
         public override bool CanSeek => false;
@@ -120,13 +139,13 @@ public sealed class SseReaderTests
 
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
+            await this.WaitForeverAsync(cancellationToken).ConfigureAwait(false);
             return 0;
         }
 
         public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
         {
-            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
+            await this.WaitForeverAsync(cancellationToken).ConfigureAwait(false);
             return 0;
         }
 
@@ -135,5 +154,19 @@ public sealed class SseReaderTests
         public override void SetLength(long value) => throw new NotSupportedException();
 
         public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+        private async ValueTask WaitForeverAsync(CancellationToken cancellationToken)
+        {
+            _ = this.readStarted.TrySetResult();
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                this.CancellationObserved = true;
+                throw;
+            }
+        }
     }
 }
