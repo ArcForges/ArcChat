@@ -19,4 +19,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Theme\ArcChat.UI.Theme.csproj" />
+  </ItemGroup>
 </Project>

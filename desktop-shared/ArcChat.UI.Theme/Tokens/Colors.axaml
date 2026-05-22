@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.ThemeDictionaries>
+    <ResourceDictionary x:Key="Light">
+      <SolidColorBrush x:Key="ArcChat.Brush.WindowBackground">#FAFAFA</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Surface">#FFFFFF</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Sidebar">#E7F8FF</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Text">#303030</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Primary">#1D93AB</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Hover">#F3F3F3</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Border">#DEDEDE</SolidColorBrush>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Dark">
+      <SolidColorBrush x:Key="ArcChat.Brush.WindowBackground">#151515</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Surface">#1E1E1E</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Sidebar">#1B262A</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Text">#BBBBBB</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Primary">#1D93AB</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Hover">#323232</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Border">#31FFFFFF</SolidColorBrush>
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="Default">
+      <SolidColorBrush x:Key="ArcChat.Brush.WindowBackground">#FAFAFA</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Surface">#FFFFFF</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Sidebar">#E7F8FF</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Text">#303030</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Primary">#1D93AB</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Hover">#F3F3F3</SolidColorBrush>
+      <SolidColorBrush x:Key="ArcChat.Brush.Border">#DEDEDE</SolidColorBrush>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

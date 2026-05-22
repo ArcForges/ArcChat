@@ -1,0 +1,7 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+  <sys:Double x:Key="ArcChat.Motion.FastMilliseconds">50</sys:Double>
+  <sys:Double x:Key="ArcChat.Motion.StandardMilliseconds">300</sys:Double>
+  <sys:Double x:Key="ArcChat.Motion.SlowMilliseconds">500</sys:Double>
+</ResourceDictionary>

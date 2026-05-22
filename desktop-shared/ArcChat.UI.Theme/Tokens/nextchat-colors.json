@@ -1,0 +1,19 @@
+{
+  "light": {
+    "white": "#FFFFFF",
+    "black": "#303030",
+    "gray": "#FAFAFA",
+    "primary": "#1D93AB",
+    "second": "#E7F8FF",
+    "hover-color": "#F3F3F3"
+  },
+  "dark": {
+    "white": "#1E1E1E",
+    "black": "#BBBBBB",
+    "gray": "#151515",
+    "primary": "#1D93AB",
+    "second": "#1B262A",
+    "hover-color": "#323232"
+  }
+}
+

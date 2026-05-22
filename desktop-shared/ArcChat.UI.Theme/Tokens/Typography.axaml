@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+  <FontFamily x:Key="ArcChat.FontFamily.Base">Inter, Noto Sans, Segoe UI, Arial</FontFamily>
+  <sys:Double x:Key="ArcChat.FontSize.Caption">12</sys:Double>
+  <sys:Double x:Key="ArcChat.FontSize.Body">14</sys:Double>
+  <sys:Double x:Key="ArcChat.FontSize.Title">20</sys:Double>
+  <sys:Double x:Key="ArcChat.FontSize.Display">32</sys:Double>
+  <FontWeight x:Key="ArcChat.FontWeight.Body">Regular</FontWeight>
+  <FontWeight x:Key="ArcChat.FontWeight.Emphasis">SemiBold</FontWeight>
+  <FontWeight x:Key="ArcChat.FontWeight.Title">Bold</FontWeight>
+</ResourceDictionary>
