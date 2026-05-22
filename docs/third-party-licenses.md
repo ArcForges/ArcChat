@@ -11,10 +11,13 @@ NC00 records license posture before dependencies are expanded in NC01. Package v
 | Microsoft.Extensions.* | MIT | NuGet package metadata |
 | System.* packages | MIT / .NET Foundation package license posture | NuGet package metadata |
 | Polly.Core | BSD-3-Clause | https://www.nuget.org/packages/Polly.Core |
+| Microsoft.Extensions.Http | MIT | https://www.nuget.org/packages/Microsoft.Extensions.Http |
 | Microsoft.Extensions.Http.Resilience | MIT | NuGet package metadata |
+| System.Threading.RateLimiting | MIT | https://www.nuget.org/packages/System.Threading.RateLimiting |
 | Microsoft.Data.Sqlite | MIT | https://www.nuget.org/packages/Microsoft.Data.Sqlite |
+| Dapper | Apache-2.0 | https://www.nuget.org/packages/Dapper |
 | Dapper.AOT | Apache-2.0 | https://www.nuget.org/packages/Dapper.AOT |
-| DbUp | MIT | https://www.nuget.org/packages/DbUp |
+| dbup-core / dbup-sqlite | MIT | https://www.nuget.org/packages/dbup-sqlite |
 | Microsoft.Agents.AI | MIT | https://www.nuget.org/packages/Microsoft.Agents.AI |
 | Markdig | BSD-2-Clause | https://www.nuget.org/packages/Markdig |
 | ColorCode.Core | MIT | https://www.nuget.org/packages/ColorCode.Core |

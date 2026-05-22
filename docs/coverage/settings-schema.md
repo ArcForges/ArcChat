@@ -4,6 +4,17 @@ Source commit: `C:\MyFile\DevAll\QmlSharp\NextChat` at `89b8f26ff8f03a0c5b98fc30
 
 This file is the NC00 field/default inventory required by `settings-schema-migration-matrix.md`. Later implementation steps replace planned DTO, persistence, binding, and test names with exact shipped names. Secrets marked `keychain` must migrate to `keychain://` references in NC15.08.
 
+## NC02 Shipped Schema Evidence
+
+NC02 lands the shared protocol DTOs, the local SQLite v1 schema, and repository contracts that later UI/settings steps bind to. AXAML bindings remain owned by later UI steps.
+
+| Area | Shipped C# surface | Persistence surface | Test evidence |
+| --- | --- | --- | --- |
+| Chat store | `Conversation`, `Message`, `ContentBlock`, `ChatEvent` in `ArcChat.Protocol` | `Conversation` and `Message` tables; `IConversationRepository`, `IMessageRepository` | `ProtocolRoundTripTests.ConversationFixtureRoundTripsWithNextChatFields`; `RepositoryContractTests.EmptySingleAndFiveThousandMessageCasesRoundTrip`; `RepositoryContractTests.ConcurrentAppendsAreSerialized` |
+| Config/settings store | `SettingsSnapshot`, `UiSettings`, `ConversationSettings`, `ProviderSettings`, `TtsSettings`, `RealtimeSettings`, `ModelConfig`, `ProviderConfig` | `Setting` table; `ISettingsRepository` stores JSON and preserves `keychain://` references opaquely | `ProtocolRoundTripTests.ProviderSettingsAndSyncDtosPreserveOpaqueExtraFields`; `RepositoryContractTests.SettingsRepositoryPreservesKeychainReferences` |
+| Sync store | `SyncSnapshot`, `SyncProviderConfig` | `SyncMeta`, `SyncBackup`, and generic JSON table store | `ProtocolRoundTripTests.ProviderSettingsAndSyncDtosPreserveOpaqueExtraFields`; `MigrationAndSchemaTests.JsonBackedTablesRoundTripEveryAuxiliaryTable` |
+| Mask/plugin/MCP/artifact seeds | `Mask`, `Plugin`, `PluginManifest`, `McpConfigData`, `McpRequestMessage`, `McpResponseMessage`, `McpTool`, `HtmlArtifactPreview`, `ArcTool` | `Mask`, `Plugin`, `McpServer`, `HtmlArtifactPreview`, `ToolCall`, `PromptSeed`, `KeychainRef` tables | `ProtocolRoundTripTests.MaskPluginMcpAndArtifactDtosRoundTrip`; `MigrationAndSchemaTests.JsonBackedTablesRoundTripEveryAuxiliaryTable` |
+
 ## Store Metadata
 
 | Source | Store key | Version | Migrations found | Owner |
