@@ -98,7 +98,7 @@ public sealed class ProtocolRoundTripTests
             throw new ArgumentException("Fixture name must be relative.", nameof(name));
         }
 
-        string fixturesDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "Resources", "Fixtures"));
+        string fixturesDirectory = Path.GetFullPath(Path.Join(AppContext.BaseDirectory, "Resources", "Fixtures"));
         string fixturesRoot = Path.EndsInDirectorySeparator(fixturesDirectory)
             ? fixturesDirectory
             : fixturesDirectory + Path.DirectorySeparatorChar;
