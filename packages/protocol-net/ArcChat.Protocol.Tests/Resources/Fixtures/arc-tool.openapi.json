@@ -1,0 +1,20 @@
+{
+  "id": "tool-weather",
+  "name": "getWeather",
+  "description": "Get weather",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "city": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "city"
+    ]
+  },
+  "outputSchema": {
+    "type": "object"
+  },
+  "permission": "ConfirmEachCall"
+}

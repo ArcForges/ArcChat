@@ -1,2 +1,3 @@
-dotnet format ArcChat.slnx --verify-no-changes --no-restore --verbosity minimal
-dotnet build ArcChat.slnx /p:TreatWarningsAsErrors=true --no-restore
+#!/usr/bin/env sh
+
+pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/pre-commit.ps1

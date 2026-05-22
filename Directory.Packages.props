@@ -23,16 +23,20 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.8" />
 
     <!-- Net: NC02 transport and provider foundations. -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.6.0" />
     <PackageVersion Include="Polly.Core" Version="8.6.6" />
     <PackageVersion Include="System.IO.Pipelines" Version="10.0.8" />
     <PackageVersion Include="System.Threading.Channels" Version="10.0.8" />
+    <PackageVersion Include="System.Threading.RateLimiting" Version="10.0.8" />
 
     <!-- Persistence: NC02 local SQLite storage. -->
+    <PackageVersion Include="Dapper" Version="2.1.79" />
     <PackageVersion Include="Dapper.AOT" Version="1.0.52" />
     <PackageVersion Include="DbUp" Version="5.0.41" />
+    <PackageVersion Include="dbup-sqlite" Version="5.0.40" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.8" />
 
     <!-- Ipc: NC08.F1 deferred; NetMQ and MessagePack are intentionally not pinned in the default MVP. -->

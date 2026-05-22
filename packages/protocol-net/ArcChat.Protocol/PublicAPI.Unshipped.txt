@@ -1,0 +1,518 @@
+ArcChat.Protocol.Artifacts.ArcTool
+ArcChat.Protocol.Artifacts.ArcTool.ArcTool(string Id, string Name, string Description, System.Text.Json.JsonElement InputSchema, System.Text.Json.JsonElement OutputSchema, ArcChat.Protocol.Artifacts.ToolPermissionKind Permission) -> void
+ArcChat.Protocol.Artifacts.ArcTool.Description.get -> string
+ArcChat.Protocol.Artifacts.ArcTool.Description.init -> void
+ArcChat.Protocol.Artifacts.ArcTool.Id.get -> string
+ArcChat.Protocol.Artifacts.ArcTool.Id.init -> void
+ArcChat.Protocol.Artifacts.ArcTool.InputSchema.get -> System.Text.Json.JsonElement
+ArcChat.Protocol.Artifacts.ArcTool.InputSchema.init -> void
+ArcChat.Protocol.Artifacts.ArcTool.Name.get -> string
+ArcChat.Protocol.Artifacts.ArcTool.Name.init -> void
+ArcChat.Protocol.Artifacts.ArcTool.OutputSchema.get -> System.Text.Json.JsonElement
+ArcChat.Protocol.Artifacts.ArcTool.OutputSchema.init -> void
+ArcChat.Protocol.Artifacts.ArcTool.Permission.get -> ArcChat.Protocol.Artifacts.ToolPermissionKind
+ArcChat.Protocol.Artifacts.ArcTool.Permission.init -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.ContentHash.get -> string
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.ContentHash.init -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.CreatedAt.get -> System.DateTimeOffset
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.CreatedAt.init -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.Html.get -> string
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.Html.init -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.HtmlArtifactPreview(string Id, string SourceConversationId, string SourceMessageId, string Html, string ContentHash, System.DateTimeOffset CreatedAt) -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.Id.get -> string
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.Id.init -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.SourceConversationId.get -> string
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.SourceConversationId.init -> void
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.SourceMessageId.get -> string
+ArcChat.Protocol.Artifacts.HtmlArtifactPreview.SourceMessageId.init -> void
+ArcChat.Protocol.Artifacts.ToolPermissionKind
+ArcChat.Protocol.Artifacts.ToolPermissionKind.ConfirmEachCall = 2 -> ArcChat.Protocol.Artifacts.ToolPermissionKind
+ArcChat.Protocol.Artifacts.ToolPermissionKind.Read = 0 -> ArcChat.Protocol.Artifacts.ToolPermissionKind
+ArcChat.Protocol.Artifacts.ToolPermissionKind.Write = 1 -> ArcChat.Protocol.Artifacts.ToolPermissionKind
+ArcChat.Protocol.Chat.ChatError
+ArcChat.Protocol.Chat.ChatError.ChatError(string ConversationId, string MessageId, string Code, string Message) -> void
+ArcChat.Protocol.Chat.ChatError.Code.get -> string
+ArcChat.Protocol.Chat.ChatError.Code.init -> void
+ArcChat.Protocol.Chat.ChatError.Message.get -> string
+ArcChat.Protocol.Chat.ChatError.Message.init -> void
+ArcChat.Protocol.Chat.ChatEvent
+ArcChat.Protocol.Chat.ChatEvent.ChatEvent(string ConversationId, string MessageId) -> void
+ArcChat.Protocol.Chat.ChatEvent.ConversationId.get -> string
+ArcChat.Protocol.Chat.ChatEvent.ConversationId.init -> void
+ArcChat.Protocol.Chat.ChatEvent.MessageId.get -> string
+ArcChat.Protocol.Chat.ChatEvent.MessageId.init -> void
+ArcChat.Protocol.Chat.ChatFinished
+ArcChat.Protocol.Chat.ChatFinished.ChatFinished(string ConversationId, string MessageId, string FinishReason = null) -> void
+ArcChat.Protocol.Chat.ChatFinished.FinishReason.get -> string
+ArcChat.Protocol.Chat.ChatFinished.FinishReason.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool
+ArcChat.Protocol.Chat.ChatMessageTool.Arguments.get -> string
+ArcChat.Protocol.Chat.ChatMessageTool.Arguments.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.ChatMessageTool(string Id, string Name, string Arguments = null, int? Index = null, string Type = null, string Content = null, bool IsError = false, string ErrorMessage = null) -> void
+ArcChat.Protocol.Chat.ChatMessageTool.Content.get -> string
+ArcChat.Protocol.Chat.ChatMessageTool.Content.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.ErrorMessage.get -> string
+ArcChat.Protocol.Chat.ChatMessageTool.ErrorMessage.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.Id.get -> string
+ArcChat.Protocol.Chat.ChatMessageTool.Id.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.Index.get -> int?
+ArcChat.Protocol.Chat.ChatMessageTool.Index.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.IsError.get -> bool
+ArcChat.Protocol.Chat.ChatMessageTool.IsError.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.Name.get -> string
+ArcChat.Protocol.Chat.ChatMessageTool.Name.init -> void
+ArcChat.Protocol.Chat.ChatMessageTool.Type.get -> string
+ArcChat.Protocol.Chat.ChatMessageTool.Type.init -> void
+ArcChat.Protocol.Chat.ChatStat
+ArcChat.Protocol.Chat.ChatStat.CharCount.get -> int
+ArcChat.Protocol.Chat.ChatStat.CharCount.init -> void
+ArcChat.Protocol.Chat.ChatStat.ChatStat(int TokenCount, int WordCount, int CharCount) -> void
+ArcChat.Protocol.Chat.ChatStat.TokenCount.get -> int
+ArcChat.Protocol.Chat.ChatStat.TokenCount.init -> void
+ArcChat.Protocol.Chat.ChatStat.WordCount.get -> int
+ArcChat.Protocol.Chat.ChatStat.WordCount.init -> void
+ArcChat.Protocol.Chat.ContentBlock
+ArcChat.Protocol.Chat.Conversation
+ArcChat.Protocol.Chat.Conversation.ClearContextIndex.get -> int?
+ArcChat.Protocol.Chat.Conversation.ClearContextIndex.init -> void
+ArcChat.Protocol.Chat.Conversation.Conversation(string Id, string Topic, string MemoryPrompt, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message> Messages, ArcChat.Protocol.Chat.ChatStat Stat, long LastUpdate, int LastSummarizeIndex, int? ClearContextIndex, ArcChat.Protocol.Masks.Mask Mask) -> void
+ArcChat.Protocol.Chat.Conversation.Id.get -> string
+ArcChat.Protocol.Chat.Conversation.Id.init -> void
+ArcChat.Protocol.Chat.Conversation.LastSummarizeIndex.get -> int
+ArcChat.Protocol.Chat.Conversation.LastSummarizeIndex.init -> void
+ArcChat.Protocol.Chat.Conversation.LastUpdate.get -> long
+ArcChat.Protocol.Chat.Conversation.LastUpdate.init -> void
+ArcChat.Protocol.Chat.Conversation.Mask.get -> ArcChat.Protocol.Masks.Mask
+ArcChat.Protocol.Chat.Conversation.Mask.init -> void
+ArcChat.Protocol.Chat.Conversation.MemoryPrompt.get -> string
+ArcChat.Protocol.Chat.Conversation.MemoryPrompt.init -> void
+ArcChat.Protocol.Chat.Conversation.Messages.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message>
+ArcChat.Protocol.Chat.Conversation.Messages.init -> void
+ArcChat.Protocol.Chat.Conversation.Stat.get -> ArcChat.Protocol.Chat.ChatStat
+ArcChat.Protocol.Chat.Conversation.Stat.init -> void
+ArcChat.Protocol.Chat.Conversation.Topic.get -> string
+ArcChat.Protocol.Chat.Conversation.Topic.init -> void
+ArcChat.Protocol.Chat.ImageBlock
+ArcChat.Protocol.Chat.ImageBlock.Detail.get -> string
+ArcChat.Protocol.Chat.ImageBlock.Detail.init -> void
+ArcChat.Protocol.Chat.ImageBlock.ImageBlock(string Url, string Detail = null) -> void
+ArcChat.Protocol.Chat.ImageBlock.Url.get -> string
+ArcChat.Protocol.Chat.ImageBlock.Url.init -> void
+ArcChat.Protocol.Chat.Message
+ArcChat.Protocol.Chat.Message.AudioUrl.get -> string
+ArcChat.Protocol.Chat.Message.AudioUrl.init -> void
+ArcChat.Protocol.Chat.Message.Content.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ContentBlock>
+ArcChat.Protocol.Chat.Message.Content.init -> void
+ArcChat.Protocol.Chat.Message.Date.get -> string
+ArcChat.Protocol.Chat.Message.Date.init -> void
+ArcChat.Protocol.Chat.Message.Id.get -> string
+ArcChat.Protocol.Chat.Message.Id.init -> void
+ArcChat.Protocol.Chat.Message.IsError.get -> bool
+ArcChat.Protocol.Chat.Message.IsError.init -> void
+ArcChat.Protocol.Chat.Message.IsMcpResponse.get -> bool
+ArcChat.Protocol.Chat.Message.IsMcpResponse.init -> void
+ArcChat.Protocol.Chat.Message.Message(string Id, ArcChat.Protocol.Chat.MessageRole Role, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ContentBlock> Content, string Date, bool Streaming = false, bool IsError = false, string Model = null, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool> Tools = default(System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool>), string AudioUrl = null, bool IsMcpResponse = false) -> void
+ArcChat.Protocol.Chat.Message.Model.get -> string
+ArcChat.Protocol.Chat.Message.Model.init -> void
+ArcChat.Protocol.Chat.Message.Role.get -> ArcChat.Protocol.Chat.MessageRole
+ArcChat.Protocol.Chat.Message.Role.init -> void
+ArcChat.Protocol.Chat.Message.Streaming.get -> bool
+ArcChat.Protocol.Chat.Message.Streaming.init -> void
+ArcChat.Protocol.Chat.Message.Tools.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool>
+ArcChat.Protocol.Chat.Message.Tools.init -> void
+ArcChat.Protocol.Chat.MessageCompleted
+ArcChat.Protocol.Chat.MessageCompleted.Message.get -> ArcChat.Protocol.Chat.Message
+ArcChat.Protocol.Chat.MessageCompleted.Message.init -> void
+ArcChat.Protocol.Chat.MessageCompleted.MessageCompleted(string ConversationId, string MessageId, ArcChat.Protocol.Chat.Message Message) -> void
+ArcChat.Protocol.Chat.MessageDelta
+ArcChat.Protocol.Chat.MessageDelta.Delta.get -> string
+ArcChat.Protocol.Chat.MessageDelta.Delta.init -> void
+ArcChat.Protocol.Chat.MessageDelta.MessageDelta(string ConversationId, string MessageId, string Delta) -> void
+ArcChat.Protocol.Chat.MessageRole
+ArcChat.Protocol.Chat.MessageRole.Assistant = 2 -> ArcChat.Protocol.Chat.MessageRole
+ArcChat.Protocol.Chat.MessageRole.System = 0 -> ArcChat.Protocol.Chat.MessageRole
+ArcChat.Protocol.Chat.MessageRole.User = 1 -> ArcChat.Protocol.Chat.MessageRole
+ArcChat.Protocol.Chat.ReasoningDelta
+ArcChat.Protocol.Chat.ReasoningDelta.Delta.get -> string
+ArcChat.Protocol.Chat.ReasoningDelta.Delta.init -> void
+ArcChat.Protocol.Chat.ReasoningDelta.ReasoningDelta(string ConversationId, string MessageId, string Delta) -> void
+ArcChat.Protocol.Chat.TextBlock
+ArcChat.Protocol.Chat.TextBlock.Text.get -> string
+ArcChat.Protocol.Chat.TextBlock.Text.init -> void
+ArcChat.Protocol.Chat.TextBlock.TextBlock(string Text) -> void
+ArcChat.Protocol.Chat.ToolCallBlock
+ArcChat.Protocol.Chat.ToolCallBlock.Arguments.get -> System.Text.Json.JsonElement
+ArcChat.Protocol.Chat.ToolCallBlock.Arguments.init -> void
+ArcChat.Protocol.Chat.ToolCallBlock.Id.get -> string
+ArcChat.Protocol.Chat.ToolCallBlock.Id.init -> void
+ArcChat.Protocol.Chat.ToolCallBlock.Index.get -> int?
+ArcChat.Protocol.Chat.ToolCallBlock.Index.init -> void
+ArcChat.Protocol.Chat.ToolCallBlock.Name.get -> string
+ArcChat.Protocol.Chat.ToolCallBlock.Name.init -> void
+ArcChat.Protocol.Chat.ToolCallBlock.ToolCallBlock(string Id, string Name, System.Text.Json.JsonElement Arguments, int? Index = null, string ToolType = null) -> void
+ArcChat.Protocol.Chat.ToolCallBlock.ToolType.get -> string
+ArcChat.Protocol.Chat.ToolCallBlock.ToolType.init -> void
+ArcChat.Protocol.Chat.ToolCallCompleted
+ArcChat.Protocol.Chat.ToolCallCompleted.Result.get -> System.Text.Json.JsonElement
+ArcChat.Protocol.Chat.ToolCallCompleted.Result.init -> void
+ArcChat.Protocol.Chat.ToolCallCompleted.Tool.get -> ArcChat.Protocol.Chat.ChatMessageTool
+ArcChat.Protocol.Chat.ToolCallCompleted.Tool.init -> void
+ArcChat.Protocol.Chat.ToolCallCompleted.ToolCallCompleted(string ConversationId, string MessageId, ArcChat.Protocol.Chat.ChatMessageTool Tool, System.Text.Json.JsonElement Result) -> void
+ArcChat.Protocol.Chat.ToolCallStarted
+ArcChat.Protocol.Chat.ToolCallStarted.Tool.get -> ArcChat.Protocol.Chat.ChatMessageTool
+ArcChat.Protocol.Chat.ToolCallStarted.Tool.init -> void
+ArcChat.Protocol.Chat.ToolCallStarted.ToolCallStarted(string ConversationId, string MessageId, ArcChat.Protocol.Chat.ChatMessageTool Tool) -> void
+ArcChat.Protocol.Chat.ToolResultBlock
+ArcChat.Protocol.Chat.ToolResultBlock.Content.get -> string
+ArcChat.Protocol.Chat.ToolResultBlock.Content.init -> void
+ArcChat.Protocol.Chat.ToolResultBlock.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Chat.ToolResultBlock.Extra.init -> void
+ArcChat.Protocol.Chat.ToolResultBlock.IsError.get -> bool
+ArcChat.Protocol.Chat.ToolResultBlock.IsError.init -> void
+ArcChat.Protocol.Chat.ToolResultBlock.Name.get -> string
+ArcChat.Protocol.Chat.ToolResultBlock.Name.init -> void
+ArcChat.Protocol.Chat.ToolResultBlock.ToolCallId.get -> string
+ArcChat.Protocol.Chat.ToolResultBlock.ToolCallId.init -> void
+ArcChat.Protocol.Chat.ToolResultBlock.ToolResultBlock(string ToolCallId, string Name, string Content, bool IsError = false, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Masks.Mask
+ArcChat.Protocol.Masks.Mask.Avatar.get -> string
+ArcChat.Protocol.Masks.Mask.Avatar.init -> void
+ArcChat.Protocol.Masks.Mask.Builtin.get -> bool
+ArcChat.Protocol.Masks.Mask.Builtin.init -> void
+ArcChat.Protocol.Masks.Mask.Context.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message>
+ArcChat.Protocol.Masks.Mask.Context.init -> void
+ArcChat.Protocol.Masks.Mask.CreatedAt.get -> long
+ArcChat.Protocol.Masks.Mask.CreatedAt.init -> void
+ArcChat.Protocol.Masks.Mask.EnableArtifacts.get -> bool?
+ArcChat.Protocol.Masks.Mask.EnableArtifacts.init -> void
+ArcChat.Protocol.Masks.Mask.EnableCodeFold.get -> bool?
+ArcChat.Protocol.Masks.Mask.EnableCodeFold.init -> void
+ArcChat.Protocol.Masks.Mask.HideContext.get -> bool?
+ArcChat.Protocol.Masks.Mask.HideContext.init -> void
+ArcChat.Protocol.Masks.Mask.Id.get -> string
+ArcChat.Protocol.Masks.Mask.Id.init -> void
+ArcChat.Protocol.Masks.Mask.Lang.get -> string
+ArcChat.Protocol.Masks.Mask.Lang.init -> void
+ArcChat.Protocol.Masks.Mask.Mask(string Id, long CreatedAt, string Avatar, string Name, bool? HideContext, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message> Context, bool SyncGlobalConfig, ArcChat.Protocol.Providers.ModelConfig ModelConfig, string Lang, bool Builtin, System.Collections.Immutable.ImmutableArray<string> Plugin = default(System.Collections.Immutable.ImmutableArray<string>), bool? EnableArtifacts = null, bool? EnableCodeFold = null) -> void
+ArcChat.Protocol.Masks.Mask.ModelConfig.get -> ArcChat.Protocol.Providers.ModelConfig
+ArcChat.Protocol.Masks.Mask.ModelConfig.init -> void
+ArcChat.Protocol.Masks.Mask.Name.get -> string
+ArcChat.Protocol.Masks.Mask.Name.init -> void
+ArcChat.Protocol.Masks.Mask.Plugin.get -> System.Collections.Immutable.ImmutableArray<string>
+ArcChat.Protocol.Masks.Mask.Plugin.init -> void
+ArcChat.Protocol.Masks.Mask.SyncGlobalConfig.get -> bool
+ArcChat.Protocol.Masks.Mask.SyncGlobalConfig.init -> void
+ArcChat.Protocol.Mcp.McpConfigData
+ArcChat.Protocol.Mcp.McpConfigData.McpConfigData(System.Collections.Immutable.ImmutableDictionary<string, ArcChat.Protocol.Mcp.McpServerConfig> McpServers) -> void
+ArcChat.Protocol.Mcp.McpConfigData.McpServers.get -> System.Collections.Immutable.ImmutableDictionary<string, ArcChat.Protocol.Mcp.McpServerConfig>
+ArcChat.Protocol.Mcp.McpConfigData.McpServers.init -> void
+ArcChat.Protocol.Mcp.McpError
+ArcChat.Protocol.Mcp.McpError.Code.get -> int
+ArcChat.Protocol.Mcp.McpError.Code.init -> void
+ArcChat.Protocol.Mcp.McpError.Data.get -> System.Text.Json.JsonElement?
+ArcChat.Protocol.Mcp.McpError.Data.init -> void
+ArcChat.Protocol.Mcp.McpError.McpError(int Code, string Message, System.Text.Json.JsonElement? Data = null) -> void
+ArcChat.Protocol.Mcp.McpError.Message.get -> string
+ArcChat.Protocol.Mcp.McpError.Message.init -> void
+ArcChat.Protocol.Mcp.McpRequestMessage
+ArcChat.Protocol.Mcp.McpRequestMessage.Id.get -> System.Text.Json.JsonElement?
+ArcChat.Protocol.Mcp.McpRequestMessage.Id.init -> void
+ArcChat.Protocol.Mcp.McpRequestMessage.JsonRpc.get -> string
+ArcChat.Protocol.Mcp.McpRequestMessage.JsonRpc.init -> void
+ArcChat.Protocol.Mcp.McpRequestMessage.McpRequestMessage(string Method, string JsonRpc = "2.0", System.Text.Json.JsonElement? Id = null, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Params = null) -> void
+ArcChat.Protocol.Mcp.McpRequestMessage.Method.get -> string
+ArcChat.Protocol.Mcp.McpRequestMessage.Method.init -> void
+ArcChat.Protocol.Mcp.McpRequestMessage.Params.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Mcp.McpRequestMessage.Params.init -> void
+ArcChat.Protocol.Mcp.McpResponseMessage
+ArcChat.Protocol.Mcp.McpResponseMessage.Error.get -> ArcChat.Protocol.Mcp.McpError
+ArcChat.Protocol.Mcp.McpResponseMessage.Error.init -> void
+ArcChat.Protocol.Mcp.McpResponseMessage.Id.get -> System.Text.Json.JsonElement?
+ArcChat.Protocol.Mcp.McpResponseMessage.Id.init -> void
+ArcChat.Protocol.Mcp.McpResponseMessage.JsonRpc.get -> string
+ArcChat.Protocol.Mcp.McpResponseMessage.JsonRpc.init -> void
+ArcChat.Protocol.Mcp.McpResponseMessage.McpResponseMessage(string JsonRpc = "2.0", System.Text.Json.JsonElement? Id = null, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Result = null, ArcChat.Protocol.Mcp.McpError Error = null) -> void
+ArcChat.Protocol.Mcp.McpResponseMessage.Result.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Mcp.McpResponseMessage.Result.init -> void
+ArcChat.Protocol.Mcp.McpServerConfig
+ArcChat.Protocol.Mcp.McpServerConfig.Args.get -> System.Collections.Immutable.ImmutableArray<string>
+ArcChat.Protocol.Mcp.McpServerConfig.Args.init -> void
+ArcChat.Protocol.Mcp.McpServerConfig.Command.get -> string
+ArcChat.Protocol.Mcp.McpServerConfig.Command.init -> void
+ArcChat.Protocol.Mcp.McpServerConfig.Cwd.get -> string
+ArcChat.Protocol.Mcp.McpServerConfig.Cwd.init -> void
+ArcChat.Protocol.Mcp.McpServerConfig.Env.get -> System.Collections.Immutable.ImmutableDictionary<string, string>
+ArcChat.Protocol.Mcp.McpServerConfig.Env.init -> void
+ArcChat.Protocol.Mcp.McpServerConfig.McpServerConfig(string Command, System.Collections.Immutable.ImmutableArray<string> Args, System.Collections.Immutable.ImmutableDictionary<string, string> Env = null, string Cwd = null, ArcChat.Protocol.Mcp.McpServerStatus Status = ArcChat.Protocol.Mcp.McpServerStatus.Undefined) -> void
+ArcChat.Protocol.Mcp.McpServerConfig.Status.get -> ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpServerConfig.Status.init -> void
+ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpServerStatus.Active = 1 -> ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpServerStatus.Error = 3 -> ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpServerStatus.Initializing = 4 -> ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpServerStatus.Paused = 2 -> ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpServerStatus.Undefined = 0 -> ArcChat.Protocol.Mcp.McpServerStatus
+ArcChat.Protocol.Mcp.McpTool
+ArcChat.Protocol.Mcp.McpTool.Description.get -> string
+ArcChat.Protocol.Mcp.McpTool.Description.init -> void
+ArcChat.Protocol.Mcp.McpTool.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Mcp.McpTool.Extra.init -> void
+ArcChat.Protocol.Mcp.McpTool.InputSchema.get -> System.Text.Json.JsonElement
+ArcChat.Protocol.Mcp.McpTool.InputSchema.init -> void
+ArcChat.Protocol.Mcp.McpTool.McpTool(string Name, string Description, System.Text.Json.JsonElement InputSchema, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Mcp.McpTool.Name.get -> string
+ArcChat.Protocol.Mcp.McpTool.Name.init -> void
+ArcChat.Protocol.Plugins.Plugin
+ArcChat.Protocol.Plugins.Plugin.AuthHeader.get -> string
+ArcChat.Protocol.Plugins.Plugin.AuthHeader.init -> void
+ArcChat.Protocol.Plugins.Plugin.AuthLocation.get -> string
+ArcChat.Protocol.Plugins.Plugin.AuthLocation.init -> void
+ArcChat.Protocol.Plugins.Plugin.AuthTokenRef.get -> string
+ArcChat.Protocol.Plugins.Plugin.AuthTokenRef.init -> void
+ArcChat.Protocol.Plugins.Plugin.AuthType.get -> string
+ArcChat.Protocol.Plugins.Plugin.AuthType.init -> void
+ArcChat.Protocol.Plugins.Plugin.Builtin.get -> bool
+ArcChat.Protocol.Plugins.Plugin.Builtin.init -> void
+ArcChat.Protocol.Plugins.Plugin.Content.get -> string
+ArcChat.Protocol.Plugins.Plugin.Content.init -> void
+ArcChat.Protocol.Plugins.Plugin.CreatedAt.get -> long
+ArcChat.Protocol.Plugins.Plugin.CreatedAt.init -> void
+ArcChat.Protocol.Plugins.Plugin.Id.get -> string
+ArcChat.Protocol.Plugins.Plugin.Id.init -> void
+ArcChat.Protocol.Plugins.Plugin.Manifest.get -> ArcChat.Protocol.Plugins.PluginManifest
+ArcChat.Protocol.Plugins.Plugin.Manifest.init -> void
+ArcChat.Protocol.Plugins.Plugin.Plugin(string Id, long CreatedAt, string Title, string Version, string Content, bool Builtin, string AuthType = null, string AuthLocation = null, string AuthHeader = null, string AuthTokenRef = null, ArcChat.Protocol.Plugins.PluginManifest Manifest = null) -> void
+ArcChat.Protocol.Plugins.Plugin.Title.get -> string
+ArcChat.Protocol.Plugins.Plugin.Title.init -> void
+ArcChat.Protocol.Plugins.Plugin.Version.get -> string
+ArcChat.Protocol.Plugins.Plugin.Version.init -> void
+ArcChat.Protocol.Plugins.PluginManifest
+ArcChat.Protocol.Plugins.PluginManifest.Operations.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Plugins.PluginOperation>
+ArcChat.Protocol.Plugins.PluginManifest.Operations.init -> void
+ArcChat.Protocol.Plugins.PluginManifest.PluginManifest(string Title, string Version, System.Uri ServerUrl, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Plugins.PluginOperation> Operations) -> void
+ArcChat.Protocol.Plugins.PluginManifest.ServerUrl.get -> System.Uri
+ArcChat.Protocol.Plugins.PluginManifest.ServerUrl.init -> void
+ArcChat.Protocol.Plugins.PluginManifest.Title.get -> string
+ArcChat.Protocol.Plugins.PluginManifest.Title.init -> void
+ArcChat.Protocol.Plugins.PluginManifest.Version.get -> string
+ArcChat.Protocol.Plugins.PluginManifest.Version.init -> void
+ArcChat.Protocol.Plugins.PluginOperation
+ArcChat.Protocol.Plugins.PluginOperation.Description.get -> string
+ArcChat.Protocol.Plugins.PluginOperation.Description.init -> void
+ArcChat.Protocol.Plugins.PluginOperation.Method.get -> string
+ArcChat.Protocol.Plugins.PluginOperation.Method.init -> void
+ArcChat.Protocol.Plugins.PluginOperation.OperationId.get -> string
+ArcChat.Protocol.Plugins.PluginOperation.OperationId.init -> void
+ArcChat.Protocol.Plugins.PluginOperation.Parameters.get -> System.Text.Json.JsonElement
+ArcChat.Protocol.Plugins.PluginOperation.Parameters.init -> void
+ArcChat.Protocol.Plugins.PluginOperation.Path.get -> string
+ArcChat.Protocol.Plugins.PluginOperation.Path.init -> void
+ArcChat.Protocol.Plugins.PluginOperation.PluginOperation(string OperationId, string Path, string Method, string Description, System.Text.Json.JsonElement Parameters) -> void
+ArcChat.Protocol.Providers.JsonModeCapability
+ArcChat.Protocol.Providers.ModelConfig
+ArcChat.Protocol.Providers.ModelConfig.CompressMessageLengthThreshold.get -> int
+ArcChat.Protocol.Providers.ModelConfig.CompressMessageLengthThreshold.init -> void
+ArcChat.Protocol.Providers.ModelConfig.CompressModel.get -> string
+ArcChat.Protocol.Providers.ModelConfig.CompressModel.init -> void
+ArcChat.Protocol.Providers.ModelConfig.CompressProviderName.get -> string
+ArcChat.Protocol.Providers.ModelConfig.CompressProviderName.init -> void
+ArcChat.Protocol.Providers.ModelConfig.EnableInjectSystemPrompts.get -> bool
+ArcChat.Protocol.Providers.ModelConfig.EnableInjectSystemPrompts.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Providers.ModelConfig.Extra.init -> void
+ArcChat.Protocol.Providers.ModelConfig.FrequencyPenalty.get -> double
+ArcChat.Protocol.Providers.ModelConfig.FrequencyPenalty.init -> void
+ArcChat.Protocol.Providers.ModelConfig.HistoryMessageCount.get -> int
+ArcChat.Protocol.Providers.ModelConfig.HistoryMessageCount.init -> void
+ArcChat.Protocol.Providers.ModelConfig.MaxTokens.get -> int
+ArcChat.Protocol.Providers.ModelConfig.MaxTokens.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Model.get -> string
+ArcChat.Protocol.Providers.ModelConfig.Model.init -> void
+ArcChat.Protocol.Providers.ModelConfig.ModelConfig(string Model, string ProviderName, double Temperature, double TopP, int MaxTokens, double PresencePenalty, double FrequencyPenalty, bool SendMemory, int HistoryMessageCount, int CompressMessageLengthThreshold, string CompressModel, string CompressProviderName, bool EnableInjectSystemPrompts, string Template, string Size, string Quality, string Style, bool Stream = true, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Providers.ModelConfig.PresencePenalty.get -> double
+ArcChat.Protocol.Providers.ModelConfig.PresencePenalty.init -> void
+ArcChat.Protocol.Providers.ModelConfig.ProviderName.get -> string
+ArcChat.Protocol.Providers.ModelConfig.ProviderName.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Quality.get -> string
+ArcChat.Protocol.Providers.ModelConfig.Quality.init -> void
+ArcChat.Protocol.Providers.ModelConfig.SendMemory.get -> bool
+ArcChat.Protocol.Providers.ModelConfig.SendMemory.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Size.get -> string
+ArcChat.Protocol.Providers.ModelConfig.Size.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Stream.get -> bool
+ArcChat.Protocol.Providers.ModelConfig.Stream.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Style.get -> string
+ArcChat.Protocol.Providers.ModelConfig.Style.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Temperature.get -> double
+ArcChat.Protocol.Providers.ModelConfig.Temperature.init -> void
+ArcChat.Protocol.Providers.ModelConfig.Template.get -> string
+ArcChat.Protocol.Providers.ModelConfig.Template.init -> void
+ArcChat.Protocol.Providers.ModelConfig.TopP.get -> double
+ArcChat.Protocol.Providers.ModelConfig.TopP.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor
+ArcChat.Protocol.Providers.ModelDescriptor.Available.get -> bool
+ArcChat.Protocol.Providers.ModelDescriptor.Available.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.Capabilities.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability>
+ArcChat.Protocol.Providers.ModelDescriptor.Capabilities.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.DisplayName.get -> string
+ArcChat.Protocol.Providers.ModelDescriptor.DisplayName.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Providers.ModelDescriptor.Extra.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.Id.get -> string
+ArcChat.Protocol.Providers.ModelDescriptor.Id.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.ModelDescriptor(string Id, string DisplayName, string ProviderId, bool Available, int Sorted, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability> Capabilities, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Providers.ModelDescriptor.ProviderId.get -> string
+ArcChat.Protocol.Providers.ModelDescriptor.ProviderId.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.Sorted.get -> int
+ArcChat.Protocol.Providers.ModelDescriptor.Sorted.init -> void
+ArcChat.Protocol.Providers.ProviderCapability
+ArcChat.Protocol.Providers.ProviderConfig
+ArcChat.Protocol.Providers.ProviderConfig.ApiKeyRef.get -> string
+ArcChat.Protocol.Providers.ProviderConfig.ApiKeyRef.init -> void
+ArcChat.Protocol.Providers.ProviderConfig.BaseUrl.get -> System.Uri
+ArcChat.Protocol.Providers.ProviderConfig.BaseUrl.init -> void
+ArcChat.Protocol.Providers.ProviderConfig.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Providers.ProviderConfig.Extra.init -> void
+ArcChat.Protocol.Providers.ProviderConfig.Id.get -> string
+ArcChat.Protocol.Providers.ProviderConfig.Id.init -> void
+ArcChat.Protocol.Providers.ProviderConfig.Models.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor>
+ArcChat.Protocol.Providers.ProviderConfig.Models.init -> void
+ArcChat.Protocol.Providers.ProviderConfig.ProviderConfig(string Id, string ProviderName, System.Uri BaseUrl, string ApiKeyRef, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor> Models, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Providers.ProviderConfig.ProviderName.get -> string
+ArcChat.Protocol.Providers.ProviderConfig.ProviderName.init -> void
+ArcChat.Protocol.Providers.ReasoningCapability
+ArcChat.Protocol.Providers.StreamingCapability
+ArcChat.Protocol.Providers.ToolsCapability
+ArcChat.Protocol.Providers.VisionCapability
+ArcChat.Protocol.Serialization.ArcChatProtocolJsonContext
+ArcChat.Protocol.Settings.AzureRealtimeSettings
+ArcChat.Protocol.Settings.AzureRealtimeSettings.AzureRealtimeSettings(string Endpoint, string Deployment) -> void
+ArcChat.Protocol.Settings.AzureRealtimeSettings.Deployment.get -> string
+ArcChat.Protocol.Settings.AzureRealtimeSettings.Deployment.init -> void
+ArcChat.Protocol.Settings.AzureRealtimeSettings.Endpoint.get -> string
+ArcChat.Protocol.Settings.AzureRealtimeSettings.Endpoint.init -> void
+ArcChat.Protocol.Settings.ConversationSettings
+ArcChat.Protocol.Settings.ConversationSettings.ConversationSettings(bool EnableAutoGenerateTitle, bool EnableArtifacts, bool EnableCodeFold, bool DisablePromptHint, bool DontShowMaskSplashScreen, bool HideBuiltinMasks) -> void
+ArcChat.Protocol.Settings.ConversationSettings.DisablePromptHint.get -> bool
+ArcChat.Protocol.Settings.ConversationSettings.DisablePromptHint.init -> void
+ArcChat.Protocol.Settings.ConversationSettings.DontShowMaskSplashScreen.get -> bool
+ArcChat.Protocol.Settings.ConversationSettings.DontShowMaskSplashScreen.init -> void
+ArcChat.Protocol.Settings.ConversationSettings.EnableArtifacts.get -> bool
+ArcChat.Protocol.Settings.ConversationSettings.EnableArtifacts.init -> void
+ArcChat.Protocol.Settings.ConversationSettings.EnableAutoGenerateTitle.get -> bool
+ArcChat.Protocol.Settings.ConversationSettings.EnableAutoGenerateTitle.init -> void
+ArcChat.Protocol.Settings.ConversationSettings.EnableCodeFold.get -> bool
+ArcChat.Protocol.Settings.ConversationSettings.EnableCodeFold.init -> void
+ArcChat.Protocol.Settings.ConversationSettings.HideBuiltinMasks.get -> bool
+ArcChat.Protocol.Settings.ConversationSettings.HideBuiltinMasks.init -> void
+ArcChat.Protocol.Settings.ProviderSettings
+ArcChat.Protocol.Settings.ProviderSettings.CustomModels.get -> string
+ArcChat.Protocol.Settings.ProviderSettings.CustomModels.init -> void
+ArcChat.Protocol.Settings.ProviderSettings.DefaultModel.get -> string
+ArcChat.Protocol.Settings.ProviderSettings.DefaultModel.init -> void
+ArcChat.Protocol.Settings.ProviderSettings.ProviderConfigs.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderConfig>
+ArcChat.Protocol.Settings.ProviderSettings.ProviderConfigs.init -> void
+ArcChat.Protocol.Settings.ProviderSettings.ProviderSettings(string CustomModels, string DefaultModel, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderConfig> ProviderConfigs) -> void
+ArcChat.Protocol.Settings.RealtimeSettings
+ArcChat.Protocol.Settings.RealtimeSettings.ApiKeyRef.get -> string
+ArcChat.Protocol.Settings.RealtimeSettings.ApiKeyRef.init -> void
+ArcChat.Protocol.Settings.RealtimeSettings.Azure.get -> ArcChat.Protocol.Settings.AzureRealtimeSettings
+ArcChat.Protocol.Settings.RealtimeSettings.Azure.init -> void
+ArcChat.Protocol.Settings.RealtimeSettings.Enable.get -> bool
+ArcChat.Protocol.Settings.RealtimeSettings.Enable.init -> void
+ArcChat.Protocol.Settings.RealtimeSettings.Model.get -> string
+ArcChat.Protocol.Settings.RealtimeSettings.Model.init -> void
+ArcChat.Protocol.Settings.RealtimeSettings.Provider.get -> string
+ArcChat.Protocol.Settings.RealtimeSettings.Provider.init -> void
+ArcChat.Protocol.Settings.RealtimeSettings.RealtimeSettings(bool Enable, string Provider, string Model, string ApiKeyRef, ArcChat.Protocol.Settings.AzureRealtimeSettings Azure, double Temperature, string Voice) -> void
+ArcChat.Protocol.Settings.RealtimeSettings.Temperature.get -> double
+ArcChat.Protocol.Settings.RealtimeSettings.Temperature.init -> void
+ArcChat.Protocol.Settings.RealtimeSettings.Voice.get -> string
+ArcChat.Protocol.Settings.RealtimeSettings.Voice.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot
+ArcChat.Protocol.Settings.SettingsSnapshot.Conversation.get -> ArcChat.Protocol.Settings.ConversationSettings
+ArcChat.Protocol.Settings.SettingsSnapshot.Conversation.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Settings.SettingsSnapshot.Extra.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.LastUpdate.get -> long
+ArcChat.Protocol.Settings.SettingsSnapshot.LastUpdate.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.ModelConfig.get -> ArcChat.Protocol.Providers.ModelConfig
+ArcChat.Protocol.Settings.SettingsSnapshot.ModelConfig.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.Providers.get -> ArcChat.Protocol.Settings.ProviderSettings
+ArcChat.Protocol.Settings.SettingsSnapshot.Providers.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.Realtime.get -> ArcChat.Protocol.Settings.RealtimeSettings
+ArcChat.Protocol.Settings.SettingsSnapshot.Realtime.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.SettingsSnapshot(long LastUpdate, ArcChat.Protocol.Settings.UiSettings Ui, ArcChat.Protocol.Settings.ConversationSettings Conversation, ArcChat.Protocol.Settings.ProviderSettings Providers, ArcChat.Protocol.Providers.ModelConfig ModelConfig, ArcChat.Protocol.Settings.TtsSettings Tts, ArcChat.Protocol.Settings.RealtimeSettings Realtime, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.Tts.get -> ArcChat.Protocol.Settings.TtsSettings
+ArcChat.Protocol.Settings.SettingsSnapshot.Tts.init -> void
+ArcChat.Protocol.Settings.SettingsSnapshot.Ui.get -> ArcChat.Protocol.Settings.UiSettings
+ArcChat.Protocol.Settings.SettingsSnapshot.Ui.init -> void
+ArcChat.Protocol.Settings.SyncProviderConfig
+ArcChat.Protocol.Settings.SyncProviderConfig.Provider.get -> string
+ArcChat.Protocol.Settings.SyncProviderConfig.Provider.init -> void
+ArcChat.Protocol.Settings.SyncProviderConfig.ProxyUrl.get -> System.Uri
+ArcChat.Protocol.Settings.SyncProviderConfig.ProxyUrl.init -> void
+ArcChat.Protocol.Settings.SyncProviderConfig.SyncProviderConfig(string Provider, bool UseProxy, System.Uri ProxyUrl) -> void
+ArcChat.Protocol.Settings.SyncProviderConfig.UseProxy.get -> bool
+ArcChat.Protocol.Settings.SyncProviderConfig.UseProxy.init -> void
+ArcChat.Protocol.Settings.SyncSnapshot
+ArcChat.Protocol.Settings.SyncSnapshot.ExportedAt.get -> System.DateTimeOffset
+ArcChat.Protocol.Settings.SyncSnapshot.ExportedAt.init -> void
+ArcChat.Protocol.Settings.SyncSnapshot.SchemaVersion.get -> string
+ArcChat.Protocol.Settings.SyncSnapshot.SchemaVersion.init -> void
+ArcChat.Protocol.Settings.SyncSnapshot.Stores.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
+ArcChat.Protocol.Settings.SyncSnapshot.Stores.init -> void
+ArcChat.Protocol.Settings.SyncSnapshot.SyncSnapshot(string SchemaVersion, System.DateTimeOffset ExportedAt, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Stores) -> void
+ArcChat.Protocol.Settings.TtsSettings
+ArcChat.Protocol.Settings.TtsSettings.Autoplay.get -> bool
+ArcChat.Protocol.Settings.TtsSettings.Autoplay.init -> void
+ArcChat.Protocol.Settings.TtsSettings.Enable.get -> bool
+ArcChat.Protocol.Settings.TtsSettings.Enable.init -> void
+ArcChat.Protocol.Settings.TtsSettings.Engine.get -> string
+ArcChat.Protocol.Settings.TtsSettings.Engine.init -> void
+ArcChat.Protocol.Settings.TtsSettings.Model.get -> string
+ArcChat.Protocol.Settings.TtsSettings.Model.init -> void
+ArcChat.Protocol.Settings.TtsSettings.Speed.get -> double
+ArcChat.Protocol.Settings.TtsSettings.Speed.init -> void
+ArcChat.Protocol.Settings.TtsSettings.TtsSettings(bool Enable, bool Autoplay, string Engine, string Model, string Voice, double Speed) -> void
+ArcChat.Protocol.Settings.TtsSettings.Voice.get -> string
+ArcChat.Protocol.Settings.TtsSettings.Voice.init -> void
+ArcChat.Protocol.Settings.UiSettings
+ArcChat.Protocol.Settings.UiSettings.Avatar.get -> string
+ArcChat.Protocol.Settings.UiSettings.Avatar.init -> void
+ArcChat.Protocol.Settings.UiSettings.FontFamily.get -> string
+ArcChat.Protocol.Settings.UiSettings.FontFamily.init -> void
+ArcChat.Protocol.Settings.UiSettings.FontSize.get -> int
+ArcChat.Protocol.Settings.UiSettings.FontSize.init -> void
+ArcChat.Protocol.Settings.UiSettings.SendPreviewBubble.get -> bool
+ArcChat.Protocol.Settings.UiSettings.SendPreviewBubble.init -> void
+ArcChat.Protocol.Settings.UiSettings.SidebarWidth.get -> double
+ArcChat.Protocol.Settings.UiSettings.SidebarWidth.init -> void
+ArcChat.Protocol.Settings.UiSettings.SubmitKey.get -> string
+ArcChat.Protocol.Settings.UiSettings.SubmitKey.init -> void
+ArcChat.Protocol.Settings.UiSettings.Theme.get -> string
+ArcChat.Protocol.Settings.UiSettings.Theme.init -> void
+ArcChat.Protocol.Settings.UiSettings.TightBorder.get -> bool
+ArcChat.Protocol.Settings.UiSettings.TightBorder.init -> void
+ArcChat.Protocol.Settings.UiSettings.UiSettings(string SubmitKey, string Avatar, int FontSize, string FontFamily, string Theme, bool TightBorder, bool SendPreviewBubble, double SidebarWidth) -> void
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.ApiKeyRef.get -> string
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.ApiKeyRef.init -> void
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.BackupName.get -> string
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.BackupName.init -> void
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.Endpoint.get -> System.Uri
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.Endpoint.init -> void
+ArcChat.Protocol.Settings.UpstashSyncProviderConfig.UpstashSyncProviderConfig(System.Uri Endpoint, string BackupName, string ApiKeyRef, bool UseProxy = false, System.Uri ProxyUrl = null) -> void
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.Endpoint.get -> System.Uri
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.Endpoint.init -> void
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.PasswordRef.get -> string
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.PasswordRef.init -> void
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.Username.get -> string
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.Username.init -> void
+ArcChat.Protocol.Settings.WebDavSyncProviderConfig.WebDavSyncProviderConfig(System.Uri Endpoint, string Username, string PasswordRef, bool UseProxy = false, System.Uri ProxyUrl = null) -> void
+ArcChat.Protocol.Streaming.EventReplay
+static ArcChat.Protocol.Chat.Message.Text(string id, ArcChat.Protocol.Chat.MessageRole role, string text, string date) -> ArcChat.Protocol.Chat.Message
+static ArcChat.Protocol.Providers.ModelConfig.NextChatDefault.get -> ArcChat.Protocol.Providers.ModelConfig
+static ArcChat.Protocol.Streaming.EventReplay.ReadEventsAsync(System.IO.Stream stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent>

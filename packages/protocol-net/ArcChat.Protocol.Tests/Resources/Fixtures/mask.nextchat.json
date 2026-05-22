@@ -1,0 +1,52 @@
+{
+  "id": "builtin-copilot",
+  "createdAt": 1688899480410,
+  "avatar": "1f47e",
+  "name": "GitHub Copilot",
+  "hideContext": false,
+  "context": [
+    {
+      "id": "Copilot-0",
+      "role": "system",
+      "content": [
+        {
+          "$type": "text",
+          "text": "You are an AI programming assistant."
+        }
+      ],
+      "date": "",
+      "streaming": false,
+      "isError": false,
+      "tools": [],
+      "isMcpResponse": false
+    }
+  ],
+  "syncGlobalConfig": true,
+  "modelConfig": {
+    "model": "gpt-4",
+    "providerName": "OpenAI",
+    "temperature": 0.3,
+    "topP": 1,
+    "maxTokens": 2000,
+    "presencePenalty": 0,
+    "frequencyPenalty": 0,
+    "sendMemory": true,
+    "historyMessageCount": 4,
+    "compressMessageLengthThreshold": 1000,
+    "compressModel": "",
+    "compressProviderName": "",
+    "enableInjectSystemPrompts": true,
+    "template": "{{input}}",
+    "size": "1024x1024",
+    "quality": "standard",
+    "style": "vivid",
+    "stream": true
+  },
+  "lang": "en",
+  "builtin": true,
+  "plugin": [
+    "dalle3"
+  ],
+  "enableArtifacts": true,
+  "enableCodeFold": true
+}

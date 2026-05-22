@@ -31,15 +31,19 @@ Microsoft documents .NET 10 as LTS supported until November 2028 and documents S
 | `Microsoft.Extensions.Logging` | 10.0.8 | current NuGet latest stable |
 | `Microsoft.Extensions.Options` | 10.0.8 | current NuGet latest stable |
 | `Microsoft.Extensions.Configuration` | 10.0.8 | current NuGet latest stable |
+| `Microsoft.Extensions.Http` | 10.0.8 | NC02 named client factory; package metadata checked locally after restore |
 | `System.IO.Pipelines` | 10.0.8 | package pin only if needed outside shared framework |
 | `System.Net.Http` | BCL/shared framework | do not pin legacy NuGet `4.3.4` in net10 projects unless a package explicitly requires it |
 | `System.Net.WebSockets.Client` | BCL/shared framework | do not pin legacy NuGet `4.3.2` in net10 projects unless a package explicitly requires it |
 | `System.Threading.Channels` | 10.0.8 | current NuGet latest stable |
+| `System.Threading.RateLimiting` | 10.0.8 | NC02 rate-limit foundation; package metadata checked locally after restore |
 | `Polly.Core` | 8.6.6 | current NuGet latest stable |
 | `Microsoft.Extensions.Http.Resilience` | 10.6.0 | current NuGet latest stable |
 | `Microsoft.Data.Sqlite` | 10.0.8 | current NuGet latest stable |
+| `Dapper` | 2.1.79 | NC02 repository SQL mapper; package metadata checked locally after restore |
 | `Dapper.AOT` | 1.0.52 | current NuGet latest stable |
-| `DbUp` | 5.0.41 | current NuGet latest stable |
+| `DbUp` | 5.0.41 | central version retained for future direct use; NC02 directly references `dbup-sqlite` |
+| `dbup-sqlite` | 5.0.40 | latest exact package found for SQLite migrations; restores `dbup-core` 5.0.37 transitively |
 | `Microsoft.Agents.AI` | 1.6.2 | NuGet flat-container latest stable; verify package page/listed status before NC04/NC05 |
 | `Markdig` | 1.2.0 | current NuGet latest stable |
 | `ColorCode.Core` | 2.0.15 | current NuGet latest stable |

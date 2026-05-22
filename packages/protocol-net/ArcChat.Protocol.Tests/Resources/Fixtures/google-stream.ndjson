@@ -1,0 +1,4 @@
+{"$type":"message-delta","conversationId":"session-1","messageId":"message-assistant-1","delta":"Gem"}
+{"$type":"reasoning-delta","conversationId":"session-1","messageId":"message-assistant-1","delta":"Safety"}
+{"$type":"message-completed","conversationId":"session-1","messageId":"message-assistant-1","message":{"id":"message-assistant-1","role":"assistant","content":[{"$type":"text","text":"Gemini"}],"date":"2026-05-22 10:00:01","streaming":false,"isError":false,"model":"gemini-2.5-pro","tools":[],"isMcpResponse":false}}
+{"$type":"finished","conversationId":"session-1","messageId":"message-assistant-1","finishReason":"stop"}

@@ -1,0 +1,22 @@
+ArcChat.LocalPersistence.ArcChatDatabase
+ArcChat.LocalPersistence.ArcChatDatabase.ArcChatDatabase(string databasePath) -> void
+ArcChat.LocalPersistence.ArcChatDatabase.Conversations.get -> ArcChat.LocalPersistence.Repositories.IConversationRepository
+ArcChat.LocalPersistence.ArcChatDatabase.DisposeAsync() -> System.Threading.Tasks.ValueTask
+ArcChat.LocalPersistence.ArcChatDatabase.InitializeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.ArcChatDatabase.Messages.get -> ArcChat.LocalPersistence.Repositories.IMessageRepository
+ArcChat.LocalPersistence.ArcChatDatabase.Settings.get -> ArcChat.LocalPersistence.Repositories.ISettingsRepository
+ArcChat.LocalPersistence.Repositories.IConversationRepository
+ArcChat.LocalPersistence.Repositories.IConversationRepository.DeleteAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IConversationRepository.GetAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Chat.Conversation>
+ArcChat.LocalPersistence.Repositories.IConversationRepository.ListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Conversation>>
+ArcChat.LocalPersistence.Repositories.IConversationRepository.UpsertAsync(ArcChat.Protocol.Chat.Conversation conversation, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IMessageRepository
+ArcChat.LocalPersistence.Repositories.IMessageRepository.BulkAppendAsync(string conversationId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message> messages, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IMessageRepository.DeleteAsync(string conversationId, string messageId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IMessageRepository.GetAsync(string conversationId, string messageId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Chat.Message>
+ArcChat.LocalPersistence.Repositories.IMessageRepository.ListAsync(string conversationId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message>>
+ArcChat.LocalPersistence.Repositories.ISettingsRepository
+ArcChat.LocalPersistence.Repositories.ISettingsRepository.GetSnapshotAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Settings.SettingsSnapshot>
+ArcChat.LocalPersistence.Repositories.ISettingsRepository.GetValueAsync(string key, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string>
+ArcChat.LocalPersistence.Repositories.ISettingsRepository.UpsertSnapshotAsync(ArcChat.Protocol.Settings.SettingsSnapshot snapshot, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.ISettingsRepository.UpsertValueAsync(string key, string value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task

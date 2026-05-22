@@ -3,6 +3,7 @@
     <IsTestProject>true</IsTestProject>
     <AssemblyName>ArcChat.LocalPersistence.Tests</AssemblyName>
     <RootNamespace>ArcChat.LocalPersistence.Tests</RootNamespace>
+    <NoWarn>$(NoWarn);CA1861;CA2007;MA0004;SA1000;SA1009</NoWarn>
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
@@ -11,6 +12,7 @@
     <PackageReference Include="coverlet.collector" PrivateAssets="all" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
   </ItemGroup>
