@@ -29,6 +29,8 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<PersistenceSettingsRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Settings);
         _ = services.AddSingleton<IChatProviderRegistry>(_ => ModelProviderCoreDefaults.CreateRegistry());
         _ = services.AddSingleton<IAgentRuntime>(provider => new AgentRuntime(provider.GetRequiredService<IChatProviderRegistry>()));
+        _ = services.AddSingleton<IConversationTitler, ConversationTitler>();
+        _ = services.AddSingleton<IContextSummarizer, ContextSummarizer>();
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
@@ -60,7 +62,9 @@ internal static class ServiceCollectionExtensions
                     provider.GetRequiredService<IAgentRuntime>(),
                     provider.GetRequiredService<IConversationRepository>(),
                     provider.GetRequiredService<IMessageRepository>(),
-                    provider.GetRequiredService<IAppNavigator>());
+                    provider.GetRequiredService<IAppNavigator>(),
+                    provider.GetRequiredService<IConversationTitler>(),
+                    provider.GetRequiredService<IContextSummarizer>());
                 viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
                 return viewModel;
             });

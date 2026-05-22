@@ -20,6 +20,8 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     private readonly IConversationRepository? conversationRepository;
     private readonly IMessageRepository? messageRepository;
     private readonly IAppNavigator? navigator;
+    private readonly IConversationTitler? conversationTitler;
+    private readonly IContextSummarizer? contextSummarizer;
     private Conversation? conversation;
     private CancellationTokenSource? streamCancellation;
     private string composerText = string.Empty;
@@ -56,13 +58,17 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         IAgentRuntime agentRuntime,
         IConversationRepository conversationRepository,
         IMessageRepository messageRepository,
-        IAppNavigator? navigator = null)
+        IAppNavigator? navigator = null,
+        IConversationTitler? conversationTitler = null,
+        IContextSummarizer? contextSummarizer = null)
         : this(conversationId)
     {
         this.agentRuntime = agentRuntime ?? throw new ArgumentNullException(nameof(agentRuntime));
         this.conversationRepository = conversationRepository ?? throw new ArgumentNullException(nameof(conversationRepository));
         this.messageRepository = messageRepository ?? throw new ArgumentNullException(nameof(messageRepository));
         this.navigator = navigator;
+        this.conversationTitler = conversationTitler;
+        this.contextSummarizer = contextSummarizer;
     }
 
     public string ConversationId { get; }
@@ -176,6 +182,18 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         return Guid.NewGuid().ToString("N");
     }
 
+    private static ModelDescriptor CreateModelDescriptor(ModelConfig modelConfig)
+    {
+        return new ModelDescriptor(
+            modelConfig.Model,
+            modelConfig.Model,
+            modelConfig.ProviderName,
+            true,
+            0,
+            ImmutableArray<ProviderCapability>.Empty,
+            ContextWindow: modelConfig.MaxTokens);
+    }
+
     private async Task SubmitUserMessageAsync(string text, string? branchOfMessageId, CancellationToken cancellationToken)
     {
         MessageViewModel userMessage = new MessageViewModel(
@@ -254,6 +272,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
                 {
                     await this.messageRepository.BulkAppendAsync(this.ConversationId, new[] { assistant.ToMessage() }, cancellationToken).ConfigureAwait(true);
                     await this.SaveConversationSnapshotAsync(cancellationToken).ConfigureAwait(true);
+                    await this.RefreshConversationMetadataAsync(cancellationToken).ConfigureAwait(true);
                 }
 
                 break;
@@ -489,7 +508,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
 
         this.conversation = new Conversation(
             this.ConversationId,
-            "Chat",
+            ConversationTitler.DefaultTopic,
             string.Empty,
             ImmutableArray<Message>.Empty,
             new ChatStat(0, 0, 0),
@@ -514,5 +533,62 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     private ModelConfig GetModelConfig()
     {
         return this.EnsureConversation().Mask.ModelConfig;
+    }
+
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Record with-expressions use member assignment syntax.")]
+    private async Task RefreshConversationMetadataAsync(CancellationToken cancellationToken)
+    {
+        if (this.conversationRepository is null)
+        {
+            return;
+        }
+
+        Conversation current = this.EnsureConversation();
+        bool changed = false;
+        if (this.conversationTitler is not null && ConversationTitler.IsDefaultTopic(current.Topic))
+        {
+            try
+            {
+                string title = await this.conversationTitler.GenerateTitleAsync(current, cancellationToken).ConfigureAwait(true);
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    current = current with
+                    {
+                        Topic = title,
+                        LastUpdate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+                    };
+                    changed = true;
+                }
+            }
+            catch (Exception exception) when (exception is not OperationCanceledException)
+            {
+                this.StatusMessage = exception.Message;
+            }
+        }
+
+        if (this.contextSummarizer is not null)
+        {
+            try
+            {
+                Conversation summarized = await this.contextSummarizer
+                    .SummarizeAsync(current, CreateModelDescriptor(current.Mask.ModelConfig), cancellationToken)
+                    .ConfigureAwait(true);
+                if (!Equals(summarized, current))
+                {
+                    current = summarized;
+                    changed = true;
+                }
+            }
+            catch (Exception exception) when (exception is not OperationCanceledException)
+            {
+                this.StatusMessage = exception.Message;
+            }
+        }
+
+        if (changed)
+        {
+            this.conversation = current;
+            await this.conversationRepository.UpsertAsync(current, cancellationToken).ConfigureAwait(true);
+        }
     }
 }

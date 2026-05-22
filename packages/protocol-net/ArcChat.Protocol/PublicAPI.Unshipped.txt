@@ -355,13 +355,15 @@ ArcChat.Protocol.Providers.ModelDescriptor.Available.get -> bool
 ArcChat.Protocol.Providers.ModelDescriptor.Available.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Capabilities.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability>
 ArcChat.Protocol.Providers.ModelDescriptor.Capabilities.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.ContextWindow.get -> int?
+ArcChat.Protocol.Providers.ModelDescriptor.ContextWindow.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.DisplayName.get -> string
 ArcChat.Protocol.Providers.ModelDescriptor.DisplayName.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
 ArcChat.Protocol.Providers.ModelDescriptor.Extra.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Id.get -> string
 ArcChat.Protocol.Providers.ModelDescriptor.Id.init -> void
-ArcChat.Protocol.Providers.ModelDescriptor.ModelDescriptor(string Id, string DisplayName, string ProviderId, bool Available, int Sorted, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability> Capabilities, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Providers.ModelDescriptor.ModelDescriptor(string Id, string DisplayName, string ProviderId, bool Available, int Sorted, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability> Capabilities, int? ContextWindow = null, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
 ArcChat.Protocol.Providers.ModelDescriptor.ProviderId.get -> string
 ArcChat.Protocol.Providers.ModelDescriptor.ProviderId.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Sorted.get -> int
