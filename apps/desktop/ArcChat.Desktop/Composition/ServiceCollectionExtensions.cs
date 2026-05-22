@@ -42,6 +42,9 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<IContextSummarizer, ContextSummarizer>();
         _ = services.AddSingleton<ConversationExportService>();
         _ = services.AddSingleton<IShareService, ShareGptShareService>();
+        _ = services.AddSingleton<IImageAttachmentCache, ImageAttachmentCache>();
+        _ = services.AddSingleton<IImageConverter, MagickImageConverter>();
+        _ = services.AddSingleton<ImageAttachmentService>();
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
@@ -76,7 +79,8 @@ internal static class ServiceCollectionExtensions
                     provider.GetRequiredService<IConversationTitler>(),
                     provider.GetRequiredService<IContextSummarizer>(),
                     provider.GetRequiredService<ConversationExportService>(),
-                    provider.GetRequiredService<IShareService>());
+                    provider.GetRequiredService<IShareService>(),
+                    provider.GetRequiredService<ImageAttachmentService>());
                 viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
                 return viewModel;
             });

@@ -1,5 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.Protocol.Chat;
@@ -23,7 +25,8 @@ internal sealed class MessageViewModel : ViewModelBase
         string date,
         bool isStreaming = false,
         bool isError = false,
-        string? branchOfMessageId = null)
+        string? branchOfMessageId = null,
+        IEnumerable<string>? imageUrls = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         this.Id = id;
@@ -35,6 +38,10 @@ internal sealed class MessageViewModel : ViewModelBase
         this.BranchOfMessageId = branchOfMessageId;
         this.draftText = text;
         this.textStream = new MessageTextObservable(() => this.Text);
+        foreach (string imageUrl in imageUrls ?? Enumerable.Empty<string>())
+        {
+            this.Images.Add(MessageImageViewModel.FromUrl(imageUrl));
+        }
     }
 
     public string Id { get; }
@@ -54,6 +61,10 @@ internal sealed class MessageViewModel : ViewModelBase
     public bool HasBranch => !string.IsNullOrWhiteSpace(this.BranchOfMessageId);
 
     public IObservable<string> TextStream => this.textStream;
+
+    public ObservableCollection<MessageImageViewModel> Images { get; } = new ObservableCollection<MessageImageViewModel>();
+
+    public bool HasImages => this.Images.Count > 0;
 
     public string Text
     {
@@ -100,7 +111,8 @@ internal sealed class MessageViewModel : ViewModelBase
             ExtractText(message),
             message.Date,
             message.Streaming,
-            message.IsError);
+            message.IsError,
+            imageUrls: message.Content.OfType<ImageBlock>().Select(block => block.Url));
     }
 
     public static string ExtractText(Message message)
@@ -116,7 +128,23 @@ internal sealed class MessageViewModel : ViewModelBase
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Record with-expressions use member assignment syntax.")]
     public Message ToMessage()
     {
-        return Message.Text(this.Id, this.Role, this.Text, this.Date) with
+        ImmutableArray<ContentBlock>.Builder content = ImmutableArray.CreateBuilder<ContentBlock>();
+        if (this.Text.Length > 0 || this.Images.Count == 0)
+        {
+            content.Add(new TextBlock(this.Text));
+        }
+
+        foreach (MessageImageViewModel image in this.Images)
+        {
+            content.Add(new ImageBlock(image.Url));
+        }
+
+        return new Message(
+            this.Id,
+            this.Role,
+            content.ToImmutable(),
+            this.Date,
+            Tools: ImmutableArray<ChatMessageTool>.Empty) with
         {
             Streaming = this.IsStreaming,
             IsError = this.IsError,

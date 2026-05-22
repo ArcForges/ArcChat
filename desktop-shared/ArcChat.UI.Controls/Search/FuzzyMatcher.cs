@@ -69,9 +69,10 @@ public static class FuzzyMatcher
         ArgumentNullException.ThrowIfNull(candidate);
         if (!match.IsMatch)
         {
+            int maxSnippetLength = contextCharacters * 2;
             return candidate.Length <= contextCharacters * 2
                 ? candidate
-                : candidate[.. (contextCharacters * 2)].Trim() + "...";
+                : candidate[..maxSnippetLength].Trim() + "...";
         }
 
         int start = Math.Max(0, match.Start - contextCharacters);
@@ -95,7 +96,8 @@ public static class FuzzyMatcher
             end--;
         }
 
-        return start > end ? ReadOnlySpan<char>.Empty : value[start.. (end + 1)];
+        int valueEnd = end + 1;
+        return start > end ? ReadOnlySpan<char>.Empty : value[start..valueEnd];
     }
 
     private static int IndexOf(ReadOnlySpan<char> candidate, ReadOnlySpan<char> query)
@@ -108,7 +110,8 @@ public static class FuzzyMatcher
         int limit = candidate.Length - query.Length;
         for (int index = 0; index <= limit; index++)
         {
-            if (candidate[index.. (index + query.Length)].Equals(query, StringComparison.OrdinalIgnoreCase))
+            int queryEnd = index + query.Length;
+            if (candidate[index..queryEnd].Equals(query, StringComparison.OrdinalIgnoreCase))
             {
                 return index;
             }

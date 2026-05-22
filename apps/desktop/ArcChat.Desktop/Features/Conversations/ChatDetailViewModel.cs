@@ -2,6 +2,7 @@
 
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using ArcChat.Agent;
 using ArcChat.Desktop.Navigation;
@@ -24,6 +25,8 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     private readonly IContextSummarizer? contextSummarizer;
     private readonly ConversationExportService? exportService;
     private readonly IShareService? shareService;
+    private readonly ImageAttachmentService imageAttachmentService;
+    private readonly IClipboardService? clipboardService;
     private Conversation? conversation;
     private CancellationTokenSource? streamCancellation;
     private string composerText = string.Empty;
@@ -56,6 +59,10 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         this.CommitEditCommand = new AsyncRelayCommand<MessageViewModel>(this.CommitEditAsync);
         this.CancelEditCommand = new RelayCommand<MessageViewModel>(this.CancelEdit);
         this.ToggleExporterCommand = new RelayCommand(this.ToggleExporter);
+        this.PasteImageCommand = new AsyncRelayCommand(() => this.PasteImageAsync(CancellationToken.None));
+        this.RemoveAttachmentCommand = new RelayCommand<AttachmentViewModel>(this.RemoveAttachment);
+        this.Attachments.CollectionChanged += this.OnAttachmentsChanged;
+        this.imageAttachmentService = ImageAttachmentService.CreateDefault();
     }
 
     internal ChatDetailViewModel(
@@ -67,7 +74,9 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         IConversationTitler? conversationTitler = null,
         IContextSummarizer? contextSummarizer = null,
         ConversationExportService? exportService = null,
-        IShareService? shareService = null)
+        IShareService? shareService = null,
+        ImageAttachmentService? imageAttachmentService = null,
+        IClipboardService? clipboardService = null)
         : this(conversationId)
     {
         this.agentRuntime = agentRuntime ?? throw new ArgumentNullException(nameof(agentRuntime));
@@ -78,13 +87,19 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         this.contextSummarizer = contextSummarizer;
         this.exportService = exportService;
         this.shareService = shareService;
+        this.imageAttachmentService = imageAttachmentService ?? ImageAttachmentService.CreateDefault();
+        this.clipboardService = clipboardService;
     }
 
     public string ConversationId { get; }
 
     public ObservableCollection<MessageViewModel> Messages { get; } = new ObservableCollection<MessageViewModel>();
 
+    public ObservableCollection<AttachmentViewModel> Attachments { get; } = new ObservableCollection<AttachmentViewModel>();
+
     public IAsyncRelayCommand SendCommand { get; }
+
+    public IAsyncRelayCommand PasteImageCommand { get; }
 
     public IRelayCommand AbortCommand { get; }
 
@@ -103,6 +118,8 @@ internal sealed class ChatDetailViewModel : ViewModelBase
     public IRelayCommand<MessageViewModel> CancelEditCommand { get; }
 
     public IRelayCommand ToggleExporterCommand { get; }
+
+    public IRelayCommand<AttachmentViewModel> RemoveAttachmentCommand { get; }
 
     public ExporterViewModel? Exporter
     {
@@ -152,6 +169,16 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         private set => this.SetProperty(ref this.lastBranchOfMessageId, value);
     }
 
+    public bool CanAttachImages => NextChatVisionModelGate.IsVisionModel(this.GetModelConfig().Model);
+
+    public bool CanAddMoreAttachments => this.CanAttachImages && this.Attachments.Count < ImageAttachmentService.MaxImages;
+
+    public bool HasAttachments => this.Attachments.Count > 0;
+
+    public string AttachmentCountText => this.Attachments.Count.ToString(System.Globalization.CultureInfo.InvariantCulture)
+        + "/"
+        + ImageAttachmentService.MaxImages.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
     internal async Task LoadAsync(CancellationToken cancellationToken = default)
     {
         if (this.conversationRepository is null || this.messageRepository is null)
@@ -167,25 +194,28 @@ internal sealed class ChatDetailViewModel : ViewModelBase
             this.Messages.Add(MessageViewModel.FromMessage(message));
         }
 
+        this.NotifyAttachmentStateChanged();
         this.RefreshExporter();
     }
 
     internal async Task SubmitAsync(CancellationToken cancellationToken = default)
     {
         string input = this.ComposerText.Trim();
-        if (input.Length == 0)
+        if (input.Length == 0 && this.Attachments.Count == 0)
         {
             return;
         }
 
-        if (await this.TryRunCommandAsync(input, cancellationToken).ConfigureAwait(true))
+        if (input.Length > 0 && await this.TryRunCommandAsync(input, cancellationToken).ConfigureAwait(true))
         {
             this.ComposerText = string.Empty;
             return;
         }
 
+        string[] imageUrls = this.Attachments.Select(attachment => attachment.DataUrl).ToArray();
         this.ComposerText = string.Empty;
-        await this.SubmitUserMessageAsync(input, null, cancellationToken).ConfigureAwait(true);
+        this.ClearAttachments();
+        await this.SubmitUserMessageAsync(input, null, imageUrls, cancellationToken).ConfigureAwait(true);
     }
 
     internal void Abort()
@@ -202,6 +232,52 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         }
     }
 
+    internal async Task PasteImageAsync(IClipboardService? clipboard, CancellationToken cancellationToken = default)
+    {
+        clipboard ??= this.clipboardService;
+        if (clipboard is null)
+        {
+            this.StatusMessage = "No clipboard";
+            return;
+        }
+
+        ClipboardImageData? image = await clipboard.GetImageAsync(cancellationToken).ConfigureAwait(true);
+        if (image is null)
+        {
+            this.StatusMessage = "No image on clipboard";
+            return;
+        }
+
+        await this.AddImageBytesAsync(image.Bytes, image.MimeType, cancellationToken).ConfigureAwait(true);
+    }
+
+    internal Task PasteImageAsync(CancellationToken cancellationToken = default)
+    {
+        return this.PasteImageAsync(this.clipboardService, cancellationToken);
+    }
+
+    internal async Task AddImageBytesAsync(byte[] bytes, string mimeType, CancellationToken cancellationToken = default)
+    {
+        if (!this.CanAttachImages)
+        {
+            this.StatusMessage = "Images require a vision model";
+            return;
+        }
+
+        if (this.Attachments.Count >= ImageAttachmentService.MaxImages)
+        {
+            this.StatusMessage = "Attachment limit reached";
+            return;
+        }
+
+        ChatAttachment attachment = await this.imageAttachmentService.CreateAttachmentAsync(
+            bytes,
+            mimeType,
+            cancellationToken: cancellationToken).ConfigureAwait(true);
+        this.Attachments.Add(AttachmentViewModel.FromAttachment(attachment));
+        this.StatusMessage = this.AttachmentCountText;
+    }
+
     private static string NewId()
     {
         return Guid.NewGuid().ToString("N");
@@ -209,24 +285,33 @@ internal sealed class ChatDetailViewModel : ViewModelBase
 
     private static ModelDescriptor CreateModelDescriptor(ModelConfig modelConfig)
     {
+        ImmutableArray<ProviderCapability> capabilities = NextChatVisionModelGate.IsVisionModel(modelConfig.Model)
+            ? ImmutableArray.Create<ProviderCapability>(new VisionCapability())
+            : ImmutableArray<ProviderCapability>.Empty;
+
         return new ModelDescriptor(
             modelConfig.Model,
             modelConfig.Model,
             modelConfig.ProviderName,
             true,
             0,
-            ImmutableArray<ProviderCapability>.Empty,
+            capabilities,
             ContextWindow: modelConfig.MaxTokens);
     }
 
-    private async Task SubmitUserMessageAsync(string text, string? branchOfMessageId, CancellationToken cancellationToken)
+    private async Task SubmitUserMessageAsync(
+        string text,
+        string? branchOfMessageId,
+        IReadOnlyCollection<string>? imageUrls,
+        CancellationToken cancellationToken)
     {
         MessageViewModel userMessage = new MessageViewModel(
             NewId(),
             MessageRole.User,
             text,
             DateTimeOffset.Now.ToString("g", System.Globalization.CultureInfo.CurrentCulture),
-            branchOfMessageId: branchOfMessageId);
+            branchOfMessageId: branchOfMessageId,
+            imageUrls: imageUrls);
         this.Messages.Add(userMessage);
         this.LastBranchOfMessageId = branchOfMessageId;
         if (this.messageRepository is not null)
@@ -321,7 +406,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
             return;
         }
 
-        await this.SubmitUserMessageAsync(lastUser.Text, lastUser.Id, CancellationToken.None).ConfigureAwait(true);
+        await this.SubmitUserMessageAsync(lastUser.Text, lastUser.Id, lastUser.Images.Select(image => image.Url).ToArray(), CancellationToken.None).ConfigureAwait(true);
     }
 
     private void Copy(MessageViewModel? message)
@@ -380,7 +465,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
             return;
         }
 
-        await this.SubmitUserMessageAsync(editedText, message.Id, CancellationToken.None).ConfigureAwait(true);
+        await this.SubmitUserMessageAsync(editedText, message.Id, message.Images.Select(image => image.Url).ToArray(), CancellationToken.None).ConfigureAwait(true);
     }
 
     private void CancelEdit(MessageViewModel? message)
@@ -498,6 +583,42 @@ internal sealed class ChatDetailViewModel : ViewModelBase
 
         this.navigator?.Navigate(new Home());
         this.StatusMessage = "del";
+    }
+
+    private void RemoveAttachment(AttachmentViewModel? attachment)
+    {
+        if (attachment is null)
+        {
+            return;
+        }
+
+        if (this.Attachments.Remove(attachment))
+        {
+            attachment.Dispose();
+        }
+    }
+
+    private void ClearAttachments()
+    {
+        foreach (AttachmentViewModel attachment in this.Attachments.ToArray())
+        {
+            attachment.Dispose();
+        }
+
+        this.Attachments.Clear();
+    }
+
+    private void OnAttachmentsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        this.NotifyAttachmentStateChanged();
+    }
+
+    private void NotifyAttachmentStateChanged()
+    {
+        this.OnPropertyChanged(nameof(this.HasAttachments));
+        this.OnPropertyChanged(nameof(this.AttachmentCountText));
+        this.OnPropertyChanged(nameof(this.CanAddMoreAttachments));
+        this.OnPropertyChanged(nameof(this.CanAttachImages));
     }
 
     private MessageViewModel EnsureAssistantMessage(string assistantMessageId, string? branchOfMessageId)

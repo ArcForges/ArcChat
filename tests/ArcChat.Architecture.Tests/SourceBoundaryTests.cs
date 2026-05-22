@@ -16,6 +16,7 @@ public sealed class SourceBoundaryTests
         "Dapper",
         "DbUp",
         "FluentAssertions",
+        "ImageMagick",
         "Markdig",
         "Microsoft.CodeAnalysis",
         "Microsoft.Data.Sqlite",

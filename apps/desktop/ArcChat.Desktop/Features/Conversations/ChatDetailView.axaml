@@ -24,7 +24,7 @@
   </UserControl.Styles>
 
   <Grid Margin="24,0,24,24"
-        RowDefinitions="Auto,*,Auto,Auto,Auto"
+        RowDefinitions="Auto,*,Auto,Auto,Auto,Auto"
         Background="{DynamicResource ArcChat.Brush.Surface}">
     <DockPanel Grid.Row="0"
                Margin="0,0,0,12"
@@ -67,7 +67,7 @@
                   BorderBrush="{DynamicResource ArcChat.Brush.Border}"
                   Background="{DynamicResource ArcChat.Brush.Surface}">
             <Grid ColumnDefinitions="*,Auto"
-                  RowDefinitions="Auto,Auto,Auto"
+                  RowDefinitions="Auto,Auto,Auto,Auto"
                   ColumnSpacing="12">
               <StackPanel Grid.Column="0"
                           Orientation="Horizontal"
@@ -116,7 +116,44 @@
                        MinHeight="72"
                        IsVisible="{Binding IsEditing}" />
 
-              <StackPanel Grid.Row="2"
+              <ItemsControl Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Margin="0,8,0,0"
+                            ItemsSource="{Binding Images}"
+                            IsVisible="{Binding HasImages}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="conversations:MessageImageViewModel"
+                                x:DataType="conversations:MessageImageViewModel">
+                    <Border Width="112"
+                            Height="88"
+                            Margin="0,0,8,8"
+                            CornerRadius="6"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+                            ClipToBounds="True">
+                      <Grid>
+                        <Image Source="{Binding Preview}"
+                               Stretch="UniformToFill" />
+                        <Border VerticalAlignment="Bottom"
+                                Background="{DynamicResource ArcChat.Brush.Surface}"
+                                Opacity="0.86">
+                          <TextBlock Text="{Binding Label}"
+                                     Margin="6,3"
+                                     FontSize="11"
+                                     TextTrimming="CharacterEllipsis" />
+                        </Border>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+
+              <StackPanel Grid.Row="3"
                           Grid.ColumnSpan="2"
                           Margin="0,8,0,0"
                           Orientation="Horizontal"
@@ -140,21 +177,82 @@
                                 DataContext="{Binding Exporter}"
                                 IsVisible="{Binding #ChatDetailRoot.DataContext.IsExporterVisible}" />
 
-    <TextBlock Grid.Row="3"
+    <Border Grid.Row="3"
+            Margin="0,0,0,8"
+            Padding="8"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+            CornerRadius="8"
+            IsVisible="{Binding HasAttachments}">
+      <DockPanel LastChildFill="True">
+        <TextBlock DockPanel.Dock="Left"
+                   Margin="0,0,10,0"
+                   Text="{Binding AttachmentCountText}"
+                   VerticalAlignment="Center"
+                   Opacity="0.72" />
+        <ItemsControl ItemsSource="{Binding Attachments}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="conversations:AttachmentViewModel"
+                          x:DataType="conversations:AttachmentViewModel">
+              <Border Width="132"
+                      Height="92"
+                      Margin="0,0,8,0"
+                      CornerRadius="6"
+                      BorderThickness="1"
+                      BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+                      ClipToBounds="True">
+                <Grid>
+                  <Image Source="{Binding Preview}"
+                         Stretch="UniformToFill" />
+                  <Button HorizontalAlignment="Right"
+                          VerticalAlignment="Top"
+                          Margin="4"
+                          Padding="6,2"
+                          Content="Remove"
+                          Command="{Binding #ChatDetailRoot.DataContext.RemoveAttachmentCommand}"
+                          CommandParameter="{Binding}" />
+                  <Border VerticalAlignment="Bottom"
+                          Background="{DynamicResource ArcChat.Brush.Surface}"
+                          Opacity="0.88">
+                    <TextBlock Text="{Binding Label}"
+                               Margin="6,3"
+                               FontSize="11"
+                               TextTrimming="CharacterEllipsis" />
+                  </Border>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </DockPanel>
+    </Border>
+
+    <TextBlock Grid.Row="4"
                Margin="0,8,0,8"
                Text="{Binding StatusMessage}"
                Opacity="0.68" />
 
-    <DockPanel Grid.Row="4"
+    <DockPanel Grid.Row="5"
                LastChildFill="True">
       <Button DockPanel.Dock="Right"
               Margin="8,0,0,0"
               Content="Send"
               Command="{Binding SendCommand}" />
+      <Button DockPanel.Dock="Right"
+              Margin="8,0,0,0"
+              Content="Paste image"
+              Command="{Binding PasteImageCommand}"
+              IsEnabled="{Binding CanAddMoreAttachments}" />
       <TextBox x:Name="Composer"
                Text="{Binding ComposerText, Mode=TwoWay}"
                AcceptsReturn="True"
                MinHeight="64"
+               DragDrop.AllowDrop="True"
                KeyDown="OnComposerKeyDown" />
     </DockPanel>
   </Grid>
