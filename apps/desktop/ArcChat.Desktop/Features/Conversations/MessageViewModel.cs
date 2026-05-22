@@ -9,6 +9,7 @@ namespace ArcChat.Desktop.Features.Conversations;
 internal sealed class MessageViewModel : ViewModelBase
 {
     private readonly string date;
+    private readonly MessageTextObservable textStream;
     private string text;
     private bool isStreaming;
     private bool isError;
@@ -33,6 +34,7 @@ internal sealed class MessageViewModel : ViewModelBase
         this.isError = isError;
         this.BranchOfMessageId = branchOfMessageId;
         this.draftText = text;
+        this.textStream = new MessageTextObservable(() => this.Text);
     }
 
     public string Id { get; }
@@ -51,10 +53,18 @@ internal sealed class MessageViewModel : ViewModelBase
 
     public bool HasBranch => !string.IsNullOrWhiteSpace(this.BranchOfMessageId);
 
+    public IObservable<string> TextStream => this.textStream;
+
     public string Text
     {
         get => this.text;
-        set => this.SetProperty(ref this.text, value);
+        set
+        {
+            if (this.SetProperty(ref this.text, value))
+            {
+                this.textStream.Publish(value);
+            }
+        }
     }
 
     public bool IsStreaming
@@ -112,5 +122,53 @@ internal sealed class MessageViewModel : ViewModelBase
             Streaming = this.IsStreaming,
             IsError = this.IsError,
         };
+    }
+
+    private sealed class MessageTextObservable : IObservable<string>
+    {
+        private readonly Func<string> currentText;
+        private readonly List<IObserver<string>> observers = new List<IObserver<string>>();
+
+        public MessageTextObservable(Func<string> currentText)
+        {
+            this.currentText = currentText;
+        }
+
+        public IDisposable Subscribe(IObserver<string> observer)
+        {
+            ArgumentNullException.ThrowIfNull(observer);
+            this.observers.Add(observer);
+            observer.OnNext(this.currentText());
+            return new Subscription(this.observers, observer);
+        }
+
+        public void Publish(string value)
+        {
+            foreach (IObserver<string> observer in this.observers.ToArray())
+            {
+                observer.OnNext(value);
+            }
+        }
+
+        private sealed class Subscription : IDisposable
+        {
+            private readonly List<IObserver<string>> observers;
+            private IObserver<string>? observer;
+
+            public Subscription(List<IObserver<string>> observers, IObserver<string> observer)
+            {
+                this.observers = observers;
+                this.observer = observer;
+            }
+
+            public void Dispose()
+            {
+                if (this.observer is { } value)
+                {
+                    _ = this.observers.Remove(value);
+                    this.observer = null;
+                }
+            }
+        }
     }
 }

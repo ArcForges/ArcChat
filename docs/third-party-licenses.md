@@ -21,6 +21,7 @@ NC00 records license posture before dependencies are expanded in NC01. Package v
 | Microsoft.Agents.AI | MIT | https://www.nuget.org/packages/Microsoft.Agents.AI |
 | Markdig | BSD-2-Clause | https://www.nuget.org/packages/Markdig |
 | ColorCode.Core | MIT | https://www.nuget.org/packages/ColorCode.Core |
+| Sylinko.CSharpMath.Avalonia | MIT | https://www.nuget.org/packages/Sylinko.CSharpMath.Avalonia |
 | Magick.NET-Q8-AnyCPU | Apache-2.0 | https://www.nuget.org/packages/Magick.NET-Q8-AnyCPU |
 | StyleCop.Analyzers | MIT | https://www.nuget.org/packages/StyleCop.Analyzers |
 | Roslynator.Analyzers | Apache-2.0 | https://www.nuget.org/packages/Roslynator.Analyzers |

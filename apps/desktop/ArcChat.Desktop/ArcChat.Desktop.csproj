@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Controls\ArcChat.UI.Controls.csproj" />
+    <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Markdown\ArcChat.UI.Markdown.csproj" />
     <ProjectReference Include="..\..\..\desktop-shared\ArcChat.UI.Theme\ArcChat.UI.Theme.csproj" />
     <ProjectReference Include="..\..\..\packages\agent-core\ArcChat.Agent\ArcChat.Agent.csproj" />
     <ProjectReference Include="..\..\..\packages\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />

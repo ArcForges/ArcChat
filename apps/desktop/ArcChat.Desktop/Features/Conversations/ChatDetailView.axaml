@@ -1,6 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conversations="using:ArcChat.Desktop.Features.Conversations"
+             xmlns:markdown="using:ArcChat.UI.Markdown"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="ArcChat.Desktop.Features.Conversations.ChatDetailView"
@@ -96,12 +97,13 @@
                         CommandParameter="{Binding}" />
               </StackPanel>
 
-              <TextBlock Grid.Row="1"
-                         Grid.ColumnSpan="2"
-                         Margin="0,8,0,0"
-                         Text="{Binding Text}"
-                         TextWrapping="Wrap"
-                         IsVisible="{Binding !IsEditing}" />
+              <markdown:MarkdownView Grid.Row="1"
+                                     Grid.ColumnSpan="2"
+                                     Margin="0,8,0,0"
+                                     Text="{Binding Text}"
+                                     Source="{Binding TextStream}"
+                                     IsStreaming="{Binding IsStreaming}"
+                                     IsVisible="{Binding !IsEditing}" />
               <TextBox Grid.Row="1"
                        Grid.ColumnSpan="2"
                        Margin="0,8,0,0"
