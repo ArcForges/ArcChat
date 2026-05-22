@@ -6,4 +6,9 @@
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />
+    <ProjectReference Include="..\..\protocol-net\ArcChat.Protocol\ArcChat.Protocol.csproj" />
+  </ItemGroup>
 </Project>

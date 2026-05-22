@@ -147,10 +147,20 @@ public sealed class LocaleServiceTests
 
         using Process process = Process.Start(startInfo)
             ?? throw new InvalidOperationException("Locale converter process did not start.");
-        string standardOutput = process.StandardOutput.ReadToEnd();
-        string standardError = process.StandardError.ReadToEnd();
+        Task<string> standardOutputTask = process.StandardOutput.ReadToEndAsync();
+        Task<string> standardErrorTask = process.StandardError.ReadToEndAsync();
 
-        _ = process.WaitForExit(180000).Should().BeTrue("locale conversion must complete");
+        bool exited = process.WaitForExit(180000);
+        if (!exited)
+        {
+            process.Kill(entireProcessTree: true);
+            process.WaitForExit();
+        }
+
+        string standardOutput = standardOutputTask.GetAwaiter().GetResult();
+        string standardError = standardErrorTask.GetAwaiter().GetResult();
+
+        _ = exited.Should().BeTrue("locale conversion must complete");
         _ = process.ExitCode.Should().Be(0, standardOutput + standardError);
     }
 

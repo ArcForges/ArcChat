@@ -1,7 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:ArcChat.UI.Controls"
-             xmlns:nav="using:ArcChat.Desktop.Navigation"
              xmlns:vm="using:ArcChat.Desktop.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -51,27 +50,7 @@
 
         <ContentControl x:Name="ShellContent"
                         Grid.Row="1"
-                        Content="{Binding CurrentDestination}">
-          <ContentControl.ContentTemplate>
-            <DataTemplate x:DataType="nav:Destination">
-              <Grid Margin="24,0,24,24"
-                    Background="{DynamicResource ArcChat.Brush.Surface}">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="12">
-                  <TextBlock x:Name="DestinationTitle"
-                             Text="{Binding Title}"
-                             FontSize="28"
-                             FontWeight="SemiBold"
-                             HorizontalAlignment="Center" />
-                  <TextBlock Text="{Binding Id}"
-                             Foreground="{DynamicResource ArcChat.Brush.MutedText}"
-                             HorizontalAlignment="Center" />
-                </StackPanel>
-              </Grid>
-            </DataTemplate>
-          </ContentControl.ContentTemplate>
-        </ContentControl>
+                        Content="{Binding CurrentContent}" />
       </Grid>
     </controls:ResizableSplitPane.Right>
   </controls:ResizableSplitPane>

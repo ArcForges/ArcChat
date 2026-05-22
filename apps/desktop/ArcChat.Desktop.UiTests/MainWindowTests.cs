@@ -1,5 +1,6 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Navigation;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.Desktop.Views;
@@ -46,7 +47,8 @@ public sealed class MainWindowTests
                     ContentControl content = window.GetVisualDescendants()
                         .OfType<ContentControl>()
                         .Single(control => string.Equals(control.Name, "ShellContent", StringComparison.Ordinal));
-                    _ = content.Content.Should().BeOfType<Home>();
+                    DestinationPlaceholderViewModel placeholder = content.Content.Should().BeOfType<DestinationPlaceholderViewModel>().Subject;
+                    _ = placeholder.Id.Should().Be("home");
                 }
                 finally
                 {
@@ -87,7 +89,8 @@ public sealed class MainWindowTests
                     ContentControl content = window.GetVisualDescendants()
                         .OfType<ContentControl>()
                         .Single(control => string.Equals(control.Name, "ShellContent", StringComparison.Ordinal));
-                    _ = content.Content.Should().BeOfType<NewChat>();
+                    DestinationPlaceholderViewModel placeholder = content.Content.Should().BeOfType<DestinationPlaceholderViewModel>().Subject;
+                    _ = placeholder.Id.Should().Be("new-chat");
                 }
                 finally
                 {

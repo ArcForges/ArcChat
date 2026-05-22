@@ -27,6 +27,7 @@ public sealed record Home : Destination
     }
 }
 
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Matches the NextChat route name required by NC03.")]
 public sealed record Chat : Destination
 {
     public Chat(string conversationId)
@@ -38,6 +39,7 @@ public sealed record Chat : Destination
     public string ConversationId { get; }
 }
 
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Matches the NextChat route name required by NC03.")]
 public sealed record Settings : Destination
 {
     public Settings(SettingsSection? section = null)
@@ -57,6 +59,7 @@ public sealed record NewChat : Destination
     }
 }
 
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Matches the NextChat route name required by NC03.")]
 public sealed record Masks : Destination
 {
     public Masks()
@@ -99,6 +102,7 @@ public sealed record SdNew : Destination
     }
 }
 
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Matches the NextChat route name required by NC03.")]
 public sealed record Artifacts : Destination
 {
     public Artifacts()

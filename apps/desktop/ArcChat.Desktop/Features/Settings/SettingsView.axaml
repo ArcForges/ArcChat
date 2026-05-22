@@ -1,0 +1,136 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settings="using:ArcChat.Desktop.Features.Settings"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Features.Settings.SettingsView"
+             x:DataType="settings:SettingsViewModel"
+             d:DesignWidth="720"
+             d:DesignHeight="480"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <settings:SettingsViewModel />
+  </Design.DataContext>
+
+  <Grid Margin="24,0,24,24"
+        RowDefinitions="Auto,*,Auto"
+        Background="{DynamicResource ArcChat.Brush.Surface}">
+    <DockPanel Grid.Row="0"
+               Margin="0,0,0,16"
+               LastChildFill="True">
+      <StackPanel DockPanel.Dock="Right"
+                  Orientation="Horizontal"
+                  Spacing="8">
+        <Button x:Name="SettingsResetButton"
+                Command="{Binding ResetCommand}"
+                Content="Reset" />
+        <Button x:Name="SettingsImportButton"
+                Command="{Binding ImportCommand}"
+                Content="Import" />
+        <Button x:Name="SettingsExportButton"
+                Command="{Binding ExportCommand}"
+                Content="Export" />
+        <Button x:Name="SettingsSaveButton"
+                Command="{Binding SaveCommand}"
+                Content="Save" />
+      </StackPanel>
+      <TextBlock Text="Settings"
+                 FontSize="{DynamicResource ArcChat.FontSize.Title}"
+                 FontWeight="SemiBold"
+                 VerticalAlignment="Center" />
+    </DockPanel>
+
+    <TabControl x:Name="SettingsTabs"
+                Grid.Row="1">
+      <TabItem Header="General">
+        <Grid Margin="0,16,0,0"
+              RowDefinitions="Auto,Auto"
+              ColumnDefinitions="180,*">
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     Text="Default model"
+                     VerticalAlignment="Center" />
+          <TextBox Grid.Row="0"
+                   Grid.Column="1"
+                   Text="{Binding DefaultModel}"
+                   IsReadOnly="True" />
+
+          <TextBlock Grid.Row="1"
+                     Grid.Column="0"
+                     Margin="0,12,0,0"
+                     Text="Import JSON"
+                     VerticalAlignment="Top" />
+          <TextBox Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="0,12,0,0"
+                   Text="{Binding ImportJson, Mode=TwoWay}"
+                   AcceptsReturn="True"
+                   MinHeight="96" />
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Appearance">
+        <Grid Margin="0,16,0,0"
+              RowDefinitions="Auto,Auto,Auto,Auto"
+              ColumnDefinitions="180,*">
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     Text="Theme"
+                     VerticalAlignment="Center" />
+          <ComboBox Grid.Row="0"
+                    Grid.Column="1"
+                    ItemsSource="{Binding ThemeOptions}"
+                    SelectedItem="{Binding Theme, Mode=TwoWay}" />
+
+          <TextBlock Grid.Row="1"
+                     Grid.Column="0"
+                     Margin="0,12,0,0"
+                     Text="Font size"
+                     VerticalAlignment="Center" />
+          <NumericUpDown Grid.Row="1"
+                         Grid.Column="1"
+                         Margin="0,12,0,0"
+                         Minimum="10"
+                         Maximum="32"
+                         Value="{Binding FontSize, Mode=TwoWay}" />
+
+          <TextBlock Grid.Row="2"
+                     Grid.Column="0"
+                     Margin="0,12,0,0"
+                     Text="Font family"
+                     VerticalAlignment="Center" />
+          <TextBox Grid.Row="2"
+                   Grid.Column="1"
+                   Margin="0,12,0,0"
+                   Text="{Binding FontFamily, Mode=TwoWay}" />
+
+          <CheckBox Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0,12,0,0"
+                    IsChecked="{Binding TightBorder, Mode=TwoWay}"
+                    Content="Tight border" />
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Locale">
+        <Grid Margin="0,16,0,0"
+              RowDefinitions="Auto"
+              ColumnDefinitions="180,*">
+          <TextBlock Grid.Row="0"
+                     Grid.Column="0"
+                     Text="Current locale"
+                     VerticalAlignment="Center" />
+          <TextBox Grid.Row="0"
+                   Grid.Column="1"
+                   Text="{Binding CurrentLocale}"
+                   IsReadOnly="True" />
+        </Grid>
+      </TabItem>
+    </TabControl>
+
+    <TextBlock Grid.Row="2"
+               Margin="0,16,0,0"
+               Foreground="{DynamicResource ArcChat.Brush.MutedText}"
+               Text="{Binding StatusMessage}" />
+  </Grid>
+</UserControl>

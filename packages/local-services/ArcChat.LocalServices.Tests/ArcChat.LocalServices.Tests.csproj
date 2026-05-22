@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../ArcChat.LocalServices/ArcChat.LocalServices.csproj" />
+    <ProjectReference Include="..\..\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />
   </ItemGroup>
 </Project>

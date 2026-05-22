@@ -1,10 +1,13 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using System.Windows.Input;
+using ArcChat.Desktop.Features.Settings;
+using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Navigation;
 using ArcChat.UI.Controls;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
+using SettingsDestination = ArcChat.Desktop.Navigation.Settings;
 
 namespace ArcChat.Desktop.ViewModels;
 
@@ -19,7 +22,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
             ["masks"] = new Masks(),
             ["plugins"] = new Plugins(),
             ["artifacts"] = new Artifacts(),
-            ["settings"] = new Settings(),
+            ["settings"] = new SettingsDestination(),
             ["auth"] = new Auth(),
             ["sd"] = new Sd(),
             ["sd-new"] = new SdNew(),
@@ -27,21 +30,31 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         };
 
     private readonly IAppNavigator navigator;
+    private readonly SettingsViewModel settingsViewModel;
     private readonly IDisposable destinationSubscription;
     private Destination currentDestination;
+    private ViewModelBase currentContent;
     private GridLength sidebarPaneLength = new GridLength(300);
     private bool isSidebarNarrow;
 
     public MainWindowViewModel()
-        : this(new AppNavigator())
+        : this(new AppNavigator(), new SettingsViewModel())
     {
     }
 
     internal MainWindowViewModel(IAppNavigator navigator)
+        : this(navigator, new SettingsViewModel())
+    {
+    }
+
+    internal MainWindowViewModel(IAppNavigator navigator, SettingsViewModel settingsViewModel)
     {
         ArgumentNullException.ThrowIfNull(navigator);
+        ArgumentNullException.ThrowIfNull(settingsViewModel);
         this.navigator = navigator;
+        this.settingsViewModel = settingsViewModel;
         this.currentDestination = navigator.Current;
+        this.currentContent = this.CreateContent(navigator.Current);
         this.isSidebarNarrow = IsNarrow(this.sidebarPaneLength);
         this.NavigationItems = new SidebarItem[]
         {
@@ -85,6 +98,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     public string CurrentDestinationTitle => this.CurrentDestination.Title;
 
+    public ViewModelBase CurrentContent
+    {
+        get => this.currentContent;
+        private set => this.SetProperty(ref this.currentContent, value);
+    }
+
     public GridLength SidebarPaneLength
     {
         get => this.sidebarPaneLength;
@@ -126,6 +145,14 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     private void OnDestinationChanged(Destination destination)
     {
         this.CurrentDestination = destination;
+        this.CurrentContent = this.CreateContent(destination);
+    }
+
+    private ViewModelBase CreateContent(Destination destination)
+    {
+        return destination is SettingsDestination
+            ? this.settingsViewModel
+            : new DestinationPlaceholderViewModel(destination.Title, destination.Id);
     }
 
     private sealed class DestinationObserver : IObserver<Destination>

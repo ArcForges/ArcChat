@@ -104,36 +104,22 @@ function Invoke-LocaleParser {
         [string]$LocaleFile
     )
 
+    $nodeResult = Invoke-ProcessWithTimeout -FileName "node" -Arguments @($ParserPath, $LocaleFile)
+    if ($nodeResult.ExitCode -eq 0) {
+        return $nodeResult.StandardOutput
+    }
+
     $npxCommand = if ($IsWindows) { "npx.cmd" } else { "npx" }
     $standardOutput = ""
-    $standardError = ""
+    $standardError = $nodeResult.StandardError
 
     foreach ($attempt in 1..3) {
-        $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
-        $startInfo.FileName = $npxCommand
-        $startInfo.RedirectStandardError = $true
-        $startInfo.RedirectStandardOutput = $true
-        $startInfo.UseShellExecute = $false
-        $startInfo.ArgumentList.Add("--yes")
-        $startInfo.ArgumentList.Add("tsx")
-        $startInfo.ArgumentList.Add($ParserPath)
-        $startInfo.ArgumentList.Add($LocaleFile)
+        $result = Invoke-ProcessWithTimeout -FileName $npxCommand -Arguments @("--yes", "tsx", $ParserPath, $LocaleFile)
+        $standardOutput = $result.StandardOutput
+        $standardError = $result.StandardError
 
-        $process = [System.Diagnostics.Process]::Start($startInfo)
-        if ($null -eq $process) {
-            throw "Unable to start locale parser."
-        }
-
-        try {
-            $standardOutput = $process.StandardOutput.ReadToEnd()
-            $standardError = $process.StandardError.ReadToEnd()
-            $process.WaitForExit()
-
-            if ($process.ExitCode -eq 0) {
-                return $standardOutput
-            }
-        } finally {
-            $process.Dispose()
+        if ($result.ExitCode -eq 0) {
+            return $standardOutput
         }
 
         if ($attempt -lt 3) {
@@ -142,6 +128,47 @@ function Invoke-LocaleParser {
     }
 
     throw "Locale parser failed for $LocaleFile.`n$standardError`n$standardOutput"
+}
+
+function Invoke-ProcessWithTimeout {
+    param(
+        [string]$FileName,
+        [string[]]$Arguments,
+        [int]$TimeoutMilliseconds = 60000
+    )
+
+    $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
+    $startInfo.FileName = $FileName
+    $startInfo.RedirectStandardError = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.UseShellExecute = $false
+
+    foreach ($argument in $Arguments) {
+        $startInfo.ArgumentList.Add($argument)
+    }
+
+    $process = [System.Diagnostics.Process]::Start($startInfo)
+    if ($null -eq $process) {
+        throw "Unable to start $FileName."
+    }
+
+    try {
+        $standardOutputTask = $process.StandardOutput.ReadToEndAsync()
+        $standardErrorTask = $process.StandardError.ReadToEndAsync()
+        if (-not $process.WaitForExit($TimeoutMilliseconds)) {
+            $process.Kill($true)
+            $process.WaitForExit()
+            throw "$FileName timed out after $TimeoutMilliseconds ms."
+        }
+
+        return [PSCustomObject]@{
+            ExitCode = $process.ExitCode
+            StandardOutput = $standardOutputTask.GetAwaiter().GetResult()
+            StandardError = $standardErrorTask.GetAwaiter().GetResult()
+        }
+    } finally {
+        $process.Dispose()
+    }
 }
 
 function New-CoverageReport {
@@ -187,7 +214,7 @@ function New-CoverageReport {
         $lines.Add("| ``$key`` | " + ($cells -join " | ") + " |")
     }
 
-    return ($lines -join [Environment]::NewLine) + [Environment]::NewLine
+    return ($lines -join "`n") + "`n"
 }
 
 $nextChat = Resolve-NextChatRoot -ExplicitRoot $NextChatRoot
@@ -207,7 +234,7 @@ if (-not $Report -and (Test-LocalesCurrent -LocaleFiles $localeFiles -TargetRoot
 }
 
 foreach ($file in $localeFiles) {
-    $json = (Invoke-LocaleParser -ParserPath $parser -LocaleFile $file.FullName).TrimEnd() + [Environment]::NewLine
+    $json = (Invoke-LocaleParser -ParserPath $parser -LocaleFile $file.FullName).TrimEnd() + "`n"
     $null = $json | ConvertFrom-Json -AsHashtable
     $targetPath = Join-Path $OutputRoot ($file.BaseName + ".json")
     Write-Utf8NoBom -Path $targetPath -Content $json
