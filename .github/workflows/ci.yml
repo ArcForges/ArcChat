@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-2025
+          - ubuntu-24.04
+          - macos-14
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      DOTNET_NOLOGO: "1"
+      MSBUILDDISABLENODEREUSE: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Verify SDK
+        run: dotnet --info
+
+      - name: Restore
+        run: dotnet restore ArcChat.slnx
+
+      - name: Build
+        run: dotnet build ArcChat.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test ArcChat.slnx --configuration Release --no-build --verbosity normal
+
+      - name: Check formatting
+        run: dotnet format ArcChat.slnx --verify-no-changes --no-restore --verbosity minimal

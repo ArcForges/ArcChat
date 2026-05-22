@@ -1,0 +1,15 @@
+.worktrees/
+.vs/
+.vscode/*.code-workspace
+.idea/
+artifacts/
+build/
+out/
+dist/
+TestResults/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+**/bin/
+**/obj/

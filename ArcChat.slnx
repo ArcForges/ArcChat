@@ -1,0 +1,9 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+  </Configurations>
+  <Folder Name="/apps/desktop/">
+    <Project Path="apps/desktop/ArcChat.Desktop/ArcChat.Desktop.csproj" />
+    <Project Path="apps/desktop/ArcChat.Desktop.Tests/ArcChat.Desktop.Tests.csproj" />
+  </Folder>
+</Solution>
