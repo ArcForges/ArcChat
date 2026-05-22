@@ -4,6 +4,7 @@ NC00 records license posture before dependencies are expanded in NC01. Package v
 
 | Dependency | License posture | Source |
 | --- | --- | --- |
+| ArcChat root repository | MIT; preserve `Copyright (c) 2026 ArcForges` in `LICENSE` | `LICENSE` |
 | NextChat reused assets/data | MIT; preserve `Copyright (c) 2023-2025 NextChat` in `Resources/NOTICE.md` | `C:\MyFile\DevAll\QmlSharp\NextChat\LICENSE` |
 | Avalonia packages | MIT | https://www.nuget.org/packages/Avalonia |
 | CommunityToolkit.Mvvm | MIT | https://www.nuget.org/packages/CommunityToolkit.Mvvm |

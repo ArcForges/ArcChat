@@ -10,7 +10,7 @@ Reusable with attribution:
 
 | Source kind | Source path | Target | Rule |
 | --- | --- | --- | --- |
-| SVG and bitmap icons | `app/icons/**/*` | `apps/desktop/ArcChat.Desktop/Resources/Icons/` | vendor files; one NOTICE row per file |
+| SVG and bitmap icons | `app/icons/**/*` | `apps/desktop/ArcChat.Desktop/Resources/Icons/` | vendor files; current source has 87 SVG and 2 PNG files; one NOTICE row per file |
 | Prompt/plugin/mask JSON seeds | `public/prompts.json`, `public/plugins.json`, `public/masks.json` | `Resources/Seed/` | vendor data; one NOTICE row per file |
 | MCP default config | `app/mcp/mcp_config.default.json` | `Resources/Seed/McpConfig.default.json` | vendor data; one NOTICE row |
 | Mask TypeScript seed values | `app/masks/{en,cn,tw}.ts` | `Resources/Seed/Masks/{en,cn,tw}.json` | convert values to JSON; do not copy `.ts` |
@@ -39,11 +39,11 @@ Every vendored or converted asset/data file under `apps/desktop/ArcChat.Desktop/
 | SHA-256 | hash of ArcChat target file |
 | Reason | icon, prompt seed, plugin seed, locale data, mask data, MCP default config |
 
-The root ArcChat license remains Apache-2.0. The NOTICE file preserves NextChat MIT attribution for reused assets/data.
+The root ArcChat license is MIT, as recorded in `LICENSE`. The NOTICE file preserves NextChat MIT attribution for reused assets/data.
 
 ## Quality Source Rule
 
-The only engineering-quality source for the rewrite is `csharp-avalonia-quality-standard.md` plus official Microsoft / Avalonia documentation referenced by that file. Local application repositories outside NextChat are not implementation, quality, test-helper, naming, or module-layout inputs. QmlSharp is tooling-shape-only for `.slnx`, `Directory.Packages.props`, `Directory.Build.*`, `global.json`, `NuGet.config`, `.editorconfig`, and `.pre-commit-config.yaml`.
+The only engineering-quality source for the rewrite is `csharp-avalonia-quality-standard.md` plus official Microsoft / Avalonia documentation referenced by that file. NextChat remains the only parity source; other local application repositories are not behavior, quality, test-helper, naming, or module-layout inputs.
 
 ## Third-Party Licenses
 

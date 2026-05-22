@@ -2,6 +2,8 @@
 
 Source: `C:\MyFile\DevAll\QmlSharp\NextChat\public` at commit `89b8f26ff8f03a0c5b98fc3026d980721495227e`.
 
+Completeness check: all 15 top-level files in `public/` are listed below. There is no nested Next.js build-output directory in this checkout.
+
 | Source file | Bytes | Decision | Target / reason | Owner |
 | --- | ---: | --- | --- | --- |
 | `public/prompts.json` | 205046 | Vendor data | `apps/desktop/ArcChat.Desktop/Resources/Seed/Prompts.json`; 164 `en`, 121 `cn`, 123 `tw` prompt tuples | NC07.03 |
@@ -19,5 +21,3 @@ Source: `C:\MyFile\DevAll\QmlSharp\NextChat\public` at commit `89b8f26ff8f03a0c5
 | `public/serviceWorkerRegister.js` | 1109 | Drop | browser service worker registration; no web frontend | NC01 forbidden-module tests |
 | `public/robots.txt` | 76 | Drop | browser/search metadata; no web frontend | NC01 forbidden-module tests |
 | `public/site.webmanifest` | 414 | Drop | PWA manifest; no web frontend | NC16 |
-
-No Next.js build-output directory named public/_next exists in this NextChat checkout.
