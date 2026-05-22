@@ -18,6 +18,8 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}"
+                Focusable="False"
+                AutomationProperties.Name="{TemplateBinding Text}"
                 Command="{TemplateBinding Command}"
                 CommandParameter="{TemplateBinding CommandParameter}">
           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
@@ -31,6 +33,11 @@
 
   <Style Selector="controls|IconButton:pointerover">
     <Setter Property="Background" Value="{DynamicResource ArcChat.Brush.Hover}" />
+  </Style>
+
+  <Style Selector="controls|IconButton:focus">
+    <Setter Property="BorderBrush" Value="{DynamicResource ArcChat.Brush.Primary}" />
+    <Setter Property="BorderThickness" Value="2" />
   </Style>
 
   <Style Selector="controls|IconButton[IsBordered=True]">
@@ -55,6 +62,7 @@
         <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                  PlaceholderText="{TemplateBinding Watermark}"
                  AcceptsReturn="{TemplateBinding AcceptsReturn}"
+                 AutomationProperties.Name="{TemplateBinding Watermark}"
                  Background="{DynamicResource ArcChat.Brush.Surface}"
                  Foreground="{DynamicResource ArcChat.Brush.Text}"
                  BorderBrush="{DynamicResource ArcChat.Brush.Border}"
@@ -78,6 +86,7 @@
                 <DataTemplate DataType="controls:SidebarItem">
                   <Button MinHeight="40"
                           HorizontalContentAlignment="Stretch"
+                          AutomationProperties.Name="{Binding Title}"
                           Command="{Binding $parent[controls:Sidebar].NavigateCommand}"
                           CommandParameter="{Binding Id}"
                           Margin="0,0,0,8">
@@ -115,7 +124,11 @@
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
           <ContentControl Grid.Column="0" Content="{TemplateBinding Left}" />
-          <GridSplitter Grid.Column="1" Width="6" Background="{DynamicResource ArcChat.Brush.Border}" />
+          <GridSplitter Grid.Column="1"
+                        Width="6"
+                        Focusable="True"
+                        AutomationProperties.Name="Resize sidebar"
+                        Background="{DynamicResource ArcChat.Brush.Border}" />
           <ContentControl Grid.Column="2" Content="{TemplateBinding Right}" />
         </Grid>
       </ControlTemplate>
@@ -135,8 +148,12 @@
             <TextBlock Text="{TemplateBinding Title}" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" />
             <TextBlock Text="{TemplateBinding Message}" TextWrapping="Wrap" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-              <Button x:Name="PART_CancelButton" Content="{TemplateBinding CancelText}" />
-              <Button x:Name="PART_ConfirmButton" Content="{TemplateBinding ConfirmText}" />
+              <Button x:Name="PART_CancelButton"
+                      AutomationProperties.Name="{TemplateBinding CancelText}"
+                      Content="{TemplateBinding CancelText}" />
+              <Button x:Name="PART_ConfirmButton"
+                      AutomationProperties.Name="{TemplateBinding ConfirmText}"
+                      Content="{TemplateBinding ConfirmText}" />
             </StackPanel>
           </StackPanel>
         </Border>
@@ -161,7 +178,9 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
           <TextBlock Text="{TemplateBinding Title}" FontSize="{DynamicResource ArcChat.FontSize.Title}" FontWeight="Bold" HorizontalAlignment="Center" />
           <TextBlock Text="{TemplateBinding Message}" TextWrapping="Wrap" HorizontalAlignment="Center" />
-          <Button Content="{TemplateBinding ActionText}" Command="{TemplateBinding ActionCommand}" />
+          <Button AutomationProperties.Name="{TemplateBinding ActionText}"
+                  Content="{TemplateBinding ActionText}"
+                  Command="{TemplateBinding ActionCommand}" />
         </StackPanel>
       </ControlTemplate>
     </Setter>

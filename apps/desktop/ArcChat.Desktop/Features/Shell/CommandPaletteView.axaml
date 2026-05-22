@@ -13,7 +13,8 @@
     <shell:CommandPaletteViewModel />
   </Design.DataContext>
 
-  <Grid Background="#66000000">
+  <Grid Background="#66000000"
+        KeyboardNavigation.TabNavigation="Cycle">
     <Border Width="520"
             MaxHeight="520"
             HorizontalAlignment="Center"
@@ -28,6 +29,7 @@
         <DockPanel LastChildFill="True"
                    Margin="0,0,0,12">
           <Button DockPanel.Dock="Right"
+                  AutomationProperties.Name="Close command palette"
                   Command="{Binding CloseCommand}"
                   Content="Esc" />
           <TextBlock Text="Command Palette"

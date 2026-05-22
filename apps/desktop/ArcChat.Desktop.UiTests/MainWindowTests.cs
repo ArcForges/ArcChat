@@ -1,6 +1,8 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
+using ArcChat.Desktop.Localization;
 using ArcChat.Desktop.Navigation;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.Desktop.Views;
@@ -174,5 +176,46 @@ public sealed class MainWindowTests
                 }
             },
             CancellationToken.None);
+    }
+
+    [Fact]
+    public static void LocaleSelectionUpdatesSidebarStringsWithoutRestart()
+    {
+        Dictionary<string, IReadOnlyDictionary<string, string>> locales =
+            new Dictionary<string, IReadOnlyDictionary<string, string>>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["en"] = new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["Settings.Title"] = "Settings",
+                    ["Chat.InputActions.Masks"] = "Masks",
+                },
+                ["fr"] = new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["Settings.Title"] = "Parametres",
+                    ["Chat.InputActions.Masks"] = "Masques",
+                },
+            };
+        LocaleService localeService = new LocaleService(locales, "en");
+        SettingsViewModel settingsViewModel = new SettingsViewModel();
+        MainWindowViewModel viewModel = new MainWindowViewModel(
+            new AppNavigator(),
+            settingsViewModel,
+            new CommandPaletteViewModel(),
+            localeService);
+
+        try
+        {
+            localeService.SetCulture("fr");
+
+            _ = viewModel.NavigationItems.Single(item => string.Equals(item.Id, "settings", StringComparison.Ordinal))
+                .Title.Should().Be("Parametres");
+            _ = viewModel.NavigationItems.Single(item => string.Equals(item.Id, "masks", StringComparison.Ordinal))
+                .Title.Should().Be("Masques");
+        }
+        finally
+        {
+            viewModel.Dispose();
+            settingsViewModel.Dispose();
+        }
     }
 }

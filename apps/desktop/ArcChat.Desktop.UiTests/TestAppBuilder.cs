@@ -16,6 +16,10 @@ public static class TestAppBuilder
         DesktopServices.Use(services.BuildServiceProvider());
 
         return AppBuilder.Configure<App>()
-            .UseHeadless(new AvaloniaHeadlessPlatformOptions());
+            .UseSkia()
+            .UseHeadless(new AvaloniaHeadlessPlatformOptions
+            {
+                UseHeadlessDrawing = false,
+            });
     }
 }

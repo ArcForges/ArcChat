@@ -4,6 +4,8 @@ namespace ArcChat.Desktop.Localization;
 
 internal interface ILocaleService
 {
+    IReadOnlyList<string> AvailableCultures { get; }
+
     IObservable<string> Culture { get; }
 
     string CurrentCulture { get; }

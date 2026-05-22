@@ -36,7 +36,12 @@ internal sealed class LocaleService : ILocaleService
 
         this.CurrentCulture = this.ResolveCulture(culture);
         this.culture = new ObservableCulture(this.CurrentCulture);
+        this.AvailableCultures = this.locales.Keys
+            .Order(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
     }
+
+    public IReadOnlyList<string> AvailableCultures { get; }
 
     public IObservable<string> Culture => this.culture;
 

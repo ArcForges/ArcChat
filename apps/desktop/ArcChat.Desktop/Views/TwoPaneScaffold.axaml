@@ -36,9 +36,11 @@
                       Spacing="8">
             <controls:IconButton Text="Back"
                                  Icon="&lt;"
+                                 AutomationProperties.Name="Go back"
                                  Command="{Binding BackCommand}" />
             <controls:IconButton Text="Forward"
                                  Icon="&gt;"
+                                 AutomationProperties.Name="Go forward"
                                  Command="{Binding ForwardCommand}" />
           </StackPanel>
           <TextBlock x:Name="HeaderText"

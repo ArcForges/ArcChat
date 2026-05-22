@@ -24,17 +24,20 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
+        _ = services.AddSingleton<IThemeService, AvaloniaThemeService>();
         _ = services.AddSingleton<ILocaleService>(
             _ => LocaleService.FromDirectory(
                 Path.Combine(AppContext.BaseDirectory, "Resources", "Locales"),
                 CultureInfo.CurrentUICulture.Name));
         _ = services.AddTransient(provider => new SettingsViewModel(
             provider.GetRequiredService<SettingsRepository>(),
-            provider.GetRequiredService<ILocaleService>()));
+            provider.GetRequiredService<ILocaleService>(),
+            provider.GetRequiredService<IThemeService>()));
         _ = services.AddTransient(provider => new MainWindowViewModel(
             provider.GetRequiredService<IAppNavigator>(),
             provider.GetRequiredService<SettingsViewModel>(),
-            provider.GetRequiredService<CommandPaletteViewModel>()));
+            provider.GetRequiredService<CommandPaletteViewModel>(),
+            provider.GetRequiredService<ILocaleService>()));
         _ = services.AddTransient(provider => new CommandPaletteViewModel(provider.GetRequiredService<IShortcutRegistry>()));
         return services;
     }

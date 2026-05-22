@@ -25,7 +25,7 @@
                 Command="{Binding CommandPalette.OpenCommand}" />
   </Window.KeyBindings>
 
-  <Grid>
+  <Grid KeyboardNavigation.TabNavigation="Cycle">
     <views:TwoPaneScaffold />
     <shell:CommandPaletteView DataContext="{Binding CommandPalette}" />
   </Grid>

@@ -56,6 +56,7 @@ public sealed class LocaleServiceTests
 
         _ = cultures.Should().Equal("en", "pt");
         _ = service.CurrentCulture.Should().Be("pt");
+        _ = service.AvailableCultures.Should().Equal("en", "pt");
     }
 
     [Fact]

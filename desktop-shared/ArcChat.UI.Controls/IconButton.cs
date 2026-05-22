@@ -2,6 +2,7 @@
 
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -107,10 +108,22 @@ public class IconButton : TemplatedControl
     {
         ArgumentNullException.ThrowIfNull(e);
         base.OnApplyTemplate(e);
+        this.EnsureAutomationName();
 
         if (e.NameScope.Find<Button>("PART_Button") is { } button)
         {
             button.Click += this.OnTemplateButtonClicked;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        ArgumentNullException.ThrowIfNull(change);
+        base.OnPropertyChanged(change);
+        if (change.Property == TextProperty)
+        {
+            this.EnsureAutomationName();
         }
     }
 
@@ -142,5 +155,18 @@ public class IconButton : TemplatedControl
         }
 
         this.RaiseEvent(new RoutedEventArgs(ClickEvent));
+    }
+
+    private void EnsureAutomationName()
+    {
+        if (!string.IsNullOrWhiteSpace(AutomationProperties.GetName(this)))
+        {
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(this.Text))
+        {
+            AutomationProperties.SetName(this, this.Text);
+        }
     }
 }
