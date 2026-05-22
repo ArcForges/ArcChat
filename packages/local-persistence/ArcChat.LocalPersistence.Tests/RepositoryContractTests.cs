@@ -1,5 +1,6 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using ArcChat.LocalPersistence.Repositories;
 using ArcChat.Protocol.Chat;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
@@ -48,6 +49,44 @@ public sealed class RepositoryContractTests
         _ = stored.Should().HaveCount(5_001);
         _ = stored[0].Id.Should().Be("m-single");
         _ = stored[^1].Id.Should().Be("m-4999");
+    }
+
+    [Fact]
+    public async Task ConversationRepositoryPersistsListOrder()
+    {
+        string path = TestData.CreateDatabasePath();
+        await using ArcChatDatabase database = new(path);
+        await database.InitializeAsync(CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c1"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c2"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c3"), CancellationToken.None);
+
+        await database.Conversations.ReorderAsync(new[] { "c3", "c1", "c2" }, CancellationToken.None);
+
+        IReadOnlyList<ConversationListEntry> firstRead = await database.Conversations.ListEntriesAsync(false, CancellationToken.None);
+        _ = firstRead.Select(entry => entry.Id).Should().Equal("c3", "c1", "c2");
+
+        await using ArcChatDatabase reopened = new(path);
+        await reopened.InitializeAsync(CancellationToken.None);
+        IReadOnlyList<ConversationListEntry> secondRead = await reopened.Conversations.ListEntriesAsync(false, CancellationToken.None);
+        _ = secondRead.Select(entry => entry.Id).Should().Equal("c3", "c1", "c2");
+    }
+
+    [Fact]
+    public async Task ConversationRepositorySortsPinnedFirst()
+    {
+        string path = TestData.CreateDatabasePath();
+        await using ArcChatDatabase database = new(path);
+        await database.InitializeAsync(CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c1"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c2"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c3"), CancellationToken.None);
+
+        await database.Conversations.SetPinnedAsync("c2", true, CancellationToken.None);
+
+        IReadOnlyList<ConversationListEntry> entries = await database.Conversations.ListEntriesAsync(false, CancellationToken.None);
+        _ = entries[0].Id.Should().Be("c2");
+        _ = entries[0].IsPinned.Should().BeTrue();
     }
 
     [Fact]

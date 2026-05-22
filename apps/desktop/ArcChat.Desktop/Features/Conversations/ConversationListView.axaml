@@ -1,0 +1,171 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conversations="using:ArcChat.Desktop.Features.Conversations"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ArcChat.Desktop.Features.Conversations.ConversationListView"
+             x:Name="ConversationListRoot"
+             x:DataType="conversations:ConversationListViewModel"
+             d:DesignWidth="720"
+             d:DesignHeight="520"
+             mc:Ignorable="d">
+  <Design.DataContext>
+    <conversations:ConversationListViewModel />
+  </Design.DataContext>
+
+  <Grid Margin="24,0,24,24"
+        RowDefinitions="Auto,*"
+        Background="{DynamicResource ArcChat.Brush.Surface}">
+    <DockPanel Grid.Row="0"
+               Margin="0,0,0,16"
+               LastChildFill="True">
+      <TextBlock Text="Chats"
+                 FontSize="{DynamicResource ArcChat.FontSize.Title}"
+                 FontWeight="SemiBold"
+                 VerticalAlignment="Center" />
+      <TextBlock DockPanel.Dock="Right"
+                 Text="{Binding StatusMessage}"
+                 Foreground="{DynamicResource ArcChat.Brush.Text}"
+                 Opacity="0.7"
+                 VerticalAlignment="Center" />
+    </DockPanel>
+
+    <Grid Grid.Row="1">
+      <Border IsVisible="{Binding HasNoConversations}"
+              BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+              BorderThickness="1"
+              CornerRadius="8"
+              Padding="24"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Top">
+        <TextBlock Text="No conversations"
+                   Foreground="{DynamicResource ArcChat.Brush.Text}"
+                   Opacity="0.72" />
+      </Border>
+
+      <ListBox x:Name="ConversationList"
+               IsVisible="{Binding HasConversations}"
+               ItemsSource="{Binding Conversations}"
+               SelectedItem="{Binding SelectedConversation}"
+               DragDrop.AllowDrop="True"
+               Background="Transparent"
+               BorderThickness="0">
+        <ListBox.ItemsPanel>
+          <ItemsPanelTemplate>
+            <VirtualizingStackPanel />
+          </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="conversations:ConversationListItem"
+                        x:DataType="conversations:ConversationListItem">
+            <Border PointerPressed="OnConversationPointerPressed"
+                    DragDrop.AllowDrop="True"
+                    Padding="12"
+                    Margin="0,0,0,8"
+                    CornerRadius="8"
+                    BorderBrush="{DynamicResource ArcChat.Brush.Border}"
+                    BorderThickness="1"
+                    Background="{DynamicResource ArcChat.Brush.Surface}">
+              <Border.ContextMenu>
+                <ContextMenu>
+                  <MenuItem Header="Pin"
+                            IsVisible="{Binding CanPin}"
+                            Command="{Binding #ConversationListRoot.DataContext.PinCommand}"
+                            CommandParameter="{Binding}" />
+                  <MenuItem Header="Unpin"
+                            IsVisible="{Binding CanUnpin}"
+                            Command="{Binding #ConversationListRoot.DataContext.UnpinCommand}"
+                            CommandParameter="{Binding}" />
+                  <MenuItem Header="Rename"
+                            Command="{Binding #ConversationListRoot.DataContext.BeginRenameCommand}"
+                            CommandParameter="{Binding}" />
+                  <MenuItem Header="Archive"
+                            IsVisible="{Binding CanArchive}"
+                            Command="{Binding #ConversationListRoot.DataContext.ArchiveCommand}"
+                            CommandParameter="{Binding}" />
+                  <MenuItem Header="Unarchive"
+                            IsVisible="{Binding CanUnarchive}"
+                            Command="{Binding #ConversationListRoot.DataContext.UnarchiveCommand}"
+                            CommandParameter="{Binding}" />
+                  <MenuItem Header="Delete"
+                            Command="{Binding #ConversationListRoot.DataContext.DeleteCommand}"
+                            CommandParameter="{Binding}" />
+                </ContextMenu>
+              </Border.ContextMenu>
+
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    RowDefinitions="Auto,Auto"
+                    ColumnSpacing="12">
+                <TextBlock Grid.RowSpan="2"
+                           Grid.Column="0"
+                           Text="::"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource ArcChat.Brush.Text}"
+                           Opacity="0.46"
+                           VerticalAlignment="Center" />
+
+                <TextBlock Grid.Column="1"
+                           Text="{Binding Title}"
+                           FontWeight="SemiBold"
+                           TextTrimming="CharacterEllipsis"
+                           IsVisible="{Binding !IsEditing}" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding DraftTitle, Mode=TwoWay}"
+                         IsVisible="{Binding IsEditing}"
+                         MinWidth="180"
+                         VerticalAlignment="Center" />
+
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="6"
+                            VerticalAlignment="Center">
+                  <Border IsVisible="{Binding IsPinned}"
+                          Background="{DynamicResource ArcChat.Brush.Primary}"
+                          CornerRadius="8"
+                          Padding="7,2">
+                    <TextBlock Text="Pin"
+                               FontSize="11"
+                               Foreground="White" />
+                  </Border>
+                  <Border IsVisible="{Binding HasUnread}"
+                          Background="{DynamicResource ArcChat.Brush.Primary}"
+                          CornerRadius="10"
+                          MinWidth="22"
+                          Padding="7,2">
+                    <TextBlock Text="{Binding UnreadCount}"
+                               FontSize="11"
+                               TextAlignment="Center"
+                               Foreground="White" />
+                  </Border>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Margin="0,6,0,0"
+                           Text="{Binding UpdatedAtText}"
+                           Foreground="{DynamicResource ArcChat.Brush.Text}"
+                           Opacity="0.62"
+                           FontSize="12" />
+
+                <StackPanel Grid.Row="1"
+                            Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="6"
+                            IsVisible="{Binding IsEditing}">
+                  <Button Content="OK"
+                          MinWidth="42"
+                          Command="{Binding #ConversationListRoot.DataContext.CommitRenameCommand}"
+                          CommandParameter="{Binding}" />
+                  <Button Content="Cancel"
+                          MinWidth="64"
+                          Command="{Binding #ConversationListRoot.DataContext.CancelRenameCommand}"
+                          CommandParameter="{Binding}" />
+                </StackPanel>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Grid>
+  </Grid>
+</UserControl>

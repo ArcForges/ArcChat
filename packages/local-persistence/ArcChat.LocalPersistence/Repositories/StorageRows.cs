@@ -13,6 +13,23 @@ internal sealed class ConversationRow
     public long UpdatedAt { get; set; }
 }
 
+internal sealed class ConversationListRow
+{
+    public string Id { get; set; } = string.Empty;
+
+    public string Topic { get; set; } = string.Empty;
+
+    public long UpdatedAt { get; set; }
+
+    public bool IsPinned { get; set; }
+
+    public bool IsArchived { get; set; }
+
+    public int SortOrder { get; set; }
+
+    public int UnreadCount { get; set; }
+}
+
 internal sealed class MessageRow
 {
     public string ConversationId { get; set; } = string.Empty;

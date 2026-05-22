@@ -9,7 +9,22 @@ ArcChat.LocalPersistence.Repositories.IConversationRepository
 ArcChat.LocalPersistence.Repositories.IConversationRepository.DeleteAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
 ArcChat.LocalPersistence.Repositories.IConversationRepository.GetAsync(string id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Chat.Conversation>
 ArcChat.LocalPersistence.Repositories.IConversationRepository.ListAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Conversation>>
+ArcChat.LocalPersistence.Repositories.IConversationRepository.ListEntriesAsync(bool includeArchived = false, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ArcChat.LocalPersistence.Repositories.ConversationListEntry>>
+ArcChat.LocalPersistence.Repositories.IConversationRepository.RenameAsync(string id, string topic, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IConversationRepository.ReorderAsync(System.Collections.Generic.IReadOnlyList<string> orderedConversationIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IConversationRepository.SetArchivedAsync(string id, bool isArchived, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IConversationRepository.SetPinnedAsync(string id, bool isPinned, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.IConversationRepository.SetUnreadCountAsync(string id, int unreadCount, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
 ArcChat.LocalPersistence.Repositories.IConversationRepository.UpsertAsync(ArcChat.Protocol.Chat.Conversation conversation, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+ArcChat.LocalPersistence.Repositories.ConversationListEntry
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.ConversationListEntry(string Id, string Topic, long UpdatedAt, bool IsPinned, bool IsArchived, int SortOrder, int UnreadCount) -> void
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.Id.get -> string
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.IsArchived.get -> bool
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.IsPinned.get -> bool
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.SortOrder.get -> int
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.Topic.get -> string
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.UnreadCount.get -> int
+ArcChat.LocalPersistence.Repositories.ConversationListEntry.UpdatedAt.get -> long
 ArcChat.LocalPersistence.Repositories.IMessageRepository
 ArcChat.LocalPersistence.Repositories.IMessageRepository.BulkAppendAsync(string conversationId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message> messages, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
 ArcChat.LocalPersistence.Repositories.IMessageRepository.DeleteAsync(string conversationId, string messageId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task

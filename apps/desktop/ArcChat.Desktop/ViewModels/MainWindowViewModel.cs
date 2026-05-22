@@ -1,6 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using System.Windows.Input;
+using ArcChat.Desktop.Features.Conversations;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
@@ -31,6 +32,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         };
 
     private readonly IAppNavigator navigator;
+    private readonly ConversationListViewModel conversationListViewModel;
     private readonly SettingsViewModel settingsViewModel;
     private readonly ILocaleService? localeService;
     private readonly IDisposable destinationSubscription;
@@ -42,25 +44,28 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     private IReadOnlyList<SidebarItem> navigationItems = Array.Empty<SidebarItem>();
 
     public MainWindowViewModel()
-        : this(new AppNavigator(), new SettingsViewModel(), new CommandPaletteViewModel())
+        : this(new AppNavigator(), new ConversationListViewModel(), new SettingsViewModel(), new CommandPaletteViewModel())
     {
     }
 
     internal MainWindowViewModel(IAppNavigator navigator)
-        : this(navigator, new SettingsViewModel(), new CommandPaletteViewModel(), null)
+        : this(navigator, new ConversationListViewModel(), new SettingsViewModel(), new CommandPaletteViewModel(), null)
     {
     }
 
     internal MainWindowViewModel(
         IAppNavigator navigator,
+        ConversationListViewModel conversationListViewModel,
         SettingsViewModel settingsViewModel,
         CommandPaletteViewModel commandPalette,
         ILocaleService? localeService = null)
     {
         ArgumentNullException.ThrowIfNull(navigator);
+        ArgumentNullException.ThrowIfNull(conversationListViewModel);
         ArgumentNullException.ThrowIfNull(settingsViewModel);
         ArgumentNullException.ThrowIfNull(commandPalette);
         this.navigator = navigator;
+        this.conversationListViewModel = conversationListViewModel;
         this.settingsViewModel = settingsViewModel;
         this.CommandPalette = commandPalette;
         this.currentDestination = navigator.Current;
@@ -157,9 +162,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private ViewModelBase CreateContent(Destination destination)
     {
-        return destination is SettingsDestination
-            ? this.settingsViewModel
-            : new DestinationPlaceholderViewModel(this.TranslateDestination(destination), destination.Id);
+        return destination switch
+        {
+            Home => this.conversationListViewModel,
+            SettingsDestination => this.settingsViewModel,
+            _ => new DestinationPlaceholderViewModel(this.TranslateDestination(destination), destination.Id),
+        };
     }
 
     private void RefreshLocalizedShell()
@@ -179,7 +187,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
             new SidebarItem("mcp-market", this.Translate("Mcp.Name", "MCP Market"), "C"),
         };
         this.OnPropertyChanged(nameof(this.CurrentDestinationTitle));
-        if (this.CurrentDestination is not SettingsDestination)
+        if (this.CurrentDestination is not SettingsDestination and not Home)
         {
             this.CurrentContent = this.CreateContent(this.CurrentDestination);
         }

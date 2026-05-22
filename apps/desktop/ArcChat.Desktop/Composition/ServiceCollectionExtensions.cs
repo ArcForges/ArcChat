@@ -1,6 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using System.Globalization;
+using ArcChat.Desktop.Features.Conversations;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
@@ -8,6 +9,7 @@ using ArcChat.Desktop.Navigation;
 using ArcChat.Desktop.Shortcuts;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.LocalPersistence;
+using ArcChat.LocalPersistence.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using ObservableSettingsRepository = ArcChat.LocalServices.Settings.SettingsRepository;
 using PersistenceSettingsRepository = ArcChat.LocalPersistence.Repositories.ISettingsRepository;
@@ -20,6 +22,7 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddArcChatDesktop(this IServiceCollection services)
     {
         _ = services.AddSingleton(_ => CreateDatabase());
+        _ = services.AddSingleton<IConversationRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Conversations);
         _ = services.AddSingleton<PersistenceSettingsRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Settings);
         _ = services.AddSingleton<SettingsRepository, ObservableSettingsRepository>();
         _ = services.AddSingleton<IAppNavigator, AppNavigator>();
@@ -35,8 +38,17 @@ internal static class ServiceCollectionExtensions
             provider.GetRequiredService<SettingsRepository>(),
             provider.GetRequiredService<ILocaleService>(),
             provider.GetRequiredService<IThemeService>()));
+        _ = services.AddTransient(
+            provider =>
+            {
+                ConversationListViewModel viewModel = new ConversationListViewModel(
+                    provider.GetRequiredService<IConversationRepository>());
+                viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
+                return viewModel;
+            });
         _ = services.AddTransient(provider => new MainWindowViewModel(
             provider.GetRequiredService<IAppNavigator>(),
+            provider.GetRequiredService<ConversationListViewModel>(),
             provider.GetRequiredService<SettingsViewModel>(),
             provider.GetRequiredService<CommandPaletteViewModel>(),
             provider.GetRequiredService<ILocaleService>()));
