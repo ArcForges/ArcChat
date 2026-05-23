@@ -1,0 +1,15 @@
+#nullable enable
+ArcChat.ModelProviders.OpenAi.OpenAiProvider
+ArcChat.ModelProviders.OpenAi.OpenAiProvider.Capabilities.get -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.OpenAi.OpenAiProvider.Id.get -> ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.OpenAi.OpenAiProvider.ListModelsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>>!
+ArcChat.ModelProviders.OpenAi.OpenAiProvider.OpenAiProvider(System.Net.Http.HttpClient! httpClient, ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions? options = null) -> void
+ArcChat.ModelProviders.OpenAi.OpenAiProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.ApiKey.get -> string?
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.ApiKey.init -> void
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.BaseUri.get -> System.Uri!
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.BaseUri.init -> void
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.Models.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.Models.init -> void
+ArcChat.ModelProviders.OpenAi.OpenAiProviderOptions.OpenAiProviderOptions() -> void

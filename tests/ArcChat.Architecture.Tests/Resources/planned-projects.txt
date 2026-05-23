@@ -28,6 +28,7 @@ packages/model-providers/ArcChat.ModelProviders.Baidu.Tests/ArcChat.ModelProvide
 packages/model-providers/ArcChat.ModelProviders.Baidu/ArcChat.ModelProviders.Baidu.csproj
 packages/model-providers/ArcChat.ModelProviders.ByteDance.Tests/ArcChat.ModelProviders.ByteDance.Tests.csproj
 packages/model-providers/ArcChat.ModelProviders.ByteDance/ArcChat.ModelProviders.ByteDance.csproj
+packages/model-providers/ArcChat.ModelProviders.Core.ContractTestKit/ArcChat.ModelProviders.Core.ContractTestKit.csproj
 packages/model-providers/ArcChat.ModelProviders.Core.Tests/ArcChat.ModelProviders.Core.Tests.csproj
 packages/model-providers/ArcChat.ModelProviders.Core/ArcChat.ModelProviders.Core.csproj
 packages/model-providers/ArcChat.ModelProviders.DeepSeek.Tests/ArcChat.ModelProviders.DeepSeek.Tests.csproj

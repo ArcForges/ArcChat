@@ -13,6 +13,7 @@
     <Project Path="packages/net-core/ArcChat.Net.Tests/ArcChat.Net.Tests.csproj" />
     <Project Path="packages/model-providers/ArcChat.ModelProviders.Core/ArcChat.ModelProviders.Core.csproj" />
     <Project Path="packages/model-providers/ArcChat.ModelProviders.Core.Tests/ArcChat.ModelProviders.Core.Tests.csproj" />
+    <Project Path="packages/model-providers/ArcChat.ModelProviders.Core.ContractTestKit/ArcChat.ModelProviders.Core.ContractTestKit.csproj" />
     <Project Path="packages/model-providers/ArcChat.ModelProviders.Tokenizer/ArcChat.ModelProviders.Tokenizer.csproj" />
     <Project Path="packages/model-providers/ArcChat.ModelProviders.Tokenizer.Tests/ArcChat.ModelProviders.Tokenizer.Tests.csproj" />
     <Project Path="packages/model-providers/ArcChat.ModelProviders.OpenAi/ArcChat.ModelProviders.OpenAi.csproj" />

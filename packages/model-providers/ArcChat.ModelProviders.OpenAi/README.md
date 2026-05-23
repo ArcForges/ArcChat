@@ -1,3 +1,8 @@
 # ArcChat.ModelProviders.OpenAi
 
-Owns the OpenAI provider foundation for the NextChat rewrite. This placeholder exists so Step NC01 can validate the monorepo shape before feature code lands in later steps.
+Owns the OpenAI chat-completions provider for the NextChat rewrite.
+
+- Streams `v1/chat/completions` SSE through `ServerSentEventReader`.
+- Maps o-series and GPT-5 system instructions to `developer` messages.
+- Sends `max_completion_tokens` for o-series and GPT-5 models.
+- Supports chat vision payloads, function tools, reasoning deltas, and normalized chat errors.

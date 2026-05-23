@@ -1,15 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>ArcChat.ModelProviders.OpenAi</AssemblyName>
-    <RootNamespace>ArcChat.ModelProviders.OpenAi</RootNamespace>
+    <IsTestProject>true</IsTestProject>
+    <AssemblyName>ArcChat.ModelProviders.Core.ContractTestKit</AssemblyName>
+    <RootNamespace>ArcChat.ModelProviders.Core.ContractTestKit</RootNamespace>
     <UseArcChatUi>false</UseArcChatUi>
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../ArcChat.ModelProviders.Core/ArcChat.ModelProviders.Core.csproj" />
-    <ProjectReference Include="../../net-core/ArcChat.Net/ArcChat.Net.csproj" />
     <ProjectReference Include="../../protocol-net/ArcChat.Protocol/ArcChat.Protocol.csproj" />
   </ItemGroup>
 </Project>

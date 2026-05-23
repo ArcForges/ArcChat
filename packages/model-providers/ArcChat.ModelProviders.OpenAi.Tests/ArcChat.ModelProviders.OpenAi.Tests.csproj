@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../ArcChat.ModelProviders.Core.ContractTestKit/ArcChat.ModelProviders.Core.ContractTestKit.csproj" />
     <ProjectReference Include="../ArcChat.ModelProviders.OpenAi/ArcChat.ModelProviders.OpenAi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resources/openai-stream-tools-vision.ndjson" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
