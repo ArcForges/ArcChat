@@ -1,0 +1,5 @@
+{"choices":[{"delta":{"reasoning_content":"checking local image"},"finish_reason":null}]}
+{"choices":[{"delta":{"content":"vLLM sees "},"finish_reason":null}]}
+{"choices":[{"delta":{"content":"a chart."},"finish_reason":null}]}
+{"choices":[{"delta":{"tool_calls":[{"index":0,"id":"call_weather","type":"function","function":{"name":"describe_image","arguments":"{\"detail\":\""}}]},"finish_reason":null}]}
+{"choices":[{"delta":{"tool_calls":[{"index":0,"function":{"arguments":"high\"}"}}]},"finish_reason":"tool_calls"}]}

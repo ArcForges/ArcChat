@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../ArcChat.ModelProviders.Core.ContractTestKit/ArcChat.ModelProviders.Core.ContractTestKit.csproj" />
     <ProjectReference Include="../ArcChat.ModelProviders.GenericOpenAi/ArcChat.ModelProviders.GenericOpenAi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resources/vllm-stream-tools-vision.ndjson" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Resources/lmstudio-chat-stream.ndjson" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

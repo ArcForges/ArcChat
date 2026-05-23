@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <IsTestProject>true</IsTestProject>
+    <IsTestProject>false</IsTestProject>
     <AssemblyName>ArcChat.ModelProviders.Core.ContractTestKit</AssemblyName>
     <RootNamespace>ArcChat.ModelProviders.Core.ContractTestKit</RootNamespace>
     <UseArcChatUi>false</UseArcChatUi>

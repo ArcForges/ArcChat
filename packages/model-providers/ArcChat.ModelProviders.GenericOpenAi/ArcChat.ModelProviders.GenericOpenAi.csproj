@@ -6,4 +6,10 @@
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="../ArcChat.ModelProviders.Core/ArcChat.ModelProviders.Core.csproj" />
+    <ProjectReference Include="../../net-core/ArcChat.Net/ArcChat.Net.csproj" />
+    <ProjectReference Include="../../protocol-net/ArcChat.Protocol/ArcChat.Protocol.csproj" />
+  </ItemGroup>
 </Project>
