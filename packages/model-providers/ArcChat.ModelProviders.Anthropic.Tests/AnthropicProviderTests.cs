@@ -230,7 +230,7 @@ public sealed class AnthropicProviderTests
 
     private static string[] ReadFixtureLines()
     {
-        return File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Resources", "anthropic-messages-tools-vision.ndjson"));
+        return File.ReadAllLines(Path.Join(AppContext.BaseDirectory, "Resources", "anthropic-messages-tools-vision.ndjson"));
     }
 
     private sealed class CapturingHandler : HttpMessageHandler

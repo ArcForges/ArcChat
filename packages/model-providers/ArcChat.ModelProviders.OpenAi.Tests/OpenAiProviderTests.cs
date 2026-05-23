@@ -181,7 +181,7 @@ public sealed class OpenAiProviderTests
 
     private static string[] ReadFixtureLines()
     {
-        return File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Resources", "openai-stream-tools-vision.ndjson"));
+        return File.ReadAllLines(Path.Join(AppContext.BaseDirectory, "Resources", "openai-stream-tools-vision.ndjson"));
     }
 
     private sealed class CapturingHandler : HttpMessageHandler

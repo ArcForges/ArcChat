@@ -276,7 +276,12 @@ public sealed class GenericOpenAiProviderTests
 
     private static string[] ReadFixtureLines(string name)
     {
-        return File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Resources", name));
+        if (Path.IsPathRooted(name))
+        {
+            throw new ArgumentException("Fixture name must be relative.", nameof(name));
+        }
+
+        return File.ReadAllLines(Path.Join(AppContext.BaseDirectory, "Resources", name));
     }
 
     private sealed class CapturingHandler : HttpMessageHandler

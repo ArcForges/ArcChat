@@ -217,14 +217,17 @@ public sealed class GoogleProvider : IChatProvider
 
         if (visionModel)
         {
-            foreach (ImageBlock image in message.Content.OfType<ImageBlock>())
-            {
-                if (TryParseDataUrl(image.Url, out string? mimeType, out string? data)
-                    && mimeType is not null
-                    && data is not null)
+            foreach (GooglePayload.InlineData inlineData in message.Content
+                .OfType<ImageBlock>()
+                .Select(static image =>
                 {
-                    parts.Add(new GooglePayload.Part(inlineData: new GooglePayload.InlineData(mimeType, data)));
-                }
+                    bool parsed = TryParseDataUrl(image.Url, out string? mimeType, out string? data);
+                    return (Parsed: parsed, MimeType: mimeType, Data: data);
+                })
+                .Where(static image => image.Parsed && image.MimeType is not null && image.Data is not null)
+                .Select(static image => new GooglePayload.InlineData(image.MimeType!, image.Data!)))
+            {
+                parts.Add(new GooglePayload.Part(inlineData: inlineData));
             }
         }
 

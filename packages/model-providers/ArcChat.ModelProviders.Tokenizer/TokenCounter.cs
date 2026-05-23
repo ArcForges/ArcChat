@@ -24,14 +24,7 @@ public sealed class TokenCounter : ITokenCounter
         ArgumentNullException.ThrowIfNull(messages);
         ArgumentNullException.ThrowIfNull(model);
 
-        int total = 0;
-        foreach (Message message in messages)
-        {
-            string text = GetMessageTextContent(message);
-            total += CountText(text, model);
-        }
-
-        return total;
+        return messages.Select(GetMessageTextContent).Sum(text => CountText(text, model));
     }
 
     private static string GetMessageTextContent(Message message)
@@ -44,9 +37,8 @@ public sealed class TokenCounter : ITokenCounter
     private static int CountNextChatEstimatedTokens(string text)
     {
         double tokenLength = 0;
-        foreach (char character in text)
+        foreach (int charCode in text.Select(static character => (int)character))
         {
-            int charCode = character;
             if (charCode < 128)
             {
                 tokenLength += charCode is >= 65 and <= 122 ? 0.25 : 0.5;

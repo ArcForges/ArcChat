@@ -224,7 +224,7 @@ public sealed class GoogleProviderTests
 
     private static string[] ReadFixtureLines()
     {
-        return File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Resources", "google-stream-tools-vision.ndjson"));
+        return File.ReadAllLines(Path.Join(AppContext.BaseDirectory, "Resources", "google-stream-tools-vision.ndjson"));
     }
 
     private static bool HasProperty(JsonElement element, string name)

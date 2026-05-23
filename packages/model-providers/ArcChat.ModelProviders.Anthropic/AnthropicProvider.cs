@@ -182,7 +182,6 @@ public sealed class AnthropicProvider : IChatProvider
             {
                 string fillerRole = string.Equals(role, "user", StringComparison.Ordinal) ? "assistant" : "user";
                 messages.Add(CreateFillerMessage(fillerRole));
-                previousRole = fillerRole;
             }
 
             messages.Add(new AnthropicPayload.Message(role, content));
@@ -454,12 +453,11 @@ public sealed class AnthropicProvider : IChatProvider
                 yield break;
             }
 
-            foreach (AnthropicPayload.ToolUseAccumulator tool in this.tools.Values.OrderBy(tool => tool.Index))
+            foreach (AnthropicPayload.ToolUseAccumulator tool in this.tools.Values
+                .OrderBy(tool => tool.Index)
+                .Where(tool => this.completedToolIndexes.Add(tool.Index)))
             {
-                if (this.completedToolIndexes.Add(tool.Index))
-                {
-                    yield return CreateToolCompleted(this.request, tool);
-                }
+                yield return CreateToolCompleted(this.request, tool);
             }
 
             Message message = new Message(
