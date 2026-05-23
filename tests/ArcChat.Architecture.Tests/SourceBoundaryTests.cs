@@ -23,6 +23,7 @@ public sealed class SourceBoundaryTests
         "Microsoft.Extensions.",
         "NetArchTest.",
         "NSubstitute",
+        "Polly",
         "System",
         "VerifyXunit",
         "Xunit",

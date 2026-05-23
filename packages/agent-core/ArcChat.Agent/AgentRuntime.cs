@@ -114,7 +114,7 @@ public sealed class AgentRuntime : IAgentRuntime
             ImmutableArray<ArcTool>.Empty,
             ProviderExtra.ForStream(request.ConversationId, request.MessageId));
 
-        IChatProvider provider = this.providerRegistry.Resolve(new ProviderId(request.Model.ProviderName));
+        IChatProvider provider = this.providerRegistry.Resolve(new ProviderId(request.Model.ProviderName), request.Model);
         IAsyncEnumerator<ChatEvent> enumerator = provider
             .StreamAsync(providerRequest, cancellationToken)
             .GetAsyncEnumerator(cancellationToken);

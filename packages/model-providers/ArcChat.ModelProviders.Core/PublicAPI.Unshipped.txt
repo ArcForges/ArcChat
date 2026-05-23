@@ -10,8 +10,9 @@ ArcChat.ModelProviders.Core.ChatProviderRegistry
 ArcChat.ModelProviders.Core.ChatProviderRegistry.ChatProviderRegistry(ArcChat.ModelProviders.Core.ProviderId? fallbackProviderId = null) -> void
 ArcChat.ModelProviders.Core.ChatProviderRegistry.Providers.get -> System.Collections.Generic.IReadOnlyCollection<ArcChat.ModelProviders.Core.IChatProvider!>!
 ArcChat.ModelProviders.Core.ChatProviderRegistry.Register(ArcChat.ModelProviders.Core.IChatProvider! provider) -> void
-ArcChat.ModelProviders.Core.ChatProviderRegistry.Resolve(ArcChat.ModelProviders.Core.ProviderId providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
-ArcChat.ModelProviders.Core.ChatProviderRegistry.TryResolve(ArcChat.ModelProviders.Core.ProviderId providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.ChatProviderRegistry.Resolve(ArcChat.ModelProviders.Core.ProviderId providerId, ArcChat.Protocol.Providers.ModelConfig! config) -> ArcChat.ModelProviders.Core.IChatProvider!
+ArcChat.ModelProviders.Core.ChatProviderRegistry.TryResolve(ArcChat.ModelProviders.Core.ProviderId providerId, ArcChat.Protocol.Providers.ModelConfig! config, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.ChatProviderServiceCollectionExtensions
 ArcChat.ModelProviders.Core.ChatRequest
 ArcChat.ModelProviders.Core.ChatRequest.ChatRequest(System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message!> history, ArcChat.Protocol.Providers.ModelConfig! config, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Artifacts.ArcTool!> tools, ArcChat.ModelProviders.Core.ProviderExtra! extra) -> void
 ArcChat.ModelProviders.Core.ChatRequest.Config.get -> ArcChat.Protocol.Providers.ModelConfig!
@@ -29,8 +30,8 @@ ArcChat.ModelProviders.Core.IChatProvider.ListModelsAsync(System.Threading.Cance
 ArcChat.ModelProviders.Core.IChatProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
 ArcChat.ModelProviders.Core.IChatProviderRegistry
 ArcChat.ModelProviders.Core.IChatProviderRegistry.Providers.get -> System.Collections.Generic.IReadOnlyCollection<ArcChat.ModelProviders.Core.IChatProvider!>!
-ArcChat.ModelProviders.Core.IChatProviderRegistry.Resolve(ArcChat.ModelProviders.Core.ProviderId providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
-ArcChat.ModelProviders.Core.IChatProviderRegistry.TryResolve(ArcChat.ModelProviders.Core.ProviderId providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.IChatProviderRegistry.Resolve(ArcChat.ModelProviders.Core.ProviderId providerId, ArcChat.Protocol.Providers.ModelConfig! config) -> ArcChat.ModelProviders.Core.IChatProvider!
+ArcChat.ModelProviders.Core.IChatProviderRegistry.TryResolve(ArcChat.ModelProviders.Core.ProviderId providerId, ArcChat.Protocol.Providers.ModelConfig! config, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
 ArcChat.ModelProviders.Core.ModelProviderCoreDefaults
 ArcChat.ModelProviders.Core.ProviderExtra
 ArcChat.ModelProviders.Core.ProviderExtra.ConversationId.get -> string!
@@ -45,7 +46,21 @@ ArcChat.ModelProviders.Core.ProviderId.ProviderId() -> void
 ArcChat.ModelProviders.Core.ProviderId.ProviderId(string! value) -> void
 ArcChat.ModelProviders.Core.ProviderId.Value.get -> string!
 ArcChat.ModelProviders.Core.ProviderId.Value.init -> void
+ArcChat.ModelProviders.Core.RateLimitedChatProvider
+ArcChat.ModelProviders.Core.RateLimitedChatProvider.Capabilities.get -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.RateLimitedChatProvider.Dispose() -> void
+ArcChat.ModelProviders.Core.RateLimitedChatProvider.Id.get -> ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.Core.RateLimitedChatProvider.ListModelsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>>!
+ArcChat.ModelProviders.Core.RateLimitedChatProvider.RateLimitedChatProvider(ArcChat.ModelProviders.Core.IChatProvider! inner, System.Threading.RateLimiting.TokenBucketRateLimiter! limiter) -> void
+ArcChat.ModelProviders.Core.RateLimitedChatProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.ModelProviders.Core.RetryingChatProvider
+ArcChat.ModelProviders.Core.RetryingChatProvider.Capabilities.get -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.RetryingChatProvider.Id.get -> ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.Core.RetryingChatProvider.ListModelsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>>!
+ArcChat.ModelProviders.Core.RetryingChatProvider.RetryingChatProvider(ArcChat.ModelProviders.Core.IChatProvider! inner, Polly.ResiliencePipeline? pipeline = null) -> void
+ArcChat.ModelProviders.Core.RetryingChatProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
 const ArcChat.ModelProviders.Core.ModelProviderCoreDefaults.EchoProviderId = "Echo" -> string!
 override ArcChat.ModelProviders.Core.ProviderId.ToString() -> string!
+static ArcChat.ModelProviders.Core.ChatProviderServiceCollectionExtensions.AddArcChatProviders(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ArcChat.ModelProviders.Core.ModelProviderCoreDefaults.CreateRegistry() -> ArcChat.ModelProviders.Core.ChatProviderRegistry!
 static ArcChat.ModelProviders.Core.ProviderExtra.ForStream(string! conversationId, string! messageId) -> ArcChat.ModelProviders.Core.ProviderExtra!

@@ -37,7 +37,7 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<IConversationRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Conversations);
         _ = services.AddSingleton<IMessageRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Messages);
         _ = services.AddSingleton<PersistenceSettingsRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Settings);
-        _ = services.AddSingleton<IChatProviderRegistry>(_ => ModelProviderCoreDefaults.CreateRegistry());
+        _ = services.AddArcChatProviders();
         _ = services.AddSingleton<IAgentRuntime>(provider => new AgentRuntime(provider.GetRequiredService<IChatProviderRegistry>()));
         _ = services.AddSingleton<IConversationTitler, ConversationTitler>();
         _ = services.AddSingleton<IContextSummarizer, ContextSummarizer>();

@@ -1,5 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using ArcChat.Protocol.Providers;
+
 namespace ArcChat.ModelProviders.Core;
 
 /// <summary>
@@ -34,8 +36,9 @@ public sealed class ChatProviderRegistry : IChatProviderRegistry
     }
 
     /// <inheritdoc />
-    public IChatProvider Resolve(ProviderId providerId)
+    public IChatProvider Resolve(ProviderId providerId, ModelConfig config)
     {
+        ArgumentNullException.ThrowIfNull(config);
         if (string.IsNullOrWhiteSpace(providerId.Value))
         {
             throw new ArgumentException("Provider id must not be empty.", nameof(providerId));
@@ -56,8 +59,9 @@ public sealed class ChatProviderRegistry : IChatProviderRegistry
     }
 
     /// <inheritdoc />
-    public bool TryResolve(ProviderId providerId, out IChatProvider provider)
+    public bool TryResolve(ProviderId providerId, ModelConfig config, out IChatProvider provider)
     {
+        ArgumentNullException.ThrowIfNull(config);
         if (string.IsNullOrWhiteSpace(providerId.Value))
         {
             throw new ArgumentException("Provider id must not be empty.", nameof(providerId));

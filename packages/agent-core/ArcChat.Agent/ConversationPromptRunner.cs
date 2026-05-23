@@ -28,7 +28,7 @@ internal static class ConversationPromptRunner
         ModelConfig model,
         CancellationToken cancellationToken)
     {
-        IChatProvider provider = providerRegistry.Resolve(new ProviderId(model.ProviderName));
+        IChatProvider provider = providerRegistry.Resolve(new ProviderId(model.ProviderName), model);
         string messageId = Guid.NewGuid().ToString("N");
         ChatRequest request = new ChatRequest(
             messages.ToImmutableArray(),
