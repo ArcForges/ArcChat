@@ -1,3 +1,7 @@
 # ArcChat.ModelProviders.Google
 
-Owns the Google provider foundation for the NextChat rewrite. This placeholder exists so Step NC01 can validate the monorepo shape before feature code lands in later steps.
+Owns the Google Gemini `streamGenerateContent` provider for the NextChat rewrite.
+
+- Streams `v1beta/models/{model}:streamGenerateContent?alt=sse` through `ServerSentEventReader`.
+- Maps system prompts to `systemInstruction` and Gemini chat roles to `user` / `model`.
+- Supports inline image parts, function declarations / calls, function responses, safety settings, and normalized chat errors.

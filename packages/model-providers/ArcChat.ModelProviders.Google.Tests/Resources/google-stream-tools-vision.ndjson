@@ -1,0 +1,2 @@
+{"candidates":[{"content":{"role":"model","parts":[{"text":"The image shows "}]}}]}
+{"candidates":[{"content":{"role":"model","parts":[{"text":"a chart."},{"functionCall":{"id":"call_unit","name":"describe_image","args":{"detail":"high"}}}]},"finishReason":"STOP"}]}

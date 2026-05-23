@@ -1,0 +1,22 @@
+﻿#nullable enable
+ArcChat.ModelProviders.Google.GoogleProvider
+ArcChat.ModelProviders.Google.GoogleProvider.GoogleProvider(System.Net.Http.HttpClient! httpClient, ArcChat.ModelProviders.Google.GoogleProviderOptions? options = null) -> void
+ArcChat.ModelProviders.Google.GoogleProvider.Capabilities.get -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Google.GoogleProvider.Id.get -> ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.Google.GoogleProvider.ListModelsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>>!
+ArcChat.ModelProviders.Google.GoogleProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.ModelProviders.Google.GoogleProviderOptions
+ArcChat.ModelProviders.Google.GoogleProviderOptions.ApiKey.get -> string?
+ArcChat.ModelProviders.Google.GoogleProviderOptions.ApiKey.init -> void
+ArcChat.ModelProviders.Google.GoogleProviderOptions.BaseUri.get -> System.Uri!
+ArcChat.ModelProviders.Google.GoogleProviderOptions.BaseUri.init -> void
+ArcChat.ModelProviders.Google.GoogleProviderOptions.GoogleProviderOptions() -> void
+ArcChat.ModelProviders.Google.GoogleProviderOptions.Models.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>
+ArcChat.ModelProviders.Google.GoogleProviderOptions.Models.init -> void
+ArcChat.ModelProviders.Google.GoogleProviderOptions.SafetyThreshold.get -> ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold
+ArcChat.ModelProviders.Google.GoogleProviderOptions.SafetyThreshold.init -> void
+ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold
+ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold.BlockLowAndAbove = 3 -> ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold
+ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold.BlockMediumAndAbove = 2 -> ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold
+ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold.BlockNone = 0 -> ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold
+ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold.BlockOnlyHigh = 1 -> ArcChat.ModelProviders.Google.GoogleSafetySettingsThreshold
