@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../ArcChat.ModelProviders.Core.ContractTestKit/ArcChat.ModelProviders.Core.ContractTestKit.csproj" />
     <ProjectReference Include="../ArcChat.ModelProviders.Anthropic/ArcChat.ModelProviders.Anthropic.csproj" />
+    <ProjectReference Include="../../protocol-net/ArcChat.Protocol/ArcChat.Protocol.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resources\**\*.*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

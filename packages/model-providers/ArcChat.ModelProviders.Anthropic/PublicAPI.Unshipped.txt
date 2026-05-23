@@ -1,0 +1,17 @@
+﻿#nullable enable
+ArcChat.ModelProviders.Anthropic.AnthropicProvider
+ArcChat.ModelProviders.Anthropic.AnthropicProvider.AnthropicProvider(System.Net.Http.HttpClient! httpClient, ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions? options = null) -> void
+ArcChat.ModelProviders.Anthropic.AnthropicProvider.Capabilities.get -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Anthropic.AnthropicProvider.Id.get -> ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.Anthropic.AnthropicProvider.ListModelsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>>!
+ArcChat.ModelProviders.Anthropic.AnthropicProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.AnthropicProviderOptions() -> void
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.ApiKey.get -> string?
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.ApiKey.init -> void
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.ApiVersion.get -> string!
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.ApiVersion.init -> void
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.BaseUri.get -> System.Uri!
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.BaseUri.init -> void
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.Models.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>
+ArcChat.ModelProviders.Anthropic.AnthropicProviderOptions.Models.init -> void
