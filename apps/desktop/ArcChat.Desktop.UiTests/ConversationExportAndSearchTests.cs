@@ -69,7 +69,7 @@ public sealed class ConversationExportAndSearchTests
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "Headless dispatch returns an implementation value ignored by the test.")]
     public static async Task ImageExporterProducesGoldenPng()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -114,7 +114,7 @@ public sealed class ConversationExportAndSearchTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None).ConfigureAwait(true);

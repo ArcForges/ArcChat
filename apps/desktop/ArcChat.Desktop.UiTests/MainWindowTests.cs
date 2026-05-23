@@ -24,7 +24,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task MainWindowDisplaysTwoPaneShell()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -56,7 +56,7 @@ public sealed class MainWindowTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -65,7 +65,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task SidebarCommandDrivesShellContent()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -96,7 +96,7 @@ public sealed class MainWindowTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -105,7 +105,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task SplitterStateUpdatesSidebarNarrowMode()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -131,7 +131,7 @@ public sealed class MainWindowTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -140,7 +140,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task MainWindowRegistersCommandPaletteShortcut()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -168,7 +168,7 @@ public sealed class MainWindowTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);

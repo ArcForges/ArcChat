@@ -59,7 +59,7 @@ public sealed class SettingsViewTests
     [Fact]
     public static async Task SettingsViewShowsRequiredSkeletonTabs()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -91,7 +91,7 @@ public sealed class SettingsViewTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);

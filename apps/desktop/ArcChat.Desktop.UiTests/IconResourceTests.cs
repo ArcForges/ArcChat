@@ -14,7 +14,7 @@ public sealed class IconResourceTests
     [Fact]
     public static async Task IconReferencesLoadFromAxaml()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -29,7 +29,7 @@ public sealed class IconResourceTests
     [Fact]
     public static async Task GeneratedIconUrisResolveAvaloniaResources()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {

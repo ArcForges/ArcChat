@@ -160,7 +160,7 @@ public sealed class ChatDetailViewModelTests
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "MA0004:Use Task.ConfigureAwait", Justification = "Headless Avalonia dispatch must remain on the UI thread.")]
     public static async Task ChatDetailComposerKeyboardSendsAndAborts()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             async () =>
             {
@@ -197,7 +197,7 @@ public sealed class ChatDetailViewModelTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
 
                 _ = runtime.Requests.Should().ContainSingle();

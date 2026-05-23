@@ -21,7 +21,7 @@ public sealed class AccessibilityBaselineTests
     [Fact]
     public static async Task ShellInteractiveControlsExposeAutomationNamesAndTabTraversal()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -42,7 +42,7 @@ public sealed class AccessibilityBaselineTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -51,7 +51,7 @@ public sealed class AccessibilityBaselineTests
     [Fact]
     public static async Task SettingsInteractiveControlsExposeAutomationNamesAndTabTraversal()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -85,7 +85,7 @@ public sealed class AccessibilityBaselineTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
