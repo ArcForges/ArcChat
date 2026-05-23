@@ -1,0 +1,6 @@
+#nullable enable
+ArcChat.ModelProviders.Tokenizer.ITokenCounter
+ArcChat.ModelProviders.Tokenizer.ITokenCounter.Count(System.Collections.Generic.IEnumerable<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelDescriptor! model) -> int
+ArcChat.ModelProviders.Tokenizer.TokenCounter
+ArcChat.ModelProviders.Tokenizer.TokenCounter.Count(System.Collections.Generic.IEnumerable<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelDescriptor! model) -> int
+ArcChat.ModelProviders.Tokenizer.TokenCounter.TokenCounter() -> void

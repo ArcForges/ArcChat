@@ -24,6 +24,7 @@ public sealed class SourceBoundaryTests
         "NetArchTest.",
         "NSubstitute",
         "Polly",
+        "SharpToken",
         "System",
         "VerifyXunit",
         "Xunit",

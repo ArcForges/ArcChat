@@ -6,4 +6,12 @@
   </PropertyGroup>
 
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.Lib.props" />
+
+  <ItemGroup>
+    <PackageReference Include="SharpToken" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../protocol-net/ArcChat.Protocol/ArcChat.Protocol.csproj" />
+  </ItemGroup>
 </Project>
