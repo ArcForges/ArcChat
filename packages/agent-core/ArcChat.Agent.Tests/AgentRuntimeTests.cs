@@ -124,12 +124,12 @@ public sealed class AgentRuntimeTests
             this.events = events;
         }
 
-        public string Id => "OpenAI";
+        public ProviderId Id => new ProviderId("OpenAI");
 
-        public bool SupportsVision => false;
+        public ChatProviderCapabilities Capabilities => ChatProviderCapabilities.Streaming;
 
         public async IAsyncEnumerable<ChatEvent> StreamAsync(
-            ChatProviderRequest request,
+            ChatRequest request,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             foreach (ChatEvent chatEvent in this.events)
@@ -139,18 +139,23 @@ public sealed class AgentRuntimeTests
                 yield return chatEvent;
             }
         }
+
+        public Task<ImmutableArray<ModelDescriptor>> ListModelsAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(ImmutableArray<ModelDescriptor>.Empty);
+        }
     }
 
     private sealed class RetryProvider : IChatProvider
     {
         public int Attempts { get; private set; }
 
-        public string Id => "OpenAI";
+        public ProviderId Id => new ProviderId("OpenAI");
 
-        public bool SupportsVision => false;
+        public ChatProviderCapabilities Capabilities => ChatProviderCapabilities.Streaming;
 
         public async IAsyncEnumerable<ChatEvent> StreamAsync(
-            ChatProviderRequest request,
+            ChatRequest request,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             this.Attempts++;
@@ -161,23 +166,33 @@ public sealed class AgentRuntimeTests
             }
 
             cancellationToken.ThrowIfCancellationRequested();
-            yield return new MessageDelta(request.ConversationId, request.MessageId, "ok");
-            yield return new ChatFinished(request.ConversationId, request.MessageId, "stop");
+            yield return new MessageDelta(request.Extra.ConversationId, request.Extra.MessageId, "ok");
+            yield return new ChatFinished(request.Extra.ConversationId, request.Extra.MessageId, "stop");
+        }
+
+        public Task<ImmutableArray<ModelDescriptor>> ListModelsAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(ImmutableArray<ModelDescriptor>.Empty);
         }
     }
 
     private sealed class SlowProvider : IChatProvider
     {
-        public string Id => "OpenAI";
+        public ProviderId Id => new ProviderId("OpenAI");
 
-        public bool SupportsVision => false;
+        public ChatProviderCapabilities Capabilities => ChatProviderCapabilities.Streaming;
 
         public async IAsyncEnumerable<ChatEvent> StreamAsync(
-            ChatProviderRequest request,
+            ChatRequest request,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken).ConfigureAwait(false);
-            yield return new MessageDelta(request.ConversationId, request.MessageId, "late");
+            yield return new MessageDelta(request.Extra.ConversationId, request.Extra.MessageId, "late");
+        }
+
+        public Task<ImmutableArray<ModelDescriptor>> ListModelsAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(ImmutableArray<ModelDescriptor>.Empty);
         }
     }
 }

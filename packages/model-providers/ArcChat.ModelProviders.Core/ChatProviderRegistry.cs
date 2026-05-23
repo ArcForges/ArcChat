@@ -7,14 +7,14 @@ namespace ArcChat.ModelProviders.Core;
 /// </summary>
 public sealed class ChatProviderRegistry : IChatProviderRegistry
 {
-    private readonly string? fallbackProviderId;
+    private readonly ProviderId? fallbackProviderId;
     private readonly Dictionary<string, IChatProvider> providers = new Dictionary<string, IChatProvider>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatProviderRegistry"/> class.
     /// </summary>
     /// <param name="fallbackProviderId">Optional provider id used while concrete NC05 providers are still landing.</param>
-    public ChatProviderRegistry(string? fallbackProviderId = null)
+    public ChatProviderRegistry(ProviderId? fallbackProviderId = null)
     {
         this.fallbackProviderId = fallbackProviderId;
     }
@@ -30,38 +30,46 @@ public sealed class ChatProviderRegistry : IChatProviderRegistry
     {
         ArgumentNullException.ThrowIfNull(provider);
 
-        this.providers[provider.Id] = provider;
+        this.providers[provider.Id.Value] = provider;
     }
 
     /// <inheritdoc />
-    public IChatProvider Resolve(string providerId)
+    public IChatProvider Resolve(ProviderId providerId)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(providerId);
+        if (string.IsNullOrWhiteSpace(providerId.Value))
+        {
+            throw new ArgumentException("Provider id must not be empty.", nameof(providerId));
+        }
 
-        if (this.providers.TryGetValue(providerId, out IChatProvider? provider))
+        if (this.providers.TryGetValue(providerId.Value, out IChatProvider? provider))
         {
             return provider;
         }
 
-        if (this.fallbackProviderId is not null && this.providers.TryGetValue(this.fallbackProviderId, out IChatProvider? fallbackProvider))
+        if (this.fallbackProviderId is ProviderId fallbackProviderId
+            && this.providers.TryGetValue(fallbackProviderId.Value, out IChatProvider? fallbackProvider))
         {
             return fallbackProvider;
         }
 
-        throw new KeyNotFoundException($"No chat provider is registered for '{providerId}'.");
+        throw new KeyNotFoundException($"No chat provider is registered for '{providerId.Value}'.");
     }
 
     /// <inheritdoc />
-    public bool TryResolve(string providerId, out IChatProvider provider)
+    public bool TryResolve(ProviderId providerId, out IChatProvider provider)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(providerId);
+        if (string.IsNullOrWhiteSpace(providerId.Value))
+        {
+            throw new ArgumentException("Provider id must not be empty.", nameof(providerId));
+        }
 
-        if (this.providers.TryGetValue(providerId, out provider!))
+        if (this.providers.TryGetValue(providerId.Value, out provider!))
         {
             return true;
         }
 
-        if (this.fallbackProviderId is not null && this.providers.TryGetValue(this.fallbackProviderId, out provider!))
+        if (this.fallbackProviderId is ProviderId fallbackProviderId
+            && this.providers.TryGetValue(fallbackProviderId.Value, out provider!))
         {
             return true;
         }

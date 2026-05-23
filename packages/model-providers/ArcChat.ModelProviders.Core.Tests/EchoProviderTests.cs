@@ -1,6 +1,8 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using System.Collections.Immutable;
 using ArcChat.ModelProviders.Core.Internal;
+using ArcChat.Protocol.Artifacts;
 using ArcChat.Protocol.Chat;
 using ArcChat.Protocol.Providers;
 using FluentAssertions;
@@ -13,12 +15,12 @@ public sealed class EchoProviderTests
     [Fact]
     public async Task StreamAsyncEchoesLastUserMessageAsOrderedChatEvents()
     {
-        EchoProvider provider = new EchoProvider("Echo");
-        ChatProviderRequest request = new ChatProviderRequest(
-            "c1",
-            "m1",
-            new[] { Message.Text("u1", MessageRole.User, "hello", "0") },
-            ModelConfig.NextChatDefault);
+        EchoProvider provider = new EchoProvider(new ProviderId("Echo"));
+        ChatRequest request = new ChatRequest(
+            new[] { Message.Text("u1", MessageRole.User, "hello", "0") }.ToImmutableArray(),
+            ModelConfig.NextChatDefault,
+            ImmutableArray<ArcTool>.Empty,
+            ProviderExtra.ForStream("c1", "m1"));
 
         List<ChatEvent> events = new List<ChatEvent>();
         await foreach (ChatEvent chatEvent in provider.StreamAsync(request).ConfigureAwait(false))

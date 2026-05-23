@@ -30,8 +30,8 @@ public sealed class ConversationMetadataTests
         string title = await titler.GenerateTitleAsync(conversation, CancellationToken.None).ConfigureAwait(true);
 
         _ = title.Should().Be("Neural roadmap");
-        ChatProviderRequest request = provider.Requests.Should().ContainSingle().Subject;
-        Message lastMessage = request.Messages[request.Messages.Count - 1];
+        ChatRequest request = provider.Requests.Should().ContainSingle().Subject;
+        Message lastMessage = request.History[request.History.Length - 1];
         _ = lastMessage.Role.Should().Be(MessageRole.User);
         _ = ConversationPromptRunner.ExtractText(lastMessage).Should().Be(ConversationTitler.TopicPrompt);
     }
@@ -57,8 +57,8 @@ public sealed class ConversationMetadataTests
 
         _ = Encoding.UTF8.GetByteCount(summarized.MemoryPrompt).Should().BeLessThanOrEqualTo(ContextSummarizer.MaxSummaryUtf8Bytes);
         _ = summarized.LastSummarizeIndex.Should().Be(500);
-        ChatProviderRequest request = provider.Requests.Should().ContainSingle().Subject;
-        Message lastMessage = request.Messages[request.Messages.Count - 1];
+        ChatRequest request = provider.Requests.Should().ContainSingle().Subject;
+        Message lastMessage = request.History[request.History.Length - 1];
         _ = lastMessage.Role.Should().Be(MessageRole.System);
         _ = ConversationPromptRunner.ExtractText(lastMessage).Should().Be(ContextSummarizer.SummaryPrompt);
     }
@@ -74,22 +74,22 @@ public sealed class ConversationMetadataTests
             .ToArray();
     }
 
-    private static Func<ChatProviderRequest, CancellationToken, IAsyncEnumerable<ChatEvent>> CompletedText(string text)
+    private static Func<ChatRequest, CancellationToken, IAsyncEnumerable<ChatEvent>> CompletedText(string text)
     {
         return (request, cancellationToken) => StreamCompletedText(request, text, cancellationToken);
     }
 
     private static async IAsyncEnumerable<ChatEvent> StreamCompletedText(
-        ChatProviderRequest request,
+        ChatRequest request,
         string text,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await Task.Delay(1, cancellationToken).ConfigureAwait(true);
         yield return new MessageCompleted(
-            request.ConversationId,
-            request.MessageId,
-            Message.Text(request.MessageId, MessageRole.Assistant, text, "0"));
-        yield return new ChatFinished(request.ConversationId, request.MessageId, "stop");
+            request.Extra.ConversationId,
+            request.Extra.MessageId,
+            Message.Text(request.Extra.MessageId, MessageRole.Assistant, text, "0"));
+        yield return new ChatFinished(request.Extra.ConversationId, request.Extra.MessageId, "stop");
     }
 
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Record with-expressions use member assignment syntax.")]
@@ -120,23 +120,28 @@ public sealed class ConversationMetadataTests
 
     private sealed class ScriptedProvider : IChatProvider
     {
-        private readonly Func<ChatProviderRequest, CancellationToken, IAsyncEnumerable<ChatEvent>> streamFactory;
+        private readonly Func<ChatRequest, CancellationToken, IAsyncEnumerable<ChatEvent>> streamFactory;
 
-        public ScriptedProvider(Func<ChatProviderRequest, CancellationToken, IAsyncEnumerable<ChatEvent>> streamFactory)
+        public ScriptedProvider(Func<ChatRequest, CancellationToken, IAsyncEnumerable<ChatEvent>> streamFactory)
         {
             this.streamFactory = streamFactory;
         }
 
-        public List<ChatProviderRequest> Requests { get; } = new List<ChatProviderRequest>();
+        public List<ChatRequest> Requests { get; } = new List<ChatRequest>();
 
-        public string Id => "OpenAI";
+        public ProviderId Id => new ProviderId("OpenAI");
 
-        public bool SupportsVision => false;
+        public ChatProviderCapabilities Capabilities => ChatProviderCapabilities.Streaming;
 
-        public IAsyncEnumerable<ChatEvent> StreamAsync(ChatProviderRequest request, CancellationToken cancellationToken = default)
+        public IAsyncEnumerable<ChatEvent> StreamAsync(ChatRequest request, CancellationToken cancellationToken = default)
         {
             this.Requests.Add(request);
             return this.streamFactory(request, cancellationToken);
+        }
+
+        public Task<ImmutableArray<ModelDescriptor>> ListModelsAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(ImmutableArray<ModelDescriptor>.Empty);
         }
     }
 }

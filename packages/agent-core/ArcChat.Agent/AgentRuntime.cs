@@ -1,8 +1,10 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using ArcChat.ModelProviders.Core;
+using ArcChat.Protocol.Artifacts;
 using ArcChat.Protocol.Chat;
 
 namespace ArcChat.Agent;
@@ -106,13 +108,13 @@ public sealed class AgentRuntime : IAgentRuntime
     private async Task<StreamAttemptResult> StreamAttemptAsync(AgentRequest request, CancellationToken cancellationToken)
     {
         List<ChatEvent> events = new List<ChatEvent>();
-        ChatProviderRequest providerRequest = new ChatProviderRequest(
-            request.ConversationId,
-            request.MessageId,
-            request.Messages,
-            request.Model);
+        ChatRequest providerRequest = new ChatRequest(
+            request.Messages.ToImmutableArray(),
+            request.Model,
+            ImmutableArray<ArcTool>.Empty,
+            ProviderExtra.ForStream(request.ConversationId, request.MessageId));
 
-        IChatProvider provider = this.providerRegistry.Resolve(request.Model.ProviderName);
+        IChatProvider provider = this.providerRegistry.Resolve(new ProviderId(request.Model.ProviderName));
         IAsyncEnumerator<ChatEvent> enumerator = provider
             .StreamAsync(providerRequest, cancellationToken)
             .GetAsyncEnumerator(cancellationToken);

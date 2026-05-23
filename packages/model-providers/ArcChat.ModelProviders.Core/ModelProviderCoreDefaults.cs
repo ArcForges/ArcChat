@@ -20,8 +20,9 @@ public static class ModelProviderCoreDefaults
     /// <returns>A registry containing the deterministic echo provider.</returns>
     public static ChatProviderRegistry CreateRegistry()
     {
-        ChatProviderRegistry registry = new ChatProviderRegistry(EchoProviderId);
-        registry.Register(new EchoProvider(EchoProviderId));
+        ProviderId echoProviderId = new ProviderId(EchoProviderId);
+        ChatProviderRegistry registry = new ChatProviderRegistry(echoProviderId);
+        registry.Register(new EchoProvider(echoProviderId));
         return registry;
     }
 }

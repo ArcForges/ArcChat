@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using ArcChat.Protocol.Chat;
+using ArcChat.Protocol.Providers;
 
 namespace ArcChat.ModelProviders.Core.Internal;
 
@@ -12,41 +13,57 @@ internal sealed class EchoProvider : IChatProvider
     private const int ChunkSize = 8;
     private static readonly TimeSpan ChunkDelay = TimeSpan.FromMilliseconds(5);
 
-    public EchoProvider(string id)
+    public EchoProvider(ProviderId id)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(id);
+        if (string.IsNullOrWhiteSpace(id.Value))
+        {
+            throw new ArgumentException("Provider id must not be empty.", nameof(id));
+        }
 
         this.Id = id;
     }
 
-    public string Id { get; }
+    public ProviderId Id { get; }
 
-    public bool SupportsVision => false;
+    public ChatProviderCapabilities Capabilities => ChatProviderCapabilities.Streaming;
 
     public async IAsyncEnumerable<ChatEvent> StreamAsync(
-        ChatProviderRequest request,
+        ChatRequest request,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        string response = $"Echo: {GetLastUserText(request.Messages)}";
+        string response = $"Echo: {GetLastUserText(request.History)}";
         foreach (string delta in Chunk(response))
         {
             await Task.Delay(ChunkDelay, cancellationToken).ConfigureAwait(false);
             cancellationToken.ThrowIfCancellationRequested();
-            yield return new MessageDelta(request.ConversationId, request.MessageId, delta);
+            yield return new MessageDelta(request.Extra.ConversationId, request.Extra.MessageId, delta);
         }
 
         Message message = new Message(
-            request.MessageId,
+            request.Extra.MessageId,
             MessageRole.Assistant,
             ImmutableArray.Create<ContentBlock>(new TextBlock(response)),
             DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture),
-            Model: request.Model.Model,
+            Model: request.Config.Model,
             Tools: ImmutableArray<ChatMessageTool>.Empty);
 
-        yield return new MessageCompleted(request.ConversationId, request.MessageId, message);
-        yield return new ChatFinished(request.ConversationId, request.MessageId, "stop");
+        yield return new MessageCompleted(request.Extra.ConversationId, request.Extra.MessageId, message);
+        yield return new ChatFinished(request.Extra.ConversationId, request.Extra.MessageId, "stop");
+    }
+
+    public Task<ImmutableArray<ModelDescriptor>> ListModelsAsync(CancellationToken cancellationToken = default)
+    {
+        ImmutableArray<ModelDescriptor> models = ImmutableArray.Create(
+            new ModelDescriptor(
+                "echo",
+                "Echo",
+                this.Id.Value,
+                true,
+                0,
+                ImmutableArray.Create<ProviderCapability>(new StreamingCapability())));
+        return Task.FromResult(models);
     }
 
     private static string GetLastUserText(IReadOnlyList<Message> messages)

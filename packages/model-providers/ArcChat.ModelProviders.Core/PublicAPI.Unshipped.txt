@@ -1,28 +1,51 @@
 #nullable enable
+ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.ChatProviderCapabilities.JsonMode = 8 -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.ChatProviderCapabilities.None = 0 -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.ChatProviderCapabilities.Reasoning = 16 -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.ChatProviderCapabilities.Streaming = 1 -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.ChatProviderCapabilities.Tools = 2 -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.ChatProviderCapabilities.Vision = 4 -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
 ArcChat.ModelProviders.Core.ChatProviderRegistry
-ArcChat.ModelProviders.Core.ChatProviderRegistry.ChatProviderRegistry(string? fallbackProviderId = null) -> void
+ArcChat.ModelProviders.Core.ChatProviderRegistry.ChatProviderRegistry(ArcChat.ModelProviders.Core.ProviderId? fallbackProviderId = null) -> void
 ArcChat.ModelProviders.Core.ChatProviderRegistry.Providers.get -> System.Collections.Generic.IReadOnlyCollection<ArcChat.ModelProviders.Core.IChatProvider!>!
 ArcChat.ModelProviders.Core.ChatProviderRegistry.Register(ArcChat.ModelProviders.Core.IChatProvider! provider) -> void
-ArcChat.ModelProviders.Core.ChatProviderRegistry.Resolve(string! providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
-ArcChat.ModelProviders.Core.ChatProviderRegistry.TryResolve(string! providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
-ArcChat.ModelProviders.Core.ChatProviderRequest
-ArcChat.ModelProviders.Core.ChatProviderRequest.ChatProviderRequest(string! conversationId, string! messageId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelConfig! model) -> void
-ArcChat.ModelProviders.Core.ChatProviderRequest.ConversationId.get -> string!
-ArcChat.ModelProviders.Core.ChatProviderRequest.ConversationId.init -> void
-ArcChat.ModelProviders.Core.ChatProviderRequest.MessageId.get -> string!
-ArcChat.ModelProviders.Core.ChatProviderRequest.MessageId.init -> void
-ArcChat.ModelProviders.Core.ChatProviderRequest.Messages.get -> System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>!
-ArcChat.ModelProviders.Core.ChatProviderRequest.Messages.init -> void
-ArcChat.ModelProviders.Core.ChatProviderRequest.Model.get -> ArcChat.Protocol.Providers.ModelConfig!
-ArcChat.ModelProviders.Core.ChatProviderRequest.Model.init -> void
+ArcChat.ModelProviders.Core.ChatProviderRegistry.Resolve(ArcChat.ModelProviders.Core.ProviderId providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
+ArcChat.ModelProviders.Core.ChatProviderRegistry.TryResolve(ArcChat.ModelProviders.Core.ProviderId providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.ChatRequest
+ArcChat.ModelProviders.Core.ChatRequest.ChatRequest(System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message!> history, ArcChat.Protocol.Providers.ModelConfig! config, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Artifacts.ArcTool!> tools, ArcChat.ModelProviders.Core.ProviderExtra! extra) -> void
+ArcChat.ModelProviders.Core.ChatRequest.Config.get -> ArcChat.Protocol.Providers.ModelConfig!
+ArcChat.ModelProviders.Core.ChatRequest.Config.init -> void
+ArcChat.ModelProviders.Core.ChatRequest.Extra.get -> ArcChat.ModelProviders.Core.ProviderExtra!
+ArcChat.ModelProviders.Core.ChatRequest.Extra.init -> void
+ArcChat.ModelProviders.Core.ChatRequest.History.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message!>
+ArcChat.ModelProviders.Core.ChatRequest.History.init -> void
+ArcChat.ModelProviders.Core.ChatRequest.Tools.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Artifacts.ArcTool!>
+ArcChat.ModelProviders.Core.ChatRequest.Tools.init -> void
 ArcChat.ModelProviders.Core.IChatProvider
-ArcChat.ModelProviders.Core.IChatProvider.Id.get -> string!
-ArcChat.ModelProviders.Core.IChatProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatProviderRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
-ArcChat.ModelProviders.Core.IChatProvider.SupportsVision.get -> bool
+ArcChat.ModelProviders.Core.IChatProvider.Capabilities.get -> ArcChat.ModelProviders.Core.ChatProviderCapabilities
+ArcChat.ModelProviders.Core.IChatProvider.Id.get -> ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.Core.IChatProvider.ListModelsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ModelDescriptor!>>!
+ArcChat.ModelProviders.Core.IChatProvider.StreamAsync(ArcChat.ModelProviders.Core.ChatRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
 ArcChat.ModelProviders.Core.IChatProviderRegistry
 ArcChat.ModelProviders.Core.IChatProviderRegistry.Providers.get -> System.Collections.Generic.IReadOnlyCollection<ArcChat.ModelProviders.Core.IChatProvider!>!
-ArcChat.ModelProviders.Core.IChatProviderRegistry.Resolve(string! providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
-ArcChat.ModelProviders.Core.IChatProviderRegistry.TryResolve(string! providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
+ArcChat.ModelProviders.Core.IChatProviderRegistry.Resolve(ArcChat.ModelProviders.Core.ProviderId providerId) -> ArcChat.ModelProviders.Core.IChatProvider!
+ArcChat.ModelProviders.Core.IChatProviderRegistry.TryResolve(ArcChat.ModelProviders.Core.ProviderId providerId, out ArcChat.ModelProviders.Core.IChatProvider! provider) -> bool
 ArcChat.ModelProviders.Core.ModelProviderCoreDefaults
+ArcChat.ModelProviders.Core.ProviderExtra
+ArcChat.ModelProviders.Core.ProviderExtra.ConversationId.get -> string!
+ArcChat.ModelProviders.Core.ProviderExtra.ConversationId.init -> void
+ArcChat.ModelProviders.Core.ProviderExtra.MessageId.get -> string!
+ArcChat.ModelProviders.Core.ProviderExtra.MessageId.init -> void
+ArcChat.ModelProviders.Core.ProviderExtra.ProviderExtra(string! conversationId, string! messageId, System.Collections.Immutable.ImmutableDictionary<string!, System.Text.Json.JsonElement>? values = null) -> void
+ArcChat.ModelProviders.Core.ProviderExtra.Values.get -> System.Collections.Immutable.ImmutableDictionary<string!, System.Text.Json.JsonElement>!
+ArcChat.ModelProviders.Core.ProviderExtra.Values.init -> void
+ArcChat.ModelProviders.Core.ProviderId
+ArcChat.ModelProviders.Core.ProviderId.ProviderId() -> void
+ArcChat.ModelProviders.Core.ProviderId.ProviderId(string! value) -> void
+ArcChat.ModelProviders.Core.ProviderId.Value.get -> string!
+ArcChat.ModelProviders.Core.ProviderId.Value.init -> void
 const ArcChat.ModelProviders.Core.ModelProviderCoreDefaults.EchoProviderId = "Echo" -> string!
+override ArcChat.ModelProviders.Core.ProviderId.ToString() -> string!
 static ArcChat.ModelProviders.Core.ModelProviderCoreDefaults.CreateRegistry() -> ArcChat.ModelProviders.Core.ChatProviderRegistry!
+static ArcChat.ModelProviders.Core.ProviderExtra.ForStream(string! conversationId, string! messageId) -> ArcChat.ModelProviders.Core.ProviderExtra!

@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Text;
 using ArcChat.ModelProviders.Core;
+using ArcChat.Protocol.Artifacts;
 using ArcChat.Protocol.Chat;
 using ArcChat.Protocol.Providers;
 
@@ -27,13 +28,13 @@ internal static class ConversationPromptRunner
         ModelConfig model,
         CancellationToken cancellationToken)
     {
-        IChatProvider provider = providerRegistry.Resolve(model.ProviderName);
+        IChatProvider provider = providerRegistry.Resolve(new ProviderId(model.ProviderName));
         string messageId = Guid.NewGuid().ToString("N");
-        ChatProviderRequest request = new ChatProviderRequest(
-            conversationId,
-            messageId,
-            messages,
-            model with { Stream = false });
+        ChatRequest request = new ChatRequest(
+            messages.ToImmutableArray(),
+            model with { Stream = false },
+            ImmutableArray<ArcTool>.Empty,
+            ProviderExtra.ForStream(conversationId, messageId));
         StringBuilder builder = new StringBuilder();
 
         await foreach (ChatEvent chatEvent in provider.StreamAsync(request, cancellationToken).ConfigureAwait(false))
