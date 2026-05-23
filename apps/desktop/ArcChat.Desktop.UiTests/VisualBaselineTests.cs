@@ -32,7 +32,7 @@ public sealed class VisualBaselineTests
 
         if (shouldUpdate)
         {
-            using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+            using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
             await session.Dispatch(
                 () =>
                 {
@@ -77,7 +77,7 @@ public sealed class VisualBaselineTests
         }
         finally
         {
-            window.Close();
+            TestAppBuilder.CloseWindow(window);
         }
     }
 

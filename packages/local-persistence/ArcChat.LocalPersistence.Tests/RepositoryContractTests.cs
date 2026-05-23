@@ -1,5 +1,6 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using ArcChat.LocalPersistence.Repositories;
 using ArcChat.Protocol.Chat;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
@@ -48,6 +49,65 @@ public sealed class RepositoryContractTests
         _ = stored.Should().HaveCount(5_001);
         _ = stored[0].Id.Should().Be("m-single");
         _ = stored[^1].Id.Should().Be("m-4999");
+    }
+
+    [Fact]
+    public async Task MessageRepositoryPersistsBranchTree()
+    {
+        string path = TestData.CreateDatabasePath();
+        await using ArcChatDatabase database = new(path);
+        await database.InitializeAsync(CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("branch"), CancellationToken.None);
+        Message root = Message.Text("u1", MessageRole.User, "original", "0");
+        Message firstBranch = Message.Text("u2", MessageRole.User, "edited", "0", "u1");
+        Message assistantBranch = Message.Text("a2", MessageRole.Assistant, "answer", "0", "u1");
+        Message nestedBranch = Message.Text("u3", MessageRole.User, "edited again", "0", "u2");
+
+        await database.Messages.BulkAppendAsync("branch", new[] { root, firstBranch, assistantBranch, nestedBranch }, CancellationToken.None);
+
+        Message? storedBranch = await database.Messages.GetAsync("branch", "u2", CancellationToken.None);
+        IReadOnlyList<Message> tree = await database.Messages.ListBranchTreeAsync("branch", "u1", CancellationToken.None);
+
+        _ = storedBranch!.BranchOfMessageId.Should().Be("u1");
+        _ = tree.Select(message => message.Id).Should().Equal("u1", "u2", "a2", "u3");
+    }
+
+    [Fact]
+    public async Task ConversationRepositoryPersistsListOrder()
+    {
+        string path = TestData.CreateDatabasePath();
+        await using ArcChatDatabase database = new(path);
+        await database.InitializeAsync(CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c1"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c2"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c3"), CancellationToken.None);
+
+        await database.Conversations.ReorderAsync(new[] { "c3", "c1", "c2" }, CancellationToken.None);
+
+        IReadOnlyList<ConversationListEntry> firstRead = await database.Conversations.ListEntriesAsync(false, CancellationToken.None);
+        _ = firstRead.Select(entry => entry.Id).Should().Equal("c3", "c1", "c2");
+
+        await using ArcChatDatabase reopened = new(path);
+        await reopened.InitializeAsync(CancellationToken.None);
+        IReadOnlyList<ConversationListEntry> secondRead = await reopened.Conversations.ListEntriesAsync(false, CancellationToken.None);
+        _ = secondRead.Select(entry => entry.Id).Should().Equal("c3", "c1", "c2");
+    }
+
+    [Fact]
+    public async Task ConversationRepositorySortsPinnedFirst()
+    {
+        string path = TestData.CreateDatabasePath();
+        await using ArcChatDatabase database = new(path);
+        await database.InitializeAsync(CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c1"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c2"), CancellationToken.None);
+        await database.Conversations.UpsertAsync(TestData.CreateConversation("c3"), CancellationToken.None);
+
+        await database.Conversations.SetPinnedAsync("c2", true, CancellationToken.None);
+
+        IReadOnlyList<ConversationListEntry> entries = await database.Conversations.ListEntriesAsync(false, CancellationToken.None);
+        _ = entries[0].Id.Should().Be("c2");
+        _ = entries[0].IsPinned.Should().BeTrue();
     }
 
     [Fact]

@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../ArcChat.ModelProviders.Core/ArcChat.ModelProviders.Core.csproj" />
+    <ProjectReference Include="$(ArcChatRepositoryRoot)packages\protocol-net\ArcChat.Protocol\ArcChat.Protocol.csproj" />
   </ItemGroup>
 </Project>

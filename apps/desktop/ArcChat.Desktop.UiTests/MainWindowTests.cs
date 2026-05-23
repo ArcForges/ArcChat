@@ -1,5 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
+using ArcChat.Desktop.Features.Conversations;
+using ArcChat.Desktop.Features.Masks;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
@@ -22,7 +24,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task MainWindowDisplaysTwoPaneShell()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -50,12 +52,11 @@ public sealed class MainWindowTests
                     ContentControl content = window.GetVisualDescendants()
                         .OfType<ContentControl>()
                         .Single(control => string.Equals(control.Name, "ShellContent", StringComparison.Ordinal));
-                    DestinationPlaceholderViewModel placeholder = content.Content.Should().BeOfType<DestinationPlaceholderViewModel>().Subject;
-                    _ = placeholder.Id.Should().Be("home");
+                    _ = content.Content.Should().BeOfType<ConversationListViewModel>();
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -64,7 +65,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task SidebarCommandDrivesShellContent()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -91,12 +92,11 @@ public sealed class MainWindowTests
                     ContentControl content = window.GetVisualDescendants()
                         .OfType<ContentControl>()
                         .Single(control => string.Equals(control.Name, "ShellContent", StringComparison.Ordinal));
-                    DestinationPlaceholderViewModel placeholder = content.Content.Should().BeOfType<DestinationPlaceholderViewModel>().Subject;
-                    _ = placeholder.Id.Should().Be("new-chat");
+                    _ = content.Content.Should().BeOfType<NewChatViewModel>();
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -105,7 +105,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task SplitterStateUpdatesSidebarNarrowMode()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -131,7 +131,7 @@ public sealed class MainWindowTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -140,7 +140,7 @@ public sealed class MainWindowTests
     [Fact]
     public static async Task MainWindowRegistersCommandPaletteShortcut()
     {
-        using HeadlessUnitTestSession session = HeadlessUnitTestSession.StartNew(typeof(TestAppBuilder));
+        using HeadlessUnitTestSession session = TestAppBuilder.StartHeadlessSession();
         await session.Dispatch(
             () =>
             {
@@ -168,7 +168,7 @@ public sealed class MainWindowTests
                 }
                 finally
                 {
-                    window.Close();
+                    TestAppBuilder.CloseWindow(window);
                 }
             },
             CancellationToken.None);
@@ -195,6 +195,7 @@ public sealed class MainWindowTests
         using SettingsViewModel settingsViewModel = new SettingsViewModel();
         using MainWindowViewModel viewModel = new MainWindowViewModel(
             new AppNavigator(),
+            new ConversationListViewModel(),
             settingsViewModel,
             new CommandPaletteViewModel(),
             localeService);

@@ -27,6 +27,7 @@ public sealed record ModelDescriptor(
     bool Available,
     int Sorted,
     ImmutableArray<ProviderCapability> Capabilities,
+    int? ContextWindow = null,
     ImmutableDictionary<string, JsonElement>? Extra = null);
 
 /// <summary>

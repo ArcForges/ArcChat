@@ -1,0 +1,5 @@
+Hello
+Hello\n```csharp\npublic
+Hello\n```csharp\npublic string Echo() => "ok";\n```
+Hello\n$$\nx^2
+Hello\n$$\nx^2\n$$

@@ -93,6 +93,20 @@ ArcChat.Protocol.Chat.Conversation.Stat.get -> ArcChat.Protocol.Chat.ChatStat
 ArcChat.Protocol.Chat.Conversation.Stat.init -> void
 ArcChat.Protocol.Chat.Conversation.Topic.get -> string
 ArcChat.Protocol.Chat.Conversation.Topic.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto
+ArcChat.Protocol.Chat.ConversationExportDto.ClearContextIndex.get -> int?
+ArcChat.Protocol.Chat.ConversationExportDto.ClearContextIndex.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.ConversationExportDto(string ConversationId, string Topic, string MemoryPrompt, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message> Messages, System.DateTimeOffset ExportedAt, int? ClearContextIndex = null) -> void
+ArcChat.Protocol.Chat.ConversationExportDto.ConversationId.get -> string
+ArcChat.Protocol.Chat.ConversationExportDto.ConversationId.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.ExportedAt.get -> System.DateTimeOffset
+ArcChat.Protocol.Chat.ConversationExportDto.ExportedAt.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.MemoryPrompt.get -> string
+ArcChat.Protocol.Chat.ConversationExportDto.MemoryPrompt.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.Messages.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.Message>
+ArcChat.Protocol.Chat.ConversationExportDto.Messages.init -> void
+ArcChat.Protocol.Chat.ConversationExportDto.Topic.get -> string
+ArcChat.Protocol.Chat.ConversationExportDto.Topic.init -> void
 ArcChat.Protocol.Chat.ImageBlock
 ArcChat.Protocol.Chat.ImageBlock.Detail.get -> string
 ArcChat.Protocol.Chat.ImageBlock.Detail.init -> void
@@ -102,6 +116,8 @@ ArcChat.Protocol.Chat.ImageBlock.Url.init -> void
 ArcChat.Protocol.Chat.Message
 ArcChat.Protocol.Chat.Message.AudioUrl.get -> string
 ArcChat.Protocol.Chat.Message.AudioUrl.init -> void
+ArcChat.Protocol.Chat.Message.BranchOfMessageId.get -> string
+ArcChat.Protocol.Chat.Message.BranchOfMessageId.init -> void
 ArcChat.Protocol.Chat.Message.Content.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ContentBlock>
 ArcChat.Protocol.Chat.Message.Content.init -> void
 ArcChat.Protocol.Chat.Message.Date.get -> string
@@ -112,7 +128,7 @@ ArcChat.Protocol.Chat.Message.IsError.get -> bool
 ArcChat.Protocol.Chat.Message.IsError.init -> void
 ArcChat.Protocol.Chat.Message.IsMcpResponse.get -> bool
 ArcChat.Protocol.Chat.Message.IsMcpResponse.init -> void
-ArcChat.Protocol.Chat.Message.Message(string Id, ArcChat.Protocol.Chat.MessageRole Role, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ContentBlock> Content, string Date, bool Streaming = false, bool IsError = false, string Model = null, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool> Tools = default(System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool>), string AudioUrl = null, bool IsMcpResponse = false) -> void
+ArcChat.Protocol.Chat.Message.Message(string Id, ArcChat.Protocol.Chat.MessageRole Role, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ContentBlock> Content, string Date, string BranchOfMessageId = null, bool Streaming = false, bool IsError = false, string Model = null, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool> Tools = default(System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Chat.ChatMessageTool>), string AudioUrl = null, bool IsMcpResponse = false) -> void
 ArcChat.Protocol.Chat.Message.Model.get -> string
 ArcChat.Protocol.Chat.Message.Model.init -> void
 ArcChat.Protocol.Chat.Message.Role.get -> ArcChat.Protocol.Chat.MessageRole
@@ -355,13 +371,15 @@ ArcChat.Protocol.Providers.ModelDescriptor.Available.get -> bool
 ArcChat.Protocol.Providers.ModelDescriptor.Available.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Capabilities.get -> System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability>
 ArcChat.Protocol.Providers.ModelDescriptor.Capabilities.init -> void
+ArcChat.Protocol.Providers.ModelDescriptor.ContextWindow.get -> int?
+ArcChat.Protocol.Providers.ModelDescriptor.ContextWindow.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.DisplayName.get -> string
 ArcChat.Protocol.Providers.ModelDescriptor.DisplayName.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Extra.get -> System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement>
 ArcChat.Protocol.Providers.ModelDescriptor.Extra.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Id.get -> string
 ArcChat.Protocol.Providers.ModelDescriptor.Id.init -> void
-ArcChat.Protocol.Providers.ModelDescriptor.ModelDescriptor(string Id, string DisplayName, string ProviderId, bool Available, int Sorted, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability> Capabilities, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
+ArcChat.Protocol.Providers.ModelDescriptor.ModelDescriptor(string Id, string DisplayName, string ProviderId, bool Available, int Sorted, System.Collections.Immutable.ImmutableArray<ArcChat.Protocol.Providers.ProviderCapability> Capabilities, int? ContextWindow = null, System.Collections.Immutable.ImmutableDictionary<string, System.Text.Json.JsonElement> Extra = null) -> void
 ArcChat.Protocol.Providers.ModelDescriptor.ProviderId.get -> string
 ArcChat.Protocol.Providers.ModelDescriptor.ProviderId.init -> void
 ArcChat.Protocol.Providers.ModelDescriptor.Sorted.get -> int
@@ -519,6 +537,6 @@ ArcChat.Protocol.Settings.WebDavSyncProviderConfig.Username.get -> string
 ArcChat.Protocol.Settings.WebDavSyncProviderConfig.Username.init -> void
 ArcChat.Protocol.Settings.WebDavSyncProviderConfig.WebDavSyncProviderConfig(System.Uri Endpoint, string Username, string PasswordRef, bool UseProxy = false, System.Uri ProxyUrl = null) -> void
 ArcChat.Protocol.Streaming.EventReplay
-static ArcChat.Protocol.Chat.Message.Text(string id, ArcChat.Protocol.Chat.MessageRole role, string text, string date) -> ArcChat.Protocol.Chat.Message
+static ArcChat.Protocol.Chat.Message.Text(string id, ArcChat.Protocol.Chat.MessageRole role, string text, string date, string branchOfMessageId = null) -> ArcChat.Protocol.Chat.Message
 static ArcChat.Protocol.Providers.ModelConfig.NextChatDefault.get -> ArcChat.Protocol.Providers.ModelConfig
 static ArcChat.Protocol.Streaming.EventReplay.ReadEventsAsync(System.IO.Stream stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent>

@@ -11,10 +11,13 @@ public sealed class SourceBoundaryTests
     {
         "ArcChat.",
         "Avalonia",
+        "ColorCode",
         "CommunityToolkit.",
         "Dapper",
         "DbUp",
         "FluentAssertions",
+        "ImageMagick",
+        "Markdig",
         "Microsoft.CodeAnalysis",
         "Microsoft.Data.Sqlite",
         "Microsoft.Extensions.",

@@ -11,6 +11,7 @@ namespace ArcChat.Protocol.Chat;
 /// <param name="Role">Message role.</param>
 /// <param name="Content">Text, image, and tool content blocks.</param>
 /// <param name="Date">NextChat-compatible display date value.</param>
+/// <param name="BranchOfMessageId">Optional message id this message branches from.</param>
 /// <param name="Streaming">Whether the message is still streaming.</param>
 /// <param name="IsError">Whether the message represents an error.</param>
 /// <param name="Model">Model id used for assistant output.</param>
@@ -22,6 +23,7 @@ public sealed record Message(
     MessageRole Role,
     ImmutableArray<ContentBlock> Content,
     string Date,
+    string? BranchOfMessageId = null,
     bool Streaming = false,
     bool IsError = false,
     string? Model = null,
@@ -36,14 +38,16 @@ public sealed record Message(
     /// <param name="role">Message role.</param>
     /// <param name="text">Text content.</param>
     /// <param name="date">Display date value.</param>
+    /// <param name="branchOfMessageId">Optional message id this message branches from.</param>
     /// <returns>A message containing one text block.</returns>
-    public static Message Text(string id, MessageRole role, string text, string date)
+    public static Message Text(string id, MessageRole role, string text, string date, string? branchOfMessageId = null)
     {
         return new Message(
             id,
             role,
             ImmutableArray.Create<ContentBlock>(new TextBlock(text)),
             date,
+            branchOfMessageId,
             Tools: ImmutableArray<ChatMessageTool>.Empty);
     }
 }

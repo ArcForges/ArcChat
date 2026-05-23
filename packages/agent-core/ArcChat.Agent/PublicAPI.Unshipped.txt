@@ -1,0 +1,62 @@
+#nullable enable
+ArcChat.Agent.AgentRequest
+ArcChat.Agent.AgentRequest.AgentRequest(string! conversationId, string! messageId, System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>! messages, ArcChat.Protocol.Providers.ModelConfig! model, string? branchOfMessageId = null, int maxTransientRetries = 1, System.TimeSpan transientRetryDelay = default(System.TimeSpan)) -> void
+ArcChat.Agent.AgentRequest.BranchOfMessageId.get -> string?
+ArcChat.Agent.AgentRequest.BranchOfMessageId.init -> void
+ArcChat.Agent.AgentRequest.ConversationId.get -> string!
+ArcChat.Agent.AgentRequest.ConversationId.init -> void
+ArcChat.Agent.AgentRequest.MaxTransientRetries.get -> int
+ArcChat.Agent.AgentRequest.MaxTransientRetries.init -> void
+ArcChat.Agent.AgentRequest.MessageId.get -> string!
+ArcChat.Agent.AgentRequest.MessageId.init -> void
+ArcChat.Agent.AgentRequest.Messages.get -> System.Collections.Generic.IReadOnlyList<ArcChat.Protocol.Chat.Message!>!
+ArcChat.Agent.AgentRequest.Messages.init -> void
+ArcChat.Agent.AgentRequest.Model.get -> ArcChat.Protocol.Providers.ModelConfig!
+ArcChat.Agent.AgentRequest.Model.init -> void
+ArcChat.Agent.AgentRequest.TransientRetryDelay.get -> System.TimeSpan
+ArcChat.Agent.AgentRequest.TransientRetryDelay.init -> void
+ArcChat.Agent.AgentRuntime
+ArcChat.Agent.AgentRuntime.AgentRuntime(ArcChat.ModelProviders.Core.IChatProviderRegistry! providerRegistry, ArcChat.Agent.IAgentToolRegistry? toolRegistry = null) -> void
+ArcChat.Agent.AgentRuntime.StreamAsync(ArcChat.Agent.AgentRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.Agent.AgentToolRequest
+ArcChat.Agent.AgentToolRequest.AgentToolRequest(string! id, string! name, System.Text.Json.JsonElement arguments) -> void
+ArcChat.Agent.AgentToolRequest.Arguments.get -> System.Text.Json.JsonElement
+ArcChat.Agent.AgentToolRequest.Arguments.init -> void
+ArcChat.Agent.AgentToolRequest.Id.get -> string!
+ArcChat.Agent.AgentToolRequest.Id.init -> void
+ArcChat.Agent.AgentToolRequest.Name.get -> string!
+ArcChat.Agent.AgentToolRequest.Name.init -> void
+ArcChat.Agent.AgentToolResult
+ArcChat.Agent.AgentToolResult.AgentToolResult(string! id, string! name, System.Text.Json.JsonElement result, bool isError = false, string? errorMessage = null) -> void
+ArcChat.Agent.AgentToolResult.ErrorMessage.get -> string?
+ArcChat.Agent.AgentToolResult.ErrorMessage.init -> void
+ArcChat.Agent.AgentToolResult.Id.get -> string!
+ArcChat.Agent.AgentToolResult.Id.init -> void
+ArcChat.Agent.AgentToolResult.IsError.get -> bool
+ArcChat.Agent.AgentToolResult.IsError.init -> void
+ArcChat.Agent.AgentToolResult.Name.get -> string!
+ArcChat.Agent.AgentToolResult.Name.init -> void
+ArcChat.Agent.AgentToolResult.Result.get -> System.Text.Json.JsonElement
+ArcChat.Agent.AgentToolResult.Result.init -> void
+ArcChat.Agent.ContextSummarizer
+ArcChat.Agent.ContextSummarizer.ContextSummarizer(ArcChat.ModelProviders.Core.IChatProviderRegistry! providerRegistry) -> void
+ArcChat.Agent.ContextSummarizer.SummarizeAsync(ArcChat.Protocol.Chat.Conversation! conversation, ArcChat.Protocol.Providers.ModelDescriptor! model, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Chat.Conversation!>!
+const ArcChat.Agent.ContextSummarizer.MaxSummaryUtf8Bytes = 8192 -> int
+const ArcChat.Agent.ContextSummarizer.SummaryPrompt = "Summarize the discussion briefly in 200 words or less to use as a prompt for future context." -> string!
+ArcChat.Agent.ConversationTitler
+ArcChat.Agent.ConversationTitler.ConversationTitler(ArcChat.ModelProviders.Core.IChatProviderRegistry! providerRegistry) -> void
+ArcChat.Agent.ConversationTitler.GenerateTitleAsync(ArcChat.Protocol.Chat.Conversation! conversation, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
+const ArcChat.Agent.ConversationTitler.DefaultTopic = "New Conversation" -> string!
+static ArcChat.Agent.ConversationTitler.IsDefaultTopic(string! topic) -> bool
+const ArcChat.Agent.ConversationTitler.TopicPrompt = "Please generate a four to five word title summarizing our conversation without any lead-in, punctuation, quotation marks, periods, symbols, bold text, or additional text. Remove enclosing quotation marks." -> string!
+ArcChat.Agent.IContextSummarizer
+ArcChat.Agent.IContextSummarizer.SummarizeAsync(ArcChat.Protocol.Chat.Conversation! conversation, ArcChat.Protocol.Providers.ModelDescriptor! model, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ArcChat.Protocol.Chat.Conversation!>!
+ArcChat.Agent.IConversationTitler
+ArcChat.Agent.IConversationTitler.GenerateTitleAsync(ArcChat.Protocol.Chat.Conversation! conversation, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
+ArcChat.Agent.IAgentRuntime
+ArcChat.Agent.IAgentRuntime.StreamAsync(ArcChat.Agent.AgentRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<ArcChat.Protocol.Chat.ChatEvent!>!
+ArcChat.Agent.IAgentToolRegistry
+ArcChat.Agent.IAgentToolRegistry.ExecuteAsync(ArcChat.Agent.AgentToolRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<ArcChat.Agent.AgentToolResult!>
+ArcChat.Agent.NoOpAgentToolRegistry
+ArcChat.Agent.NoOpAgentToolRegistry.ExecuteAsync(ArcChat.Agent.AgentToolRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<ArcChat.Agent.AgentToolResult!>
+static ArcChat.Agent.NoOpAgentToolRegistry.Instance.get -> ArcChat.Agent.NoOpAgentToolRegistry!

@@ -8,5 +8,8 @@
   <Import Project="$(ArcChatRepositoryRoot)build\ArcChat.UI.props" />
   <ItemGroup>
     <PackageReference Include="Avalonia" />
+    <PackageReference Include="ColorCode.Core" />
+    <PackageReference Include="Markdig" />
+    <PackageReference Include="Sylinko.CSharpMath.Avalonia" />
   </ItemGroup>
 </Project>

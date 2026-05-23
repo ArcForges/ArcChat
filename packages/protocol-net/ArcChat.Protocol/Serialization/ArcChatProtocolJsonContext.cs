@@ -20,6 +20,7 @@ namespace ArcChat.Protocol.Serialization;
     WriteIndented = true,
     UseStringEnumConverter = true)]
 [JsonSerializable(typeof(Conversation))]
+[JsonSerializable(typeof(ConversationExportDto))]
 [JsonSerializable(typeof(Message))]
 [JsonSerializable(typeof(ContentBlock))]
 [JsonSerializable(typeof(ChatEvent))]
