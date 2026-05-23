@@ -17,6 +17,7 @@ internal sealed class MessageViewModel : ViewModelBase
     private bool isError;
     private bool isEditing;
     private string draftText;
+    private int alternateBranchCount;
 
     public MessageViewModel(
         string id,
@@ -59,6 +60,20 @@ internal sealed class MessageViewModel : ViewModelBase
     public string? BranchOfMessageId { get; }
 
     public bool HasBranch => !string.IsNullOrWhiteSpace(this.BranchOfMessageId);
+
+    public int AlternateBranchCount
+    {
+        get => this.alternateBranchCount;
+        private set
+        {
+            if (this.SetProperty(ref this.alternateBranchCount, value))
+            {
+                this.OnPropertyChanged(nameof(this.HasAlternateBranches));
+            }
+        }
+    }
+
+    public bool HasAlternateBranches => this.AlternateBranchCount > 0;
 
     public IObservable<string> TextStream => this.textStream;
 
@@ -112,6 +127,7 @@ internal sealed class MessageViewModel : ViewModelBase
             message.Date,
             message.Streaming,
             message.IsError,
+            message.BranchOfMessageId,
             imageUrls: message.Content.OfType<ImageBlock>().Select(block => block.Url));
     }
 
@@ -144,11 +160,17 @@ internal sealed class MessageViewModel : ViewModelBase
             this.Role,
             content.ToImmutable(),
             this.Date,
+            this.BranchOfMessageId,
             Tools: ImmutableArray<ChatMessageTool>.Empty) with
         {
             Streaming = this.IsStreaming,
             IsError = this.IsError,
         };
+    }
+
+    internal void SetAlternateBranchCount(int count)
+    {
+        this.AlternateBranchCount = count;
     }
 
     private sealed class MessageTextObservable : IObservable<string>

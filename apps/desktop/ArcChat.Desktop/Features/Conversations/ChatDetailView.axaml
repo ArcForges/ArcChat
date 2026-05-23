@@ -77,8 +77,8 @@
                 <TextBlock Text="{Binding Date}"
                            Opacity="0.62"
                            FontSize="12" />
-                <TextBlock Text="branch"
-                           IsVisible="{Binding HasBranch}"
+                <TextBlock Text="branches"
+                           IsVisible="{Binding HasAlternateBranches}"
                            Foreground="{DynamicResource ArcChat.Brush.Primary}"
                            FontSize="12" />
               </StackPanel>

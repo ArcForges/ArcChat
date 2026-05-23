@@ -194,6 +194,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
             this.Messages.Add(MessageViewModel.FromMessage(message));
         }
 
+        this.RefreshBranchIndicators();
         this.NotifyAttachmentStateChanged();
         this.RefreshExporter();
     }
@@ -314,6 +315,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
             imageUrls: imageUrls);
         this.Messages.Add(userMessage);
         this.LastBranchOfMessageId = branchOfMessageId;
+        this.RefreshBranchIndicators();
         if (this.messageRepository is not null)
         {
             await this.messageRepository.BulkAppendAsync(this.ConversationId, new[] { userMessage.ToMessage() }, cancellationToken).ConfigureAwait(true);
@@ -323,7 +325,10 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         await this.RunAssistantAsync(branchOfMessageId, cancellationToken).ConfigureAwait(true);
     }
 
-    private async Task RunAssistantAsync(string? branchOfMessageId, CancellationToken cancellationToken)
+    private async Task RunAssistantAsync(
+        string? branchOfMessageId,
+        CancellationToken cancellationToken,
+        IReadOnlyList<Message>? requestMessages = null)
     {
         if (this.agentRuntime is null || this.IsStreaming)
         {
@@ -337,13 +342,15 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         this.StatusMessage = string.Empty;
         try
         {
+            IReadOnlyList<Message> messages = requestMessages
+                ?? this.Messages
+                    .Where(message => !string.Equals(message.Id, assistantMessageId, StringComparison.Ordinal))
+                    .Select(message => message.ToMessage())
+                    .ToArray();
             AgentRequest request = new AgentRequest(
                 this.ConversationId,
                 assistantMessageId,
-                this.Messages
-                    .Where(message => !string.Equals(message.Id, assistantMessageId, StringComparison.Ordinal))
-                    .Select(message => message.ToMessage())
-                    .ToArray(),
+                messages,
                 this.GetModelConfig(),
                 branchOfMessageId,
                 maxTransientRetries: 1,
@@ -400,13 +407,26 @@ internal sealed class ChatDetailViewModel : ViewModelBase
 
     private async Task RegenerateAsync()
     {
-        MessageViewModel? lastUser = this.Messages.LastOrDefault(message => message.Role == MessageRole.User);
-        if (lastUser is null)
+        int assistantIndex = this.LastAssistantIndex();
+        if (assistantIndex < 0)
         {
             return;
         }
 
-        await this.SubmitUserMessageAsync(lastUser.Text, lastUser.Id, lastUser.Images.Select(image => image.Url).ToArray(), CancellationToken.None).ConfigureAwait(true);
+        MessageViewModel assistant = this.Messages[assistantIndex];
+        MessageViewModel? user = this.Messages
+            .Take(assistantIndex)
+            .LastOrDefault(message => message.Role == MessageRole.User);
+        if (user is null)
+        {
+            return;
+        }
+
+        Message[] requestMessages = this.Messages
+            .Take(assistantIndex)
+            .Select(message => message.ToMessage())
+            .ToArray();
+        await this.RunAssistantAsync(assistant.Id, CancellationToken.None, requestMessages).ConfigureAwait(true);
     }
 
     private void Copy(MessageViewModel? message)
@@ -433,6 +453,7 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         }
 
         _ = this.Messages.Remove(message);
+        this.RefreshBranchIndicators();
         if (this.messageRepository is not null)
         {
             await this.messageRepository.DeleteAsync(this.ConversationId, message.Id, CancellationToken.None).ConfigureAwait(true);
@@ -631,7 +652,33 @@ internal sealed class ChatDetailViewModel : ViewModelBase
             isStreaming: true,
             branchOfMessageId: branchOfMessageId);
         this.Messages.Add(assistant);
+        this.RefreshBranchIndicators();
         return assistant;
+    }
+
+    private int LastAssistantIndex()
+    {
+        for (int index = this.Messages.Count - 1; index >= 0; index--)
+        {
+            if (this.Messages[index].Role == MessageRole.Assistant && !this.Messages[index].IsStreaming)
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    private void RefreshBranchIndicators()
+    {
+        Dictionary<string, int> branchCounts = this.Messages
+            .Where(static message => !string.IsNullOrWhiteSpace(message.BranchOfMessageId))
+            .GroupBy(static message => message.BranchOfMessageId!, StringComparer.Ordinal)
+            .ToDictionary(static group => group.Key, static group => group.Count(), StringComparer.Ordinal);
+        foreach (MessageViewModel message in this.Messages)
+        {
+            message.SetAlternateBranchCount(branchCounts.TryGetValue(message.Id, out int count) ? count : 0);
+        }
     }
 
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Record with-expressions use member assignment syntax.")]

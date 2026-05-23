@@ -25,6 +25,11 @@ public interface IMessageRepository
     Task<IReadOnlyList<Message>> ListAsync(string conversationId, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Lists a message and every persisted branch descendant ordered by append order.
+    /// </summary>
+    Task<IReadOnlyList<Message>> ListBranchTreeAsync(string conversationId, string rootMessageId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Deletes one message.
     /// </summary>
     Task DeleteAsync(string conversationId, string messageId, CancellationToken cancellationToken = default);

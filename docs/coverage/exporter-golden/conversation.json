@@ -13,6 +13,7 @@
         }
       ],
       "date": "2026-05-22",
+      "branchOfMessageId": null,
       "streaming": false,
       "isError": false,
       "model": null,
@@ -30,6 +31,7 @@
         }
       ],
       "date": "2026-05-22",
+      "branchOfMessageId": null,
       "streaming": false,
       "isError": false,
       "model": null,
@@ -47,6 +49,7 @@
         }
       ],
       "date": "2026-05-22",
+      "branchOfMessageId": null,
       "streaming": false,
       "isError": false,
       "model": null,

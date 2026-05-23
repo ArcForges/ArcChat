@@ -88,6 +88,35 @@ public sealed class ChatDetailViewModelTests
 
     [Fact]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "Async disposal belongs to the test scope.")]
+    public static async Task ChatDetailRegenerateCreatesAssistantSibling()
+    {
+        ScriptedAgentRuntime runtime = new ScriptedAgentRuntime(CompletedStream);
+        await using ArcChatDatabase database = await CreateDatabaseAsync("c1").ConfigureAwait(true);
+        Message[] messages =
+        {
+            Message.Text("u1", MessageRole.User, "hello", "0"),
+            Message.Text("a1", MessageRole.Assistant, "first answer", "0"),
+        };
+        await database.Messages.BulkAppendAsync("c1", messages, CancellationToken.None).ConfigureAwait(true);
+        ChatDetailViewModel viewModel = new ChatDetailViewModel("c1", runtime, database.Conversations, database.Messages);
+        await viewModel.LoadAsync(CancellationToken.None).ConfigureAwait(true);
+
+        await viewModel.RegenerateCommand.ExecuteAsync(null).ConfigureAwait(true);
+
+        _ = runtime.Requests.Should().ContainSingle();
+        _ = runtime.Requests[0].BranchOfMessageId.Should().Be("a1");
+        _ = runtime.Requests[0].Messages.Select(message => message.Id).Should().Equal("u1");
+        MessageViewModel originalAssistant = viewModel.Messages.Single(message => string.Equals(message.Id, "a1", StringComparison.Ordinal));
+        _ = originalAssistant.HasAlternateBranches.Should().BeTrue();
+        MessageViewModel regenerated = viewModel.Messages.Last();
+        _ = regenerated.Role.Should().Be(MessageRole.Assistant);
+        _ = regenerated.BranchOfMessageId.Should().Be("a1");
+        IReadOnlyList<Message> stored = await database.Messages.ListAsync("c1", CancellationToken.None).ConfigureAwait(true);
+        _ = stored[^1].BranchOfMessageId.Should().Be("a1");
+    }
+
+    [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "Async disposal belongs to the test scope.")]
     public static async Task ChatDetailColonCommandRunsBeforeNormalSend()
     {
         ScriptedAgentRuntime runtime = new ScriptedAgentRuntime(CompletedStream);

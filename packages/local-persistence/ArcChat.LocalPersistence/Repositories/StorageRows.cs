@@ -40,5 +40,7 @@ internal sealed class MessageRow
 
     public string Json { get; set; } = string.Empty;
 
+    public string? BranchOfMessageId { get; set; }
+
     public long CreatedAt { get; set; }
 }

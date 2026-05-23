@@ -70,4 +70,54 @@ public sealed class MigrationAndSchemaTests
             _ = stored.Should().Be(json);
         }
     }
+
+    [Fact]
+    public async Task MigrationAddsBranchColumnToVersionOneMessages()
+    {
+        string path = TestData.CreateDatabasePath();
+        await CreateVersionOneConversationAndMessageTablesAsync(path);
+
+        await using ArcChatDatabase database = new(path);
+        await database.InitializeAsync(CancellationToken.None);
+
+        await using SqliteConnection connection = new($"Data Source={path};Mode=ReadWrite;Cache=Shared");
+        await connection.OpenAsync(CancellationToken.None);
+        HashSet<string> columns = new(StringComparer.Ordinal);
+        await using SqliteCommand command = connection.CreateCommand();
+        command.CommandText = "PRAGMA table_info(Message);";
+        await using SqliteDataReader reader = await command.ExecuteReaderAsync(CancellationToken.None);
+        while (await reader.ReadAsync(CancellationToken.None))
+        {
+            columns.Add(reader.GetString(1));
+        }
+
+        _ = columns.Should().Contain("BranchOfMessageId");
+    }
+
+    private static async Task CreateVersionOneConversationAndMessageTablesAsync(string path)
+    {
+        await using SqliteConnection connection = new($"Data Source={path};Mode=ReadWriteCreate;Cache=Shared");
+        await connection.OpenAsync(CancellationToken.None);
+        await using SqliteCommand command = connection.CreateCommand();
+        command.CommandText =
+            """
+            CREATE TABLE Conversation (
+              Id TEXT NOT NULL PRIMARY KEY,
+              Topic TEXT NOT NULL,
+              Json TEXT NOT NULL,
+              UpdatedAt INTEGER NOT NULL
+            );
+
+            CREATE TABLE Message (
+              ConversationId TEXT NOT NULL,
+              Id TEXT NOT NULL,
+              Ordinal INTEGER NOT NULL,
+              Json TEXT NOT NULL,
+              CreatedAt INTEGER NOT NULL,
+              PRIMARY KEY (ConversationId, Id),
+              FOREIGN KEY (ConversationId) REFERENCES Conversation(Id) ON DELETE CASCADE
+            );
+            """;
+        _ = await command.ExecuteNonQueryAsync(CancellationToken.None);
+    }
 }
