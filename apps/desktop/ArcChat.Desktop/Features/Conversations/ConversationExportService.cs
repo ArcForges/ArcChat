@@ -16,6 +16,7 @@ namespace ArcChat.Desktop.Features.Conversations;
 [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Export service stays injectable for feature wiring and tests.")]
 internal sealed class ConversationExportService
 {
+    private const char LineFeed = '\n';
     private const string NextChatShareMarker = "Share from [NextChat]: https://github.com/Yidadaa/ChatGPT-Next-Web";
     private static readonly Vector FixedDpi = new Vector(96, 96);
     private readonly MarkdownTextRenderer markdownTextRenderer;
@@ -48,7 +49,7 @@ internal sealed class ConversationExportService
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
         ArgumentNullException.ThrowIfNull(messages);
         StringBuilder builder = new StringBuilder();
-        _ = builder.Append("# ").AppendLine(topic.Trim());
+        _ = builder.Append("# ").Append(topic.Trim()).Append(LineFeed);
 
         foreach (Message message in messages)
         {
@@ -59,19 +60,19 @@ internal sealed class ConversationExportService
                 MessageRole.System => "System",
                 _ => message.Role.ToString(),
             };
-            string text = this.markdownTextRenderer.Render(MessageText.Extract(message));
-            _ = builder.AppendLine();
-            _ = builder.Append("## ").Append(label).AppendLine(":");
-            _ = builder.AppendLine(text);
+            string text = this.NormalizeLineEndings(this.markdownTextRenderer.Render(MessageText.Extract(message)));
+            _ = builder.Append(LineFeed);
+            _ = builder.Append("## ").Append(label).Append(':').Append(LineFeed);
+            _ = builder.Append(text).Append(LineFeed);
         }
 
-        return builder.ToString().TrimEnd() + Environment.NewLine;
+        return builder.ToString().TrimEnd() + LineFeed;
     }
 
     public string CreateJson(ConversationExportDto dto)
     {
         ArgumentNullException.ThrowIfNull(dto);
-        return JsonSerializer.Serialize(dto, ArcChatProtocolJsonContext.Default.ConversationExportDto);
+        return this.NormalizeLineEndings(JsonSerializer.Serialize(dto, ArcChatProtocolJsonContext.Default.ConversationExportDto));
     }
 
     public ShareGptRequest CreateShareGptRequest(IEnumerable<Message> messages, string? avatarUrl = null)
@@ -147,5 +148,10 @@ internal sealed class ConversationExportService
         using MemoryStream stream = new MemoryStream();
         bitmap.Save(stream);
         return stream.ToArray();
+    }
+
+    private string NormalizeLineEndings(string value)
+    {
+        return value.Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n');
     }
 }

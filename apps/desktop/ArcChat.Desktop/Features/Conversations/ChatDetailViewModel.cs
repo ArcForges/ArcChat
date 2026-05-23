@@ -337,7 +337,8 @@ internal sealed class ChatDetailViewModel : ViewModelBase
 
         string assistantMessageId = NewId();
         MessageViewModel assistant = this.EnsureAssistantMessage(assistantMessageId, branchOfMessageId);
-        this.streamCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        using CancellationTokenSource linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        this.streamCancellation = linkedCancellation;
         this.IsStreaming = true;
         this.StatusMessage = string.Empty;
         try
@@ -356,9 +357,9 @@ internal sealed class ChatDetailViewModel : ViewModelBase
                 maxTransientRetries: 1,
                 transientRetryDelay: default);
 
-            await foreach (ChatEvent chatEvent in this.agentRuntime.StreamAsync(request, this.streamCancellation.Token).ConfigureAwait(true))
+            await foreach (ChatEvent chatEvent in this.agentRuntime.StreamAsync(request, linkedCancellation.Token).ConfigureAwait(true))
             {
-                await this.ApplyStreamEventAsync(assistant, chatEvent, this.streamCancellation.Token).ConfigureAwait(true);
+                await this.ApplyStreamEventAsync(assistant, chatEvent, linkedCancellation.Token).ConfigureAwait(true);
             }
         }
         catch (OperationCanceledException)
@@ -369,7 +370,6 @@ internal sealed class ChatDetailViewModel : ViewModelBase
         finally
         {
             this.IsStreaming = false;
-            this.streamCancellation.Dispose();
             this.streamCancellation = null;
         }
     }

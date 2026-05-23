@@ -98,12 +98,10 @@ internal sealed class MessageSelectorViewModel : ViewModelBase
     {
         this.VisibleItems.Clear();
         string query = this.SearchText.Trim();
-        foreach (MessageSelectorItem item in this.Items)
+        foreach (MessageSelectorItem item in this.Items.Where(item =>
+            query.Length == 0 || FuzzyMatcher.Match(item.Text.AsSpan(), query.AsSpan()).IsMatch))
         {
-            if (query.Length == 0 || FuzzyMatcher.Match(item.Text.AsSpan(), query.AsSpan()).IsMatch)
-            {
-                this.VisibleItems.Add(item);
-            }
+            this.VisibleItems.Add(item);
         }
     }
 }

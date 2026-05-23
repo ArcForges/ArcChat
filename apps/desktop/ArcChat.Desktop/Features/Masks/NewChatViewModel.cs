@@ -203,12 +203,9 @@ internal sealed class NewChatViewModel : ViewModelBase
     private ImmutableArray<ModelOption> CreateModelOptions(ProviderConfig provider, SettingsSnapshot snapshot)
     {
         Dictionary<string, ModelOption> modelsById = new Dictionary<string, ModelOption>(StringComparer.Ordinal);
-        foreach (ModelDescriptor model in provider.Models)
+        foreach (ModelDescriptor model in provider.Models.Where(static model => model.Available))
         {
-            if (model.Available)
-            {
-                modelsById[model.Id] = new ModelOption(model.Id, model.DisplayName);
-            }
+            modelsById[model.Id] = new ModelOption(model.Id, model.DisplayName);
         }
 
         AddModel(snapshot.Providers.DefaultModel);

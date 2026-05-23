@@ -31,7 +31,6 @@ public partial class ConversationListView : UserControl
         return null;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Avalonia owns IDataTransfer lifetime after DoDragDropAsync starts.")]
     private async void OnConversationPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         PointerPoint point = e.GetCurrentPoint(this);
@@ -40,7 +39,7 @@ public partial class ConversationListView : UserControl
             return;
         }
 
-        DataTransfer dataTransfer = new DataTransfer();
+        using DataTransfer dataTransfer = new DataTransfer();
         dataTransfer.Add(DataTransferItem.CreateText(item.Id));
         _ = await DragDrop.DoDragDropAsync(e, dataTransfer, DragDropEffects.Move).ConfigureAwait(true);
     }

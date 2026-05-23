@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace ArcChat.Desktop.Features.Conversations;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:StaticElementsShouldAppearBeforeInstanceElements", Justification = "Search result factory is kept near the search helpers.")]
 internal sealed class SearchChatViewModel : ViewModelBase
 {
     private readonly IConversationRepository? repository;
@@ -117,26 +118,10 @@ internal sealed class SearchChatViewModel : ViewModelBase
             return;
         }
 
-        List<SearchChatResult> matches = new List<SearchChatResult>();
-        foreach (Conversation conversation in this.conversations)
+        List<SearchChatResult> matches = new List<SearchChatResult>(this.FindExactMatches(searchQuery));
+        if (matches.Count == 0)
         {
-            foreach (Message message in conversation.Messages)
-            {
-                string text = MessageText.Extract(message);
-                FuzzyMatchResult match = FuzzyMatcher.Match(text.AsSpan(), searchQuery.AsSpan());
-                if (!match.IsMatch)
-                {
-                    continue;
-                }
-
-                matches.Add(new SearchChatResult(
-                    conversation.Id,
-                    conversation.Topic,
-                    message.Id,
-                    message.Role,
-                    FuzzyMatcher.CreateSnippet(text, match),
-                    match.Score));
-            }
+            matches.AddRange(this.FindFuzzyMatches(searchQuery));
         }
 
         foreach (SearchChatResult result in matches
@@ -160,5 +145,58 @@ internal sealed class SearchChatViewModel : ViewModelBase
         }
 
         this.navigator?.Navigate(new Chat(result.ConversationId));
+    }
+
+    private IEnumerable<SearchChatResult> FindExactMatches(string searchQuery)
+    {
+        return this.conversations
+            .SelectMany(conversation => conversation.Messages
+                .Select(message => CreateExactSearchResult(conversation, message, searchQuery)))
+            .OfType<SearchChatResult>();
+    }
+
+    private IEnumerable<SearchChatResult> FindFuzzyMatches(string searchQuery)
+    {
+        return this.conversations
+            .SelectMany(conversation => conversation.Messages
+                .Select(message => CreateFuzzySearchResult(conversation, message, searchQuery)))
+            .OfType<SearchChatResult>();
+    }
+
+    private static SearchChatResult CreateSearchResult(
+        Conversation conversation,
+        Message message,
+        string text,
+        FuzzyMatchResult match)
+    {
+        return new SearchChatResult(
+            conversation.Id,
+            conversation.Topic,
+            message.Id,
+            message.Role,
+            FuzzyMatcher.CreateSnippet(text, match),
+            match.Score);
+    }
+
+    private static SearchChatResult? CreateExactSearchResult(Conversation conversation, Message message, string searchQuery)
+    {
+        string text = MessageText.Extract(message);
+        int matchStart = text.IndexOf(searchQuery, StringComparison.OrdinalIgnoreCase);
+        if (matchStart < 0)
+        {
+            return null;
+        }
+
+        FuzzyMatchResult match = new FuzzyMatchResult(true, 10_000 - matchStart, matchStart, searchQuery.Length);
+        return CreateSearchResult(conversation, message, text, match);
+    }
+
+    private static SearchChatResult? CreateFuzzySearchResult(Conversation conversation, Message message, string searchQuery)
+    {
+        string text = MessageText.Extract(message);
+        FuzzyMatchResult match = FuzzyMatcher.Match(text.AsSpan(), searchQuery.AsSpan());
+        return match.IsMatch
+            ? CreateSearchResult(conversation, message, text, match)
+            : null;
     }
 }

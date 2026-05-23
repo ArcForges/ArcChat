@@ -157,15 +157,7 @@ internal static class StreamingMarkdownSafety
             return false;
         }
 
-        foreach (char character in trimmed)
-        {
-            if (character is not '|' and not '-' and not ':' and not ' ')
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return trimmed.All(static character => character is '|' or '-' or ':' or ' ');
     }
 
     private static bool IsMermaidLanguage(string language)

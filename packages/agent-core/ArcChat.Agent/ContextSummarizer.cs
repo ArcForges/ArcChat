@@ -111,9 +111,8 @@ public sealed class ContextSummarizer : IContextSummarizer
 
         StringBuilder builder = new StringBuilder(value.Length);
         int bytes = 0;
-        foreach (Rune rune in value.EnumerateRunes())
+        foreach (string text in value.EnumerateRunes().Select(static rune => rune.ToString()))
         {
-            string text = rune.ToString();
             int nextBytes = Encoding.UTF8.GetByteCount(text);
             if (bytes + nextBytes > maxBytes)
             {

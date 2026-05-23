@@ -54,12 +54,12 @@ public sealed class ConversationExportAndSearchTests
         _ = roundTrip.Should().BeEquivalentTo(dto);
 
         ShareGptRequest request = exportService.CreateShareGptRequest(conversation.Messages);
-        string requestJson = JsonSerializer.Serialize(request, ConversationExportJsonContext.Default.ShareGptRequest);
+        string requestJson = NormalizeLineEndings(JsonSerializer.Serialize(request, ConversationExportJsonContext.Default.ShareGptRequest));
         AssertGolden(Path.Join(outputDirectory, "sharegpt-request.json"), requestJson);
         _ = request.Items.Should().Contain(item => string.Equals(item.From, "human", StringComparison.Ordinal) && item.Value.Contains("[NextChat]", StringComparison.Ordinal));
 
         string shareUri = exportService.CreateLocalShareUri(dto);
-        AssertGolden(Path.Join(outputDirectory, "local-share-uri.txt"), shareUri + Environment.NewLine);
+        AssertGolden(Path.Join(outputDirectory, "local-share-uri.txt"), shareUri + "\n");
         _ = exportService.TryParseLocalShareUri(shareUri, out ConversationExportDto? parsed).Should().BeTrue();
         _ = parsed.Should().BeEquivalentTo(dto);
     }
@@ -232,6 +232,11 @@ public sealed class ConversationExportAndSearchTests
         }
 
         _ = File.ReadAllText(path).Should().Be(contents);
+    }
+
+    private static string NormalizeLineEndings(string value)
+    {
+        return value.Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n');
     }
 
     private static string ExporterGoldenDirectory()

@@ -35,15 +35,13 @@ public sealed class LatexRenderer
 
     private static Control? TryCreateMathView(string latex, IReadOnlyList<string> typeNames)
     {
-        foreach (string typeName in typeNames)
+        foreach (Control control in typeNames
+            .Select(static typeName => Type.GetType(typeName, throwOnError: false))
+            .OfType<Type>()
+            .Select(static type => Activator.CreateInstance(type))
+            .OfType<Control>())
         {
-            Type? type = Type.GetType(typeName, throwOnError: false);
-            if (type is null || Activator.CreateInstance(type) is not Control control)
-            {
-                continue;
-            }
-
-            type.GetProperty("LaTeX")?.SetValue(control, latex);
+            control.GetType().GetProperty("LaTeX")?.SetValue(control, latex);
             return control;
         }
 

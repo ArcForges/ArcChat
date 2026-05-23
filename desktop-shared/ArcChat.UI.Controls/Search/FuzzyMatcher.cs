@@ -102,22 +102,9 @@ public static class FuzzyMatcher
 
     private static int IndexOf(ReadOnlySpan<char> candidate, ReadOnlySpan<char> query)
     {
-        if (query.Length > candidate.Length)
-        {
-            return -1;
-        }
-
-        int limit = candidate.Length - query.Length;
-        for (int index = 0; index <= limit; index++)
-        {
-            int queryEnd = index + query.Length;
-            if (candidate[index..queryEnd].Equals(query, StringComparison.OrdinalIgnoreCase))
-            {
-                return index;
-            }
-        }
-
-        return -1;
+        return query.Length > candidate.Length
+            ? -1
+            : candidate.IndexOf(query, StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool EqualsIgnoreCase(char left, char right)

@@ -3,6 +3,7 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text;
 using ArcChat.Protocol.Chat;
 
 namespace ArcChat.Agent.Internal;
@@ -23,7 +24,7 @@ internal sealed class MicrosoftAgentFrameworkRuntime : IAgentRuntime
         ArgumentNullException.ThrowIfNull(request);
 
         Microsoft.Extensions.AI.ChatMessage[] messages = request.Messages.Select(ToChatMessage).ToArray();
-        string completedText = string.Empty;
+        StringBuilder completedText = new StringBuilder();
         string? finishReason = null;
 
         await foreach (Microsoft.Agents.AI.AgentResponseUpdate update in this.agent
@@ -35,7 +36,7 @@ internal sealed class MicrosoftAgentFrameworkRuntime : IAgentRuntime
 
             if (!string.IsNullOrEmpty(update.Text))
             {
-                completedText += update.Text;
+                _ = completedText.Append(update.Text);
                 yield return new MessageDelta(request.ConversationId, request.MessageId, update.Text);
             }
 
@@ -45,7 +46,7 @@ internal sealed class MicrosoftAgentFrameworkRuntime : IAgentRuntime
         Message message = new Message(
             request.MessageId,
             MessageRole.Assistant,
-            ImmutableArray.Create<ContentBlock>(new TextBlock(completedText)),
+            ImmutableArray.Create<ContentBlock>(new TextBlock(completedText.ToString())),
             DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture),
             Model: request.Model.Model,
             Tools: ImmutableArray<ChatMessageTool>.Empty);

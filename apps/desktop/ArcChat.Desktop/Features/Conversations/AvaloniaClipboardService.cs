@@ -28,25 +28,20 @@ internal sealed class AvaloniaClipboardService : IClipboardService
             return null;
         }
 
-        try
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            Bitmap? bitmap = await dataTransfer.TryGetBitmapAsync().ConfigureAwait(true);
-            if (bitmap is null)
-            {
-                return null;
-            }
+        using IDisposable? dataTransferDisposable = dataTransfer as IDisposable;
 
-            using (bitmap)
-            {
-                using MemoryStream stream = new MemoryStream();
-                bitmap.Save(stream);
-                return new ClipboardImageData(stream.ToArray(), "image/png");
-            }
-        }
-        finally
+        cancellationToken.ThrowIfCancellationRequested();
+        Bitmap? bitmap = await dataTransfer.TryGetBitmapAsync().ConfigureAwait(true);
+        if (bitmap is null)
         {
-            (dataTransfer as IDisposable)?.Dispose();
+            return null;
+        }
+
+        using (bitmap)
+        {
+            using MemoryStream stream = new MemoryStream();
+            bitmap.Save(stream);
+            return new ClipboardImageData(stream.ToArray(), "image/png");
         }
     }
 }

@@ -96,9 +96,10 @@ public sealed class MarkdownTextRenderer
         int index = int.TryParse(list.OrderedStart, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out int orderedStart)
             ? orderedStart
             : 1;
+        StringBuilder itemBuilder = new StringBuilder();
         foreach (Block item in list)
         {
-            StringBuilder itemBuilder = new StringBuilder();
+            _ = itemBuilder.Clear();
             foreach (LeafBlock leaf in item.Descendants<LeafBlock>())
             {
                 if (itemBuilder.Length > 0)
