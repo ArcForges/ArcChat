@@ -2,6 +2,7 @@
 
 using System.Windows.Input;
 using ArcChat.Desktop.Features.Conversations;
+using ArcChat.Desktop.Features.Masks;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
@@ -36,6 +37,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly SettingsViewModel settingsViewModel;
     private readonly Func<string, ChatDetailViewModel> chatDetailFactory;
     private readonly Func<SearchChatViewModel> searchChatFactory;
+    private readonly Func<NewChatViewModel> newChatFactory;
     private readonly ILocaleService? localeService;
     private readonly IDisposable destinationSubscription;
     private readonly IDisposable? cultureSubscription;
@@ -62,7 +64,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         CommandPaletteViewModel commandPalette,
         ILocaleService? localeService = null,
         Func<string, ChatDetailViewModel>? chatDetailFactory = null,
-        Func<SearchChatViewModel>? searchChatFactory = null)
+        Func<SearchChatViewModel>? searchChatFactory = null,
+        Func<NewChatViewModel>? newChatFactory = null)
     {
         ArgumentNullException.ThrowIfNull(navigator);
         ArgumentNullException.ThrowIfNull(conversationListViewModel);
@@ -73,6 +76,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         this.settingsViewModel = settingsViewModel;
         this.chatDetailFactory = chatDetailFactory ?? DefaultChatDetailFactory;
         this.searchChatFactory = searchChatFactory ?? DefaultSearchChatFactory;
+        this.newChatFactory = newChatFactory ?? DefaultNewChatFactory;
         this.CommandPalette = commandPalette;
         this.currentDestination = navigator.Current;
         this.currentContent = this.CreateContent(navigator.Current);
@@ -160,6 +164,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         return new SearchChatViewModel();
     }
 
+    private static NewChatViewModel DefaultNewChatFactory()
+    {
+        return new NewChatViewModel();
+    }
+
     private void Navigate(string? destinationId)
     {
         if (destinationId is null || !DestinationsById.TryGetValue(destinationId, out Destination? destination))
@@ -181,6 +190,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase, IDisposable
         return destination switch
         {
             Home => this.conversationListViewModel,
+            NewChat => this.newChatFactory(),
             Chat chat => this.chatDetailFactory(chat.ConversationId),
             SearchChat => this.searchChatFactory(),
             SettingsDestination => this.settingsViewModel,

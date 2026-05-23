@@ -3,6 +3,7 @@
 using System.Globalization;
 using ArcChat.Agent;
 using ArcChat.Desktop.Features.Conversations;
+using ArcChat.Desktop.Features.Masks;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
@@ -93,6 +94,16 @@ internal static class ServiceCollectionExtensions
                 viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
                 return viewModel;
             });
+        _ = services.AddTransient(
+            provider =>
+            {
+                NewChatViewModel viewModel = new NewChatViewModel(
+                    provider.GetRequiredService<IConversationRepository>(),
+                    provider.GetRequiredService<SettingsRepository>(),
+                    provider.GetRequiredService<IAppNavigator>());
+                viewModel.LoadAsync(CancellationToken.None).GetAwaiter().GetResult();
+                return viewModel;
+            });
         _ = services.AddTransient(provider => new MainWindowViewModel(
             provider.GetRequiredService<IAppNavigator>(),
             provider.GetRequiredService<ConversationListViewModel>(),
@@ -100,7 +111,8 @@ internal static class ServiceCollectionExtensions
             provider.GetRequiredService<CommandPaletteViewModel>(),
             provider.GetRequiredService<ILocaleService>(),
             provider.GetRequiredService<Func<string, ChatDetailViewModel>>(),
-            provider.GetRequiredService<SearchChatViewModel>));
+            provider.GetRequiredService<SearchChatViewModel>,
+            provider.GetRequiredService<NewChatViewModel>));
         _ = services.AddTransient(provider => new CommandPaletteViewModel(provider.GetRequiredService<IShortcutRegistry>()));
     }
 

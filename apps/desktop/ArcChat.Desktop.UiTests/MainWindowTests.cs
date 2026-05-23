@@ -1,6 +1,7 @@
 // Copyright (c) ArcForges. Licensed under the MIT License.
 
 using ArcChat.Desktop.Features.Conversations;
+using ArcChat.Desktop.Features.Masks;
 using ArcChat.Desktop.Features.Settings;
 using ArcChat.Desktop.Features.Shell;
 using ArcChat.Desktop.Localization;
@@ -91,8 +92,7 @@ public sealed class MainWindowTests
                     ContentControl content = window.GetVisualDescendants()
                         .OfType<ContentControl>()
                         .Single(control => string.Equals(control.Name, "ShellContent", StringComparison.Ordinal));
-                    DestinationPlaceholderViewModel placeholder = content.Content.Should().BeOfType<DestinationPlaceholderViewModel>().Subject;
-                    _ = placeholder.Id.Should().Be("new-chat");
+                    _ = content.Content.Should().BeOfType<NewChatViewModel>();
                 }
                 finally
                 {
