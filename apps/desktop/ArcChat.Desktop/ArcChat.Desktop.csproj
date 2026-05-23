@@ -29,7 +29,11 @@
     <ProjectReference Include="..\..\..\packages\agent-core\ArcChat.Agent\ArcChat.Agent.csproj" />
     <ProjectReference Include="..\..\..\packages\local-persistence\ArcChat.LocalPersistence\ArcChat.LocalPersistence.csproj" />
     <ProjectReference Include="..\..\..\packages\local-services\ArcChat.LocalServices\ArcChat.LocalServices.csproj" />
+    <ProjectReference Include="..\..\..\packages\model-providers\ArcChat.ModelProviders.Anthropic\ArcChat.ModelProviders.Anthropic.csproj" />
     <ProjectReference Include="..\..\..\packages\model-providers\ArcChat.ModelProviders.Core\ArcChat.ModelProviders.Core.csproj" />
+    <ProjectReference Include="..\..\..\packages\model-providers\ArcChat.ModelProviders.GenericOpenAi\ArcChat.ModelProviders.GenericOpenAi.csproj" />
+    <ProjectReference Include="..\..\..\packages\model-providers\ArcChat.ModelProviders.Google\ArcChat.ModelProviders.Google.csproj" />
+    <ProjectReference Include="..\..\..\packages\model-providers\ArcChat.ModelProviders.OpenAi\ArcChat.ModelProviders.OpenAi.csproj" />
     <ProjectReference Include="..\..\..\packages\net-core\ArcChat.Net\ArcChat.Net.csproj" />
     <ProjectReference Include="..\..\..\tools\ArcChat.IconCodegen\ArcChat.IconCodegen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
   </ItemGroup>

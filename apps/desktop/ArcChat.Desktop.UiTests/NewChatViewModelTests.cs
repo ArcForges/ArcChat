@@ -72,6 +72,23 @@ public sealed class NewChatViewModelTests
         _ = conversation.Mask.ModelConfig.MaxTokens.Should().Be(2000);
     }
 
+    [Fact]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "Async disposal belongs to the test scope.")]
+    public static async Task NewChatProviderPickerIncludesReferenceProviders()
+    {
+        await using ArcChatDatabase database = await CreateDatabaseAsync().ConfigureAwait(true);
+        AppNavigator navigator = new AppNavigator();
+        NewChatViewModel newChat = CreateLoadedNewChat(database, navigator);
+
+        _ = newChat.Providers.Select(provider => provider.ProviderName).Should().Equal(
+            "OpenAI",
+            "Anthropic",
+            "Google",
+            "GenericOpenAI");
+        _ = newChat.Providers.Should().OnlyContain(provider => provider.Models.Length > 0);
+        _ = newChat.SelectedProvider!.ProviderName.Should().Be("OpenAI");
+    }
+
     private static NewChatViewModel CreateLoadedNewChat(ArcChatDatabase database, IAppNavigator navigator)
     {
         NewChatViewModel viewModel = new NewChatViewModel(

@@ -12,7 +12,11 @@ using ArcChat.Desktop.Shortcuts;
 using ArcChat.Desktop.ViewModels;
 using ArcChat.LocalPersistence;
 using ArcChat.LocalPersistence.Repositories;
+using ArcChat.ModelProviders.Anthropic;
 using ArcChat.ModelProviders.Core;
+using ArcChat.ModelProviders.GenericOpenAi;
+using ArcChat.ModelProviders.Google;
+using ArcChat.ModelProviders.OpenAi;
 using ArcChat.Net.Factory;
 using Microsoft.Extensions.DependencyInjection;
 using ObservableSettingsRepository = ArcChat.LocalServices.Settings.SettingsRepository;
@@ -37,6 +41,7 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<IConversationRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Conversations);
         _ = services.AddSingleton<IMessageRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Messages);
         _ = services.AddSingleton<PersistenceSettingsRepository>(provider => provider.GetRequiredService<ArcChatDatabase>().Settings);
+        AddChatProviders(services);
         _ = services.AddArcChatProviders();
         _ = services.AddSingleton<IAgentRuntime>(provider => new AgentRuntime(provider.GetRequiredService<IChatProviderRegistry>()));
         _ = services.AddSingleton<IConversationTitler, ConversationTitler>();
@@ -51,6 +56,18 @@ internal static class ServiceCollectionExtensions
         _ = services.AddSingleton<IShortcutRegistry, ShortcutRegistry>();
         _ = services.AddSingleton<IThemeService, AvaloniaThemeService>();
         _ = services.AddSingleton<ILocaleService>(_ => LocaleService.FromDirectory(CreateLocaleDirectory(), CultureInfo.CurrentUICulture.Name));
+    }
+
+    private static void AddChatProviders(IServiceCollection services)
+    {
+        _ = services.AddSingleton<IChatProvider>(provider =>
+            new OpenAiProvider(provider.GetRequiredService<INetCoreFactory>().GetClient(NetClientProfileNames.Streaming)));
+        _ = services.AddSingleton<IChatProvider>(provider =>
+            new AnthropicProvider(provider.GetRequiredService<INetCoreFactory>().GetClient(NetClientProfileNames.Streaming)));
+        _ = services.AddSingleton<IChatProvider>(provider =>
+            new GoogleProvider(provider.GetRequiredService<INetCoreFactory>().GetClient(NetClientProfileNames.Streaming)));
+        _ = services.AddSingleton<IChatProvider>(provider =>
+            new GenericOpenAiProvider(provider.GetRequiredService<INetCoreFactory>().GetClient(NetClientProfileNames.Streaming)));
     }
 
     private static void AddFeatureViewModels(IServiceCollection services)

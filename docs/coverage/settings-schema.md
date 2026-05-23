@@ -15,6 +15,10 @@ NC02 lands the shared protocol DTOs, the local SQLite v1 schema, and repository 
 | Sync store | `SyncSnapshot`, `SyncProviderConfig` | `SyncMeta`, `SyncBackup`, and generic JSON table store | `ProtocolRoundTripTests.ProviderSettingsAndSyncDtosPreserveOpaqueExtraFields`; `MigrationAndSchemaTests.JsonBackedTablesRoundTripEveryAuxiliaryTable` |
 | Mask/plugin/MCP/artifact seeds | `Mask`, `Plugin`, `PluginManifest`, `McpConfigData`, `McpRequestMessage`, `McpResponseMessage`, `McpTool`, `HtmlArtifactPreview`, `ArcTool` | `Mask`, `Plugin`, `McpServer`, `HtmlArtifactPreview`, `ToolCall`, `PromptSeed`, `KeychainRef` tables | `ProtocolRoundTripTests.MaskPluginMcpAndArtifactDtosRoundTrip`; `MigrationAndSchemaTests.JsonBackedTablesRoundTripEveryAuxiliaryTable` |
 
+## NC05 Provider Settings Evidence
+
+NC05 extends `SettingsDefaults.Create()` with selectable provider configs for OpenAI, Anthropic, Google, and GenericOpenAI. The seeded `ProviderConfig` rows include endpoint base URLs and model descriptors. `NewChatViewModelTests.NewChatProviderPickerIncludesReferenceProviders` verifies the desktop provider picker exposes all four NC05 providers and at least one model for each provider.
+
 ## Store Metadata
 
 | Source | Store key | Version | Migrations found | Owner |
